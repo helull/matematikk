@@ -133,7 +133,7 @@
     </div>
     <br>
     <video id="videoFil" width="600" controls style="width: 70%; max-width: 50%">
-        <source src="video/1.mp4" type="video/mp4">
+        <source src="videoer/1.mp4" type="video/mp4">
         Nettleseren støtter ikke video.
     </video>
 
@@ -381,7 +381,7 @@
         function startRelevantVideo() {
             stoppTidtaker();
 
-           var filnavn = "video/" + String(ekspertModusGrenseIndex)+".mp4";
+           var filnavn = "videoer/" + String(ekspertModusGrenseIndex)+".mp4";
             if (showVideo == true) {
                 fetch(filnavn, { method: "HEAD" }) //Vis videoen hvis den finnes
                     .then(response => {
