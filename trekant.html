@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            display: -webkit-flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        span:hover {
+            cursor: grab;
+        }
+
+        span {
+            width: 5vw;
+            border-style: solid;
+            border-width: 3px;
+            border-radius: 15%;
+            border-color: black;
+            background-color: cornflowerblue;
+            color: aliceblue;
+            text-align: center;
+            font-size: smaller;
+        }
+
+        #hurtigTaster {
+            display: none;
+            width: 80vw;
+            grid-template-columns: repeat(10, 1fr);
+            grid-gap: 2px;
+        }
+
+        #videoFil {
+            display: none;
+            position: absolute; /* eller fixed / relative */
+            z-index: 10;
+        }
+        
+        #trekant {
+            display: grid;
+            width: 50vw;
+            height: 30vw;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+
+        img {
+            width: 50vw;
+            height: 30vw;
+            position: absolute;
+        }
+
+        #tomrom {
+            /*width: 12.5vw; */
+            grid-column: span 1;
+        }
+
+        #inpTall1 {
+            grid-column: span 2;
+        }
+
+        #inpTall2 {
+            grid-column: span 2;
+        }
+
+        #inpTall3 {
+            grid-column: span 2;
+        }
+
+        #inpTall1:focus {
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
+        }
+
+        #inpTall2:focus {
+            border-top-left-radius: 50%;
+        }
+
+        #inpTall3:focus {
+            border-top-right-radius: 50%;
+        }
+
+        input {
+            padding:0px;
+            margin:0px;
+            width: 25vw;
+            text-align: center;
+            background-color: inherit;
+            border-style: none;
+            font-size: xxx-large;
+            z-index: 2;
+        }
+
+        button {
+            font-size: 40px;
+            border-radius: 10%;
+        }
+
+        @media only screen and (orientation:portrait) {
+            input {
+                font-size: x-large;
+                color: brown;
+            }
+        }
+
+        .aktuellEkspertModus {
+            border-width: 5px;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <img src="Trekant.png" alt="Bilde av trekant">
+    <div id="trekant">
+        <div id="tomrom"></div>
+        <input inputmode="decimal" type="text" id="inpTall1" value="6">
+        <div id="tomrom"></div>
+        <input inputmode="decimal" type="text" id="inpTall2" value="2">
+        <input inputmode="decimal" type="text" id="inpTall3" value="3">
+    </div>
+    <h3 id="melding"></h3>
+    <button id="btnVelgTall">Trykk her ...</button>
+    <br>
+    <div id="hurtigTaster">
+    </div>
+    <br>
+    <video id="videoFil" width="600" controls style="width: 70%; max-width: 50%">
+        <source src="video/1.mp4" type="video/mp4">
+        Nettleseren støtter ikke video.
+    </video>
+
+    <script>
+        var poeng = 0;
+        if (localStorage.trekantPoeng_v11) {
+            poeng = Number(localStorage.trekantPoeng_v11);
+        }
+
+        var pF = 10; //poengFaktor
+        var deleModus = false;
+        var desimalModus = false;
+
+        //Heltallet er antall riktige svar som kreves for modusendring
+        const ekspertModusGrenser = [5 * pF, 10 * pF, 20 * pF, 30 * pF, 50 * pF, 60 * pF, 70 * pF, 80 * pF, 90 * pF, 100 * pF];  //Må passe med antall valg i resetInputVerdier()
+
+        const ventTilForsteSpm = 2000;         //ventetid før neste spørsmål kommer
+        const ventTilNyttSpm = 500;          //tid å vente til neste spm, i millisekunder
+        var  nedTellingsIntervall = 1000;     //hastighet på "klokka" som går, normalt 1000 milliSekunder
+        var  oppstart = true;
+        var  tidtakerKjorer = false;
+
+        var ekspertModusGrenseIndex = 0;
+        var forrigeVarRett = true;
+        var tall1 = 6;
+        var tall2 = 2;
+        var tall3 = 3;
+        var inpTall1 = document.getElementById("inpTall1");
+        var inpTall2 = document.getElementById("inpTall2");
+        var inpTall3 = document.getElementById("inpTall3");
+        var melding = document.getElementById("melding");
+        var hurtigTaster = document.getElementById("hurtigTaster");
+        var tallIBruk = 1;
+        var arrayTallIBruk = [inpTall1, inpTall2, inpTall3];
+        var antallDesimaler = 1;
+        var kalkulatorModus = false;
+        var tidtaker;
+        var showVideo = true;
+        var btnVelgTall = document.getElementById("btnVelgTall");
+        
+        var videoFil = document.getElementById("videoFil");
+
+        function videoFerdig() {
+            console.log("VideoFerdig!!!")
+            videoFil.style.display = "none";
+            setTimeout(startTidtaker, ventTilForsteSpm/4);
+            popAktuellEkspertmodus();
+            setTimeout(kobleInnLyttere, ventTilNyttSpm);
+            resetInputVerdier();
+        }
+        
+        videoFil.addEventListener("ended", videoFerdig);
+       
+        function tellNed() {
+            if (poeng > 0) {
+                poeng--;
+            }
+            if(!oppstart) {btnVelgTall.innerHTML = poeng + " poeng";}
+        }
+
+        function settOppLeveltaster() {
+            hurtigTaster.innerHTML = "";
+
+            //legg alle tallene i en array, slik at de han håndteres i en løkke
+            var tempArrayAvTall = [0,1,2,3,4,5,6,7,8,9];
+
+            for (var i = 0; i < tempArrayAvTall.length; i++) {
+                hurtigTaster.innerHTML += "<span>" + String(tempArrayAvTall[i]) + "</span>";
+            }
+        }
+
+        function settNedtellingstid() {
+            console.log("i settNedtellingstid");
+            kobleUtLyttere();
+            nedTellingsIntervall = 800+(ekspertModusGrenseIndex*150)
+            var tidsPresentasjon = String((800/nedTellingsIntervall).toFixed(1));
+            stoppTidtaker();
+            btnVelgTall.innerHTML = "Lvl: "+ String(ekspertModusGrenseIndex) + ", Tempo: " + tidsPresentasjon;
+        
+            setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
+            popAktuellEkspertmodus();
+            setTimeout(kobleInnLyttere, ventTilNyttSpm);
+            //resetInputVerdier();
+        }
+        
+        function settLevel(evt) {
+            var avlestVerdi = Number(evt.target.innerHTML);
+            if (avlestVerdi >= 0 && avlestVerdi <= 9) {  //Brukeren har trykket på et virkelig tall, ikke mellom!
+                ekspertModusGrenseIndex = avlestVerdi;
+                settNedtellingstid();
+                resetInputVerdier();
+            }
+        }
+        
+        function kobleInnLyttere() {
+            btnVelgTall.addEventListener("click", vurderTallene);
+            document.addEventListener("keypress", tastaturHendelse);
+            hurtigTaster.addEventListener("click", settLevel);
+        }
+        
+        function kobleUtLyttere() {
+            btnVelgTall.removeEventListener("click", vurderTallene);
+            document.removeEventListener("keypress", tastaturHendelse);
+            hurtigTaster.removeEventListener("click", settLevel);
+
+        }
+
+        function resetInputVerdier() {
+            kobleInnLyttere();
+
+            //"Null ut tekst" hvis man har vært i kalkulatormodus - utrolig klønete løsning!
+            if (melding.innerHTML == "...som er svaret...  La oss fortsette!") {melding.innerHTML = "";}
+            
+            // Sett sort tekst i tilfelle den har vært grønn
+            inpTall1.style.color = "black";
+            inpTall2.style.color = "black";
+            inpTall3.style.color = "black";
+
+            //EkspertModus skal gjøre at oppgavene blir vanskeligere
+            //Antall grenser må passe med antall elementer i ekspertModusGrenser
+            if (ekspertModusGrenseIndex == 0) {
+                tall2 = Math.ceil(Math.random() * 5);
+                tall3 = Math.ceil(Math.random() * 5);
+                deleModus = false;
+                desimalModus = false;
+            }
+            else if (ekspertModusGrenseIndex == 1) {
+                tall2 = Math.ceil(Math.random() * 5);
+                tall3 = Math.ceil(Math.random() * 5);
+                deleModus = true;
+                desimalModus = false;
+            }
+            else if (ekspertModusGrenseIndex == 2) {
+                tall2 = Math.ceil(Math.random() * 10);
+                tall3 = Math.ceil(Math.random() * 10);
+                deleModus = false;
+                desimalModus = false;
+            }
+            else if (ekspertModusGrenseIndex == 3) {
+                tall2 = Math.ceil(Math.random() * 10);
+                tall3 = Math.ceil(Math.random() * 10);
+                deleModus = true;
+                desimalModus = false;
+            }
+            else if (ekspertModusGrenseIndex == 4) {
+                tall2 = Math.ceil(Math.random() * 10);
+                tall3 = Math.ceil(Math.random() * 10);
+                deleModus = true;
+                desimalModus = true;             
+            }
+            else if (ekspertModusGrenseIndex == 5) {
+                tall2 = Math.ceil(Math.random() * 10) + 5;
+                tall3 = Math.ceil(Math.random() * 10) + 5;
+                deleModus = false;
+                desimalModus = false;
+            }
+            else if (ekspertModusGrenseIndex == 6) {
+                tall2 = Math.ceil(Math.random() * 10) + 5;
+                tall3 = Math.ceil(Math.random() * 10) + 5;
+                deleModus = true;
+                desimalModus = false;
+            }
+            else if (ekspertModusGrenseIndex == 7) {
+                tall2 = Math.ceil(Math.random() * 10) + 5;
+                tall3 = Math.ceil(Math.random() * 10) + 5;
+                deleModus = false;
+                desimalModus = true;
+            }
+            else if (ekspertModusGrenseIndex == 8) {
+                tall2 = Math.ceil(Math.random() * 10) + 10;
+                tall3 = Math.ceil(Math.random() * 10) + 10;
+                deleModus = true;
+                desimalModus = true;
+            }
+            else if (ekspertModusGrenseIndex == 9) {
+                tall2 = Math.ceil(Math.random() * 20);
+                tall3 = Math.ceil(Math.random() * 20);
+                if (Math.random() > 0.5) {deleModus = true;} else {deleModus = false;}
+                if (Math.random() > 0.5) {desimalModus = true;} else {desimalModus = false;}
+            }
+            else {
+                alert("fant ikke ekspertModusGrenseIndex, den er: " + ekspertModusGrenseIndex)
+            }
+
+            //Tallet i toppen er ALLID produktet av de to nede
+            tall1 = tall2 * tall3;
+
+            //Pga desimalproblem må man først finne svaret
+            //før vi deler begge tallene på 10!
+            if (desimalModus) {
+                tall1 = tall1 / 10;
+                if (Math.random() > 0.5) {
+                    tall2 = tall2 / 10;
+                } else {
+                    tall3 = tall3 / 10;
+                }
+            }
+
+            if (deleModus) {
+
+                //Hvis vi er i desimalmodus MÅ vi tvinge
+                //sett opp antall desimaler (.toFixed)
+                if (desimalModus) {
+                    inpTall1.value = String(tall1.toFixed(antallDesimaler));
+                }
+
+                //Ellers vil vi IKKE har noen desimal!
+                else {
+                    inpTall1.value = String(tall1);
+                }
+
+                //skjul tall2 ELLER tall3 (tilfeldig)
+                if (Math.random() > 0.5) {
+                    inpTall2.value = String(tall2);
+                    inpTall3.value = "";
+                    btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true });    //26.05.2026
+                    inpTall3.focus();                                    
+                    tallIBruk = 3;
+                }
+                else {
+                    inpTall2.value = "";
+                    btnVelgTall.addEventListener("click", () => {inpTall2.focus();}, { once: true });    //26.05.2026
+                    inpTall2.focus();
+                    inpTall3.value = String(tall3);
+                    tallIBruk = 2;
+                }
+
+                //Ikke i delemodus, dvs vi er i gangemodus    
+            } else {
+                inpTall1.value = "";
+                btnVelgTall.addEventListener("click", () => {inpTall1.focus();}, { once: true });    //26.05.2026
+                inpTall1.focus();
+                inpTall2.value = String(tall2);
+                inpTall3.value = String(tall3);
+                tallIBruk = 1;
+            }
+        }
+
+        function popAktuellEkspertmodus() {
+            settOppLeveltaster();
+            const spans = document.querySelectorAll("span");
+            spans[ekspertModusGrenseIndex].classList.add("aktuellEkspertModus");
+        }
+
+        function startRelevantVideo() {
+            stoppTidtaker();
+
+           var filnavn = "video/" + String(ekspertModusGrenseIndex)+".mp4";
+            if (showVideo == true) {
+                fetch(filnavn, { method: "HEAD" }) //Vis videoen hvis den finnes
+                    .then(response => {
+                        if (response.ok) {
+                            console.log("Video finnes ✅");
+                            hurtigTaster.style.display = "none";
+                            videoFil.src = filnavn;
+                            videoFil.style.display = "block";
+                            videoFil.load();
+                            videoFil.play();
+                        } else {
+                            setTimeout(startTidtaker, ventTilForsteSpm/4); //start tidtakeren
+                            popAktuellEkspertmodus();
+                            setTimeout(kobleInnLyttere, ventTilNyttSpm);
+                            //resetInputVerdier();
+                            console.log("Video finnes ikke ❌");
+                        }
+                    })
+                }
+            else {
+                setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
+                popAktuellEkspertmodus();
+                setTimeout(kobleInnLyttere, ventTilNyttSpm);
+                //resetInputVerdier();
+            }
+        }
+
+        
+        function vurderTallene() {
+            oppstart = false;  //trengs bare å gjøres en gang, pga at jeg vil at "Trykk her" skal bli stående til første svar er gitt!
+            
+            let tall1Norm = inpTall1.value.replaceAll(",",".");   // 28.05.2026 for å passe på iPhones numeriske tastatur som kun har komma
+            let tall2Norm = inpTall2.value.replaceAll(",",".");
+            let tall3Norm = inpTall3.value.replaceAll(",",".");
+
+            tall1 = Number(tall1Norm);
+            tall2 = Number(tall2Norm);
+            tall3 = Number(tall3Norm);
+
+            //stop, bruk trekanten som kalkulator
+            if ((tall1Norm == "...") || (tall2Norm == "...") || tall3Norm == "...") {    // Programmet skal droppe videoer
+                 stoppTidtaker();
+                 if (showVideo == true) {
+                     btnVelgTall.innerHTML = "Video off";
+                     showVideo = false;
+                 }
+                 else {
+                     btnVelgTall.innerHTML = "Video on";
+                     showVideo = true;
+                 }
+                 setTimeout(startTidtaker, ventTilForsteSpm/4);
+                 setTimeout(resetInputVerdier, ventTilForsteSpm/2);
+            }
+            else if ((tall1Norm == "..") || (tall2Norm == "..") || tall3Norm == "..") {    // Programmet skal i kalkulatormodus
+                 stoppTidtaker();
+                 inpTall1.value = "";
+                 inpTall2.value = "";
+                 inpTall3.value = "";
+                 kalkulatorModus = true;
+                 btnVelgTall.innerHTML = "Skriv tall to steder og så her igjen";
+            }
+            else if(kalkulatorModus == true) { //OK, programmet "kommer fra" kalkulatormodus og "skal tilbake"
+
+                //Presenterer fasiten!
+                if (inpTall1.value == "") { //Setter opp fasit i felt øverst i trekant.
+                    fasit = finnFasit(tall1, tall2, tall3);
+                    inpTall1.value = String(fasit);
+                    inpTall1.style.color = "green";
+                }
+                else if (inpTall2.value == "") {//Setter opp fasit i felt nede til venstre i
+                    fasit = finnFasit(tall1, tall2, tall3)
+                    inpTall2.value = String(fasit.toFixed(antallDesimaler));
+                    inpTall2.style.color = "green";
+                }
+                else {  //dvs. inpTall3.value == ""  //Setter opp fasit i felt nede til venstre i trekant
+                    fasit = finnFasit(tall1, tall2, tall3)
+                    inpTall3.value = String(fasit.toFixed(antallDesimaler));
+                    inpTall3.style.color = "green";
+                }
+
+                setTimeout(startTidtaker, ventTilForsteSpm*2);
+                setTimeout(resetInputVerdier, ventTilForsteSpm*2);
+
+                melding.innerHTML = "...som er svaret...  La oss fortsette!";
+                btnVelgTall.innerHTML = poeng + " poeng";
+                
+                kalkulatorModus = false;
+            }
+
+            else { //normal omgang!
+                console.log("Normal omgang. poeng er: " + poeng);
+
+                if ((poeng > ekspertModusGrenser[ekspertModusGrenseIndex]) && (ekspertModusGrenseIndex < (ekspertModusGrenser.length - 1))) {
+                    console.log("ekspertmodusGrense gjør at ekspertmodusGrenseIndex øker med 1");
+                    ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
+                    startRelevantVideo();
+                    settNedtellingstid();
+                }
+    
+                //Hvis forrige var feil, og ekspertmodus er OVER 1
+                if (!forrigeVarRett) {
+                    console.log("forrige var feil");
+                    if (ekspertModusGrenseIndex > 0) {
+                        ekspertModusGrenseIndex = ekspertModusGrenseIndex - 1;
+                        settNedtellingstid();
+                    }
+                }
+            
+                //Brukeren har svart riktig
+                if (Math.abs(tall1 - (tall2 * tall3)) < 0.01) {
+                    console.log("forrige var rett");
+                    forrigeVarRett = true;
+                    btnVelgTall.style.backgroundColor = "lightgrey";
+                    poeng = poeng + pF;
+                    melding.style.color = "green";
+                    melding_text = ["Fantastisk jobbet!",
+                        "Bra!",
+                        "Fantastisk",
+                        "Supert!!",
+                        "Jess!!",
+                        "Jepp!",
+                        "Jadda!!!",
+                        "Fytti katta så bra!",
+                        "Genialt",
+                        "Hoho",
+                        "Einstein!",
+                        "Mattehue!",
+                        "Spør meg igjen da!",
+                        "Ah, lett!",
+                        "Lættis",
+                    ]
+                    var nr = Math.floor(Math.random() * melding_text.length);
+                    melding.innerHTML = melding_text[nr];
+                    btnVelgTall.innerHTML = poeng + " poeng";
+
+                    // Finn nye tall i trekanten dersom man svarer rett
+                    // og lagre poengene i localStorage
+                    setTimeout(resetInputVerdier, ventTilNyttSpm);
+                    localStorage.trekantPoeng_v11 = poeng;
+                }
+
+                //Brukeren gir feil svar
+                else {
+                    //poeng--;
+                    forrigeVarRett = false;
+                    btnVelgTall.style.backgroundColor = "darkgrey";
+                    melding.style.color = "red";
+                    melding.innerHTML = "...Feil...";
+                    btnVelgTall.innerHTML = poeng + " poeng";
+                    if (tallIBruk == 1) { inpTall1.value = ""; btnVelgTall.addEventListener("click", () => {inpTall1.focus();}, { once: true }); inpTall1.focus(); }
+                    else if (tallIBruk == 2) { inpTall2.value = ""; btnVelgTall.addEventListener("click", () => {inpTall2.focus();}, { once: true }); inpTall2.focus(); }
+                    else if (tallIBruk == 3) { inpTall3.value = ""; btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true }); inpTall3.focus(); }
+                    else { alert("Jøje oss - tallIBruk er: " + tallIBruk) }
+           
+                }
+                if (poeng > 100) {
+                    hurtigTaster.style.display = "grid";
+                }
+                setTimeout(kobleInnLyttere, ventTilNyttSpm);
+            } 
+        }
+
+        function finnFasit(t1, t2, t3) {
+            if (t1 == 0) {
+                return t2 * t3;
+            }
+            else if (t2 == 0) {
+                return t1 / t3;
+            }
+            else { // (elementNr == 3)
+                return t1 / t2;
+            }
+        }
+
+        //document.addEventListener("keypress", tastaturHendelse);
+        function tastaturHendelse(event) {
+            tall1 = Number(inpTall1.value);
+            tall2 = Number(inpTall2.value);
+            tall3 = Number(inpTall3.value);
+            var fasit = -2;
+            
+            //kjør som om du klikket svar-knappen!
+            if (event.key === "Enter") { 
+                if (kalkulatorModus == false) {
+                    vurderTallene();
+                }
+            }
+
+            else if (event.key == "f") {
+                event.preventDefault();  //sørger for at det IKKE skrives "f".
+                if (inpTall1.value == "") { //Setter opp fasit i felt øverst i trekant.
+                    fasit = finnFasit(tall1, tall2, tall3);
+                    inpTall1.value = String(fasit);
+                    inpTall1.style.color = "green";
+                }
+                else if (inpTall2.value == "") {//Setter opp fasit i felt nede til venstre i
+                    fasit = finnFasit(tall1, tall2, tall3)
+                    inpTall2.value = String(fasit.toFixed(antallDesimaler));
+                    inpTall2.style.color = "green";
+                }
+                else {  //dvs. inpTall3.value == ""  //Setter opp fasit i felt nede til venstre i trekant
+                    fasit = finnFasit(tall1, tall2, tall3)
+                    inpTall3.value = String(fasit.toFixed(antallDesimaler));
+                    inpTall3.style.color = "green";
+                }
+            }
+                
+            //Reset poeng til 0 og start på nytt
+            else if (event.key == "r") { //reset antall poeng til null!
+                event.preventDefault();  //sørger for at det IKKE skrives "r".
+                poeng = 0;
+                ekspertModusGrenseIndex = 0;
+                localStorage.trekantPoeng_v11 = 0;
+            }
+        }
+
+        //start tidtakeren (litt forsinket aller første gang, derfor som egen funsjon)
+        function startTidtaker() {
+            console.log("I STARTtidtaker: ny Tid er: ", nedTellingsIntervall);
+            if (!tidtakerKjorer) {
+                tidtaker = setInterval(tellNed, nedTellingsIntervall);
+                tidtakerKjorer = true;
+            }
+        }
+
+        //stopp tidtakeren (for å ha litt kontroll på galskapen)
+        function stoppTidtaker() {
+            console.log("I stoppTidtaker: ny Tid er: ", nedTellingsIntervall);
+            if (tidtakerKjorer) {
+                clearInterval(tidtaker);  //stopp tidtakeren
+                tidtakerKjorer = false;
+            }
+
+        }
+        
+        //Beregn hva som skal stå i level'ene.
+        settOppLeveltaster();
+        
+        //Play!! Etter ett sekund 'ellerno'
+        setTimeout(resetInputVerdier, ventTilForsteSpm);
+        setTimeout(startTidtaker, ventTilForsteSpm);
+
+    </script>
+</body>
+
+</html>
