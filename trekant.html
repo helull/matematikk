@@ -181,9 +181,11 @@
             tvingKalkulatorModus = true;
             console.log("VideoFerdig!!!")
             videoFil.style.display = "none";
-            setTimeout(startTidtaker, ventTilForsteSpm/4);
+            //setTimeout(startTidtaker, ventTilForsteSpm/4);
+            startTidtaker();
             popAktuellEkspertmodus();
-            setTimeout(kobleInnLyttere, ventTilNyttSpm);
+            kobleInnLyttere();
+            //setTimeout(kobleInnLyttere, ventTilNyttSpm);
             vurderTallene();
             //resetInputVerdier();
         }
@@ -423,9 +425,9 @@
             tall1 = Number(tall1Norm);
             tall2 = Number(tall2Norm);
             tall3 = Number(tall3Norm);
-
-            //stop, bruk trekanten som kalkulator
-            if ((tall1Norm == "...") || (tall2Norm == "...") || tall3Norm == "...") {    // Programmet skal droppe videoer
+            
+            // Programmet skal droppe videoer
+            if ((tall1Norm == "...") || (tall2Norm == "...") || tall3Norm == "...") {    
                  stoppTidtaker();
                  if (showVideo == true) {
                      btnVelgTall.innerHTML = "Video off";
@@ -438,6 +440,8 @@
                  setTimeout(startTidtaker, ventTilForsteSpm/4);
                  setTimeout(resetInputVerdier, ventTilForsteSpm/2);
             }
+                
+            //stop, bruk trekanten som kalkulator
             else if ((tall1Norm == "..") || (tall2Norm == "..") || tall3Norm == ".." || tvingKalkulatorModus) {    // Programmet skal i kalkulatormodus
                  tvingKalkulatorModus = false;
                  stoppTidtaker();
@@ -468,7 +472,7 @@
                 }
 
                 setTimeout(startTidtaker, ventTilForsteSpm*2);
-                setTimeout(resetInputVerdier, ventTilForsteSpm*2);
+                setTimeout(resetInputVerdier, ventTilForsteSpm);
 
                 melding.innerHTML = "...som er svaret...  La oss fortsette!";
                 btnVelgTall.innerHTML = poeng + " poeng";
@@ -641,7 +645,6 @@
                 clearInterval(tidtaker);  //stopp tidtakeren
                 tidtakerKjorer = false;
             }
-
         }
         
         //Beregn hva som skal stå i level'ene.
