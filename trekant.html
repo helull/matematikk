@@ -132,10 +132,7 @@
     <div id="hurtigTaster">
     </div>
     <br>
-    <video id="videoFil" width="600" 
-playsinline 
-  webkit-playsinline 
- style="width: 70%; max-width: 50%">
+    <video id="videoFil" width="600" playsinline webkit-playsinline style="width: 70%; max-width: 50%">
         <source src="videoer/1.mp4" type="video/mp4">
         Nettleseren støtter ikke video.
     </video>
@@ -159,6 +156,7 @@ playsinline
         var  oppstart = true;
         var  tidtakerKjorer = false;
 
+        var tvingKalkulatorModus = false;
         var ekspertModusGrenseIndex = 0;
         var forrigeVarRett = true;
         var tall1 = 6;
@@ -180,6 +178,7 @@ playsinline
         var videoFil = document.getElementById("videoFil");
 
         function videoFerdig() {
+            tvingKalkulatorModus = true;
             console.log("VideoFerdig!!!")
             videoFil.style.display = "none";
             setTimeout(startTidtaker, ventTilForsteSpm/4);
@@ -385,7 +384,7 @@ playsinline
             stoppTidtaker();
 
            var filnavn = "videoer/" + String(ekspertModusGrenseIndex)+".mp4";
-            if (showVideo == true) {
+            if (showVideo == true && forrigeVarRett) {
                 fetch(filnavn, { method: "HEAD" }) //Vis videoen hvis den finnes
                     .then(response => {
                         if (response.ok) {
@@ -439,6 +438,7 @@ playsinline
                  setTimeout(resetInputVerdier, ventTilForsteSpm/2);
             }
             else if ((tall1Norm == "..") || (tall2Norm == "..") || tall3Norm == "..") {    // Programmet skal i kalkulatormodus
+                 tvingKalkulatorModus = false;
                  stoppTidtaker();
                  inpTall1.value = "";
                  inpTall2.value = "";
