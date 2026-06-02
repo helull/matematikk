@@ -502,7 +502,7 @@ playsinline
                     melding.style.color = "green";
                     melding_text = ["Fantastisk jobbet!",
                         "Bra!",
-                        "Fantastisk",
+                        "Tipp Topp",
                         "Supert!!",
                         "Jess!!",
                         "Jepp!",
@@ -532,7 +532,24 @@ playsinline
                     forrigeVarRett = false;
                     btnVelgTall.style.backgroundColor = "darkgrey";
                     melding.style.color = "red";
-                    melding.innerHTML = "...Feil...";
+                    var melding_text_feil = ["Nopsk!",
+                        "Hæ? Hvor kommer du fra?",
+                        "Taper!",
+                        "Ta deg sammen!",
+                        "Du er bedre enn det her!",
+                        "Ups, feil!",
+                        "Nå må du skjerpe deg!",
+                        "Brødhue!",
+                        "Nå er du på ville veier!",
+                        "WYXGGRRRR!!!",
+                        "Er'u på buss eller?",
+                        "Våkn opp",
+                        ".... nei!!",
+                        "Ah, feil!",
+                        "Dra meg baklengs inn i fuglekassa, NEI!!",
+                    ]
+                    var nr = Math.floor(Math.random() * melding_text_feil.length);
+                    melding.innerHTML = melding_text_feil[nr];
                     btnVelgTall.innerHTML = poeng + " poeng";
                     if (tallIBruk == 1) { inpTall1.value = ""; btnVelgTall.addEventListener("click", () => {inpTall1.focus();}, { once: true }); inpTall1.focus(); }
                     else if (tallIBruk == 2) { inpTall2.value = ""; btnVelgTall.addEventListener("click", () => {inpTall2.focus();}, { once: true }); inpTall2.focus(); }
