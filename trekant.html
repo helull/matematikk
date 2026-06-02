@@ -531,9 +531,7 @@
                     btnVelgTall.innerHTML = poeng + " poeng";
 
                     // Finn nye tall i trekanten dersom man svarer rett
-                    // og lagre poengene i localStorage
                     setTimeout(resetInputVerdier, ventTilNyttSpm);
-                    localStorage.trekantPoeng_v11 = poeng;
                 }
 
                 //Brukeren gir feil svar
@@ -571,6 +569,10 @@
                 if (poeng > 100) {
                     hurtigTaster.style.display = "grid";
                 }
+                
+                // anyway: lagre poengene i localStorage
+                localStorage.trekantPoeng_v11 = poeng;
+                
                 setTimeout(kobleInnLyttere, ventTilNyttSpm);
             } 
         }
