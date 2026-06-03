@@ -485,7 +485,7 @@
                 if ((poeng > ekspertModusGrenser[ekspertModusGrenseIndex]) && (ekspertModusGrenseIndex < (ekspertModusGrenser.length - 1))) {
                     console.log("ekspertmodusGrense gjør at ekspertmodusGrenseIndex øker med 1");
                     ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
-                    startRelevantVideo();
+                    setTimeout(startRelevantVideo, ventTilNyttSpm/2);
                     settNedtellingstid();
                 }
     
