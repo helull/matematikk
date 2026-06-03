@@ -172,6 +172,7 @@
         var kalkulatorModus = false;
         var tidtaker;
         var showVideo = true;
+        var oppgaveSomPlakat = false;
         var btnVelgTall = document.getElementById("btnVelgTall");
         
         var videoFil = document.getElementById("videoFil");
@@ -382,9 +383,12 @@
             spans[ekspertModusGrenseIndex].classList.add("aktuellEkspertModus");
         }
 
-        function startRelevantVideo() {
-            stoppTidtaker();
-
+        function startRelevantOppgave() {
+           stoppTidtaker();
+            if (oppgaveSomPlakat) {//oppgave som plakat
+                melding.innerHTML = "Oppgave som plakat";
+            }
+            else {//oppgave som video
            var filnavn = "videoer/" + String(ekspertModusGrenseIndex)+".mp4";
             if ((showVideo == true) && (forrigeVarRett == true)) {
                 fetch(filnavn, { method: "HEAD" }) //Vis videoen hvis den finnes
@@ -410,6 +414,7 @@
                 popAktuellEkspertmodus();
                 setTimeout(kobleInnLyttere, ventTilNyttSpm);
                 //resetInputVerdier();
+            }
             }
         }
 
@@ -439,7 +444,24 @@
                  setTimeout(startTidtaker, ventTilForsteSpm/4);
                  setTimeout(resetInputVerdier, ventTilForsteSpm/2);
             }
-                
+
+            //Plakatmodus?
+                if ((tall1Norm == "....") || (tall2Norm == "....") || tall3Norm == "....") {    
+                 stoppTidtaker();
+                 if (showVideo == true) {
+                     btnVelgTall.innerHTML = "Plakat off";
+                     oppgaveSomPlakat = false;
+
+                 }
+                 else {
+                     btnVelgTall.innerHTML = "Plakat on";
+                     oppgaveSomPlakat = true;
+                 }
+                 setTimeout(startTidtaker, ventTilForsteSpm/4);
+                 setTimeout(resetInputVerdier, ventTilForsteSpm/2);
+            }
+
+            
             //stop, bruk trekanten som kalkulator
             else if ((tall1Norm == "..") || (tall2Norm == "..") || tall3Norm == ".." || tvingKalkulatorModus) {    // Programmet skal i kalkulatormodus
                  tvingKalkulatorModus = false;
@@ -454,7 +476,10 @@
             else if(kalkulatorModus == true) { //OK, programmet "kommer fra" kalkulatormodus og "skal tilbake"
 
                 //Presenterer fasiten!
-                if (inpTall1.value == "") { //Setter opp fasit i felt øverst i trekant.
+                if ((inpTall1.value == "") && (inpTall1.value == "") && (inpTall1.value == "")){ // brukeren har bedt om å spille video på nytt
+                    startRelevantOppgave();
+                }
+                else if (inpTall1.value == "") { //Setter opp fasit i felt øverst i trekant.
                     fasit = finnFasit(tall1, tall2, tall3);
                     inpTall1.value = String(fasit);
                     inpTall1.style.color = "green";
@@ -485,7 +510,7 @@
                 if ((poeng > ekspertModusGrenser[ekspertModusGrenseIndex]) && (ekspertModusGrenseIndex < (ekspertModusGrenser.length - 1))) {
                     console.log("ekspertmodusGrense gjør at ekspertmodusGrenseIndex øker med 1");
                     ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
-                    setTimeout(startRelevantVideo, ventTilNyttSpm/2);
+                    setTimeout(startRelevantOppgave, ventTilNyttSpm/2);
                     settNedtellingstid();
                 }
     
