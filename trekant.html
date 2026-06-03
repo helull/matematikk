@@ -171,7 +171,7 @@
         var antallDesimaler = 1;
         var kalkulatorModus = false;
         var tidtaker;
-        var showVideo = true;
+        var oppgaveModus = true;
         var oppgaveSomPlakat = false;
         var btnVelgTall = document.getElementById("btnVelgTall");
         
@@ -385,12 +385,8 @@
 
         function startRelevantOppgave() {
            stoppTidtaker();
-            if (oppgaveSomPlakat) {//oppgave som plakat
-                melding.innerHTML = "Oppgave som plakat";
-            }
-            else {//oppgave som video
-           var filnavn = "videoer/" + String(ekspertModusGrenseIndex)+".mp4";
-            if ((showVideo == true) && (forrigeVarRett == true)) {
+             var filnavn = "videoer/" + String(ekspertModusGrenseIndex)+".mp4";
+             if ((oppgaveModus == true) && (forrigeVarRett == true)) {
                 fetch(filnavn, { method: "HEAD" }) //Vis videoen hvis den finnes
                     .then(response => {
                         if (response.ok) {
@@ -415,9 +411,7 @@
                 setTimeout(kobleInnLyttere, ventTilNyttSpm);
                 //resetInputVerdier();
             }
-            }
         }
-
         
         function vurderTallene() {
             oppstart = false;  //trengs bare å gjøres en gang, pga at jeg vil at "Trykk her" skal bli stående til første svar er gitt!
@@ -430,23 +424,23 @@
             tall2 = Number(tall2Norm);
             tall3 = Number(tall3Norm);
             
-            // Programmet skal droppe videoer
+            // Oppgavemodus på eller av
             if ((tall1Norm == "...") || (tall2Norm == "...") || tall3Norm == "...") {    
                  stoppTidtaker();
-                 if (showVideo == true) {
+                 if (oppgaveModus == true) {
                      btnVelgTall.innerHTML = "Video off";
-                     showVideo = false;
+                     oppgaveModus = false;
                  }
                  else {
                      btnVelgTall.innerHTML = "Video on";
-                     showVideo = true;
+                     oppgaveModus = true;
                  }
                  setTimeout(startTidtaker, ventTilForsteSpm/4);
                  setTimeout(resetInputVerdier, ventTilForsteSpm/2);
             }
 
-            //Plakatmodus?
-                if ((tall1Norm == "....") || (tall2Norm == "....") || tall3Norm == "....") {    
+            //Plakatmodus på eller av
+            else if ((tall1Norm == "....") || (tall2Norm == "....") || tall3Norm == "....") {    
                  stoppTidtaker();
                  if (oppgaveSomPlakat == true) {
                      btnVelgTall.innerHTML = "Plakat off";
