@@ -384,9 +384,20 @@
         }
 
         function startRelevantOppgave() {
+           if (oppgaveModus) && (forrigeVarRett) {
+                if (plakatmodus){
+                    stoppTidtaker();
+                        melding.innerHTML = "Nå skal oppgaven komme som plakat";
+                    setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
+                }
+            else {
+                startVideo();
+            }
+        }
+        function startVideo() {
            stoppTidtaker();
              var filnavn = "videoer/" + String(ekspertModusGrenseIndex)+".mp4";
-             if ((oppgaveModus == true) && (forrigeVarRett == true)) {
+             //if (forrigeVarRett == true) {
                 fetch(filnavn, { method: "HEAD" }) //Vis videoen hvis den finnes
                     .then(response => {
                         if (response.ok) {
@@ -404,13 +415,13 @@
                             console.log("Video finnes ikke ❌");
                         }
                     })
-                }
-            else {
+           //     }
+            //else {
                 setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
                 popAktuellEkspertmodus();
                 setTimeout(kobleInnLyttere, ventTilNyttSpm);
                 //resetInputVerdier();
-            }
+           // }
         }
         
         function vurderTallene() {
