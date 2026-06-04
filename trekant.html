@@ -69,7 +69,7 @@
         .spm {
             font-weight: normal;
             font-style: italic;
-            font-size: 1.5em;
+            font-size: 1.3em;
         }
         
         
@@ -169,7 +169,8 @@
     <div id="plakat">
         <div class="overskrift">Tegn for ganging</div>
         <div class="innhold">Gangetegnet (×) ble først tatt i bruk på 1600-tallet av den engelske matematikeren William Oughtred. Bla blab lab labla blab labl ... Før dette skrev man ofte multiplikasjon uten eget symbol, eller brukte bokstaver og forkortelser. </div>
-        <div class="spm">Skriv tall to steder, og trykk så " = "</div>
+        <div class="spm">Hva mener du?</div>
+        <div class="innhold">Skriv tall to steder, trykk så =</div>
         <div class="innhold" >(Klikk her for å besvare)</div> 
     </div>
 
@@ -192,7 +193,8 @@
         var  oppstart = true;
         var  tidtakerKjorer = false;
 
-        var tvingKalkulatorModus = false;
+        var oppgaveSkalBesvares = false;
+        var oppgaveBlirBesvart = false;
         var ekspertModusGrenseIndex = 0;
         var forrigeVarRett = true;
         var tall1 = 6;
@@ -215,14 +217,19 @@
         var videoFil = document.getElementById("videoFil");
         var plakat = document.getElementById("plakat");
 
-        plakat.addEventListener("click", knusOppgave);
+        plakat.addEventListener("click", fjernPlakat);
 
-        function knusOppgave() {
+        function fjernPlakat() {
             plakat.style.display = "none";
+            settOppOppgaveITrekant(1,2);
         }
 
+        settOppOppgaveITrekant(a, b) {
+            vurdertallene();
+        }
+        
         function videoFerdig() {
-            tvingKalkulatorModus = true;
+            oppgaveSkalBesvares = true;
             console.log("VideoFerdig!!!")
             videoFil.style.display = "none";
             //setTimeout(startTidtaker, ventTilForsteSpm/4);
@@ -506,9 +513,46 @@
                  setTimeout(resetInputVerdier, ventTilForsteSpm/2);
             }
 
+            else if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
+                 stoppTidtaker();
+                 oppgaveSkalBesvares = false;
+                 oppgaveBlirBesvart = true;
+                 inpTall1.value = "";
+                 inpTall2.value = "";
+                 inpTall3.value = "";                 
+                 melding.innerHTML = "Skriv to tall, deretter knappen";
+                 btnVelgTall.innerHTML = " = ";
+            }
+            else if (oppgaveBlirBesvart) {    // Programmet skal vurdere et svar på en oppgave
+                /*oppgaveBlirBesvart = false;
+
+                if (inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1))  {
+                    fasit = finnFasit(tall1, tall2, tall3);
+                    inpTall1.value = String(fasit);
+                    inpTall1.style.color = "green";
+                }
+                else if (inpTall2.value == "") {//Setter opp fasit i felt nede til venstre i
+                    fasit = finnFasit(tall1, tall2, tall3)
+                    inpTall2.value = String(fasit.toFixed(antallDesimaler));
+                    inpTall2.style.color = "green";
+                }
+                else {  //dvs. inpTall3.value == ""  //Setter opp fasit i felt nede til venstre i trekant
+                    fasit = finnFasit(tall1, tall2, tall3)
+                    inpTall3.value = String(fasit.toFixed(antallDesimaler));
+                    inpTall3.style.color = "green";
+                }
+
+                setTimeout(startTidtaker, ventTilForsteSpm*2);
+                setTimeout(resetInputVerdier, ventTilForsteSpm);
+
+                melding.innerHTML = "...som er svaret...  La oss fortsette!";
+                btnVelgTall.innerHTML = poeng + " poeng";
+                
+                kalkulatorModus = false;
+            }*/
+                
             //stop, bruk trekanten som kalkulator
-            else if ((tall1Norm == "..") || (tall2Norm == "..") || (tall3Norm == "..") || tvingKalkulatorModus) {    // Programmet skal i kalkulatormodus
-                 tvingKalkulatorModus = false;
+            else if ((tall1Norm == "..") || (tall2Norm == "..") || (tall3Norm == "..")) {    // Programmet skal i kalkulatormodus
                  stoppTidtaker();
                  inpTall1.value = "";
                  inpTall2.value = "";
