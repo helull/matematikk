@@ -234,7 +234,7 @@
             console.log("VideoFerdig!!!")
             videoFil.style.display = "none";
             //setTimeout(startTidtaker, ventTilForsteSpm/4);
-            startTidtaker();
+            //startTidtaker();
             popAktuellEkspertmodus();
             kobleInnLyttere();
             //setTimeout(kobleInnLyttere, ventTilNyttSpm);
@@ -438,13 +438,13 @@
 
         function startRelevantOppgave() {
            if ((oppgaveModus) && (forrigeVarRett)) {
+                stoppTidtaker();
                 btnVelgTall.style.display = "none";
                 hurtigTaster.style.display = "none";
                 if (oppgaveSomPlakat){
-                    stoppTidtaker();
                         plakat.style.display = "block";
-                        melding.innerHTML = "Nå skal oppgaven komme som plakat";
-                    setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
+                        melding.innerHTML = "Plakat...";
+                    //setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
                 }
                 else {
                     startVideo();
@@ -452,7 +452,6 @@
            }
         }
         function startVideo() {
-           stoppTidtaker();
              var filnavn = "videoer/" + String(ekspertModusGrenseIndex)+".mp4";
              fetch(filnavn, { method: "HEAD" }) //Vis videoen hvis den finnes
                 .then(response => {
@@ -526,9 +525,10 @@
                  melding.innerHTML = "Skriv to tall, deretter knappen";
                  btnVelgTall.innerHTML = " = ";
             }
-            /*else if (oppgaveBlirBesvart) {    // Programmet skal vurdere et svar på en oppgave
+            else if (oppgaveBlirBesvart) {    // Programmet skal vurdere et svar på en oppgave
                 oppgaveBlirBesvart = false;
-
+                setTimeout(startTidtaker, ventTilForsteSpm);
+/*
                 if (inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1))  {
                     fasit = finnFasit(tall1, tall2, tall3);
                     inpTall1.value = String(fasit);
@@ -551,8 +551,8 @@
                 melding.innerHTML = "...som er svaret...  La oss fortsette!";
                 btnVelgTall.innerHTML = poeng + " poeng";
                 
-                kalkulatorModus = false;
-            }*/
+                kalkulatorModus = false;*/
+            }
                 
             //stop, bruk trekanten som kalkulator
             else if ((tall1Norm == "..") || (tall2Norm == "..") || (tall3Norm == "..")) {    // Programmet skal i kalkulatormodus
