@@ -762,6 +762,8 @@
         //stopp tidtakeren (for å ha litt kontroll på galskapen)
         function stoppTidtaker() {
             console.log("I stoppTidtaker: ny Tid er: ", nedTellingsIntervall);
+            hurtigTaster.style.display = "none";
+            
             if (tidtakerKjorer) {
                 clearInterval(tidtaker);  //stopp tidtakeren
                 tidtakerKjorer = false;
