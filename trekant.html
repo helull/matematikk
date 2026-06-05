@@ -438,7 +438,7 @@
         }
 
         function startRelevantOppgave() {
-           if ((oppgaveModus) && (forrigeVarRett)) {
+           //if ((oppgaveModus) && (forrigeVarRett)) {
                 stoppTidtaker();
                 btnVelgTall.style.display = "none";
                 hurtigTaster.style.display = "none";
@@ -450,7 +450,7 @@
                 else {
                     startVideo();
                 }
-           }
+          // }
         }
         function startVideo() {
              var filnavn = "videoer/" + String(ekspertModusGrenseIndex)+".mp4";
@@ -603,8 +603,10 @@
                 if ((poeng > ekspertModusGrenser[ekspertModusGrenseIndex]) && (ekspertModusGrenseIndex < (ekspertModusGrenser.length - 1))) {
                     console.log("ekspertmodusGrense gjør at ekspertmodusGrenseIndex øker med 1");
                     ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
-                    setTimeout(startRelevantOppgave, ventTilNyttSpm/2);
                     settNedtellingstid();
+                    if ((oppgaveModus) && (forrigeVarRett)) {
+                        setTimeout(startRelevantOppgave, ventTilNyttSpm/2);
+                    }
                 }
     
                 //Hvis forrige var feil, og ekspertmodus er OVER 1
