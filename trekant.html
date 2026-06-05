@@ -270,7 +270,7 @@
             stoppTidtaker();
             btnVelgTall.innerHTML = "Lvl: "+ String(ekspertModusGrenseIndex) + ", Tempo: " + tidsPresentasjon;
         
-            setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
+            //setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
             popAktuellEkspertmodus();
             setTimeout(kobleInnLyttere, ventTilNyttSpm);
             //resetInputVerdier();
@@ -301,6 +301,7 @@
 
         function resetInputVerdier() {
             kobleInnLyttere();
+            startTidtaker();
 
             //"Null ut tekst" hvis man har vært i kalkulatormodus - utrolig klønete løsning!
             if (melding.innerHTML == "...som er svaret...  La oss fortsette!") {melding.innerHTML = "";}
@@ -469,7 +470,7 @@
                     }
                 }
             )
-            setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
+            //setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
             popAktuellEkspertmodus();
             setTimeout(kobleInnLyttere, ventTilNyttSpm);
         }
@@ -511,7 +512,6 @@
                      btnVelgTall.innerHTML = "Plakat on";
                      oppgaveSomPlakat = true;
                  }
-                 setTimeout(startTidtaker, ventTilForsteSpm/4);
                  setTimeout(resetInputVerdier, ventTilForsteSpm/2);
             }
 
@@ -586,7 +586,6 @@
                     inpTall3.style.color = "green";
                 }
 
-                setTimeout(startTidtaker, ventTilForsteSpm*2);
                 setTimeout(resetInputVerdier, ventTilForsteSpm);
 
                 melding.innerHTML = "...som er svaret...  La oss fortsette!";
@@ -684,7 +683,6 @@
 
                 // anyway: lagre poengene i localStorage
                 localStorage.trekantPoeng_v11 = poeng;
-                
                 setTimeout(kobleInnLyttere, ventTilNyttSpm);
             } 
         }
@@ -775,7 +773,6 @@
         
         //Play!! Etter ett sekund 'ellerno'
         setTimeout(resetInputVerdier, ventTilForsteSpm/10);
-        setTimeout(startTidtaker, ventTilForsteSpm/10);
 
     </script>
 </body>
