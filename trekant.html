@@ -437,6 +437,8 @@
 
         function startRelevantOppgave() {
            if ((oppgaveModus) && (forrigeVarRett)) {
+                btnVelgTall.style.display = "none";
+                hurtigTaster.style.display = "none";
                 if (oppgaveSomPlakat){
                     stoppTidtaker();
                         plakat.style.display = "block";
