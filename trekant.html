@@ -458,7 +458,6 @@
                 .then(response => {
                     if (response.ok) {
                         console.log("Video finnes ✅");
-                        hurtigTaster.style.display = "none";
                         videoFil.src = filnavn;
                         videoFil.style.display = "block";
                         videoFil.load();
@@ -486,7 +485,7 @@
             tall1 = Number(tall1Norm);
             tall2 = Number(tall2Norm);
             tall3 = Number(tall3Norm);
-            
+                
             // Oppgavemodus på eller av
             if ((tall1Norm == "...") || (tall2Norm == "...") || tall3Norm == "...") {    
                  stoppTidtaker();
@@ -598,7 +597,7 @@
 
             else { //normal omgang!
                 console.log("Normal omgang. poeng er: " + poeng);
-
+                
                 if ((poeng > ekspertModusGrenser[ekspertModusGrenseIndex]) && (ekspertModusGrenseIndex < (ekspertModusGrenser.length - 1))) {
                     console.log("ekspertmodusGrense gjør at ekspertmodusGrenseIndex øker med 1");
                     ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
@@ -682,10 +681,7 @@
                     else { alert("Jøje oss - tallIBruk er: " + tallIBruk) }
            
                 }
-                if (poeng > 100) {
-                    hurtigTaster.style.display = "grid";
-                }
-                
+
                 // anyway: lagre poengene i localStorage
                 localStorage.trekantPoeng_v11 = poeng;
                 
@@ -750,9 +746,16 @@
         //start tidtakeren (litt forsinket aller første gang, derfor som egen funsjon)
         function startTidtaker() {
             console.log("I STARTtidtaker: ny Tid er: ", nedTellingsIntervall);
+            
+
             if (!tidtakerKjorer) {
                 tidtaker = setInterval(tellNed, nedTellingsIntervall);
                 tidtakerKjorer = true;
+
+                //vis hurtigtaster dersom vi har poengsum over 100
+                if (poeng > 100) {
+                    hurtigTaster.style.display = "grid";
+                }
             }
         }
 
