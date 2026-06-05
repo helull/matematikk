@@ -463,6 +463,7 @@
                         videoFil.load();
                         videoFil.play();
                     } else {
+                        console.log("i elsedelen etter fetch")
                         setTimeout(startTidtaker, ventTilForsteSpm/4); //start tidtakeren
                         popAktuellEkspertmodus();
                         setTimeout(kobleInnLyttere, ventTilNyttSpm);
@@ -497,6 +498,7 @@
                      btnVelgTall.innerHTML = "Oppgaver on";
                      oppgaveModus = true;
                  }
+                 console.log("i oppgavemodus av/på")
                  setTimeout(startTidtaker, ventTilForsteSpm/4);
                  setTimeout(resetInputVerdier, ventTilForsteSpm/2);
             }
@@ -527,6 +529,7 @@
             }
             else if (oppgaveBlirBesvart) {    // Programmet skal vurdere et svar på en oppgave
                 oppgaveBlirBesvart = false;
+                console.log("i oppgaveBlirBesvart")
                 setTimeout(startTidtaker, ventTilForsteSpm);
 /*
                 if (inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1))  {
