@@ -187,7 +187,7 @@
         //Heltallet er antall riktige svar som kreves for modusendring
         const ekspertModusGrenser = [5 * pF, 10 * pF, 20 * pF, 30 * pF, 50 * pF, 60 * pF, 70 * pF, 80 * pF, 90 * pF, 100 * pF];  //Må passe med antall valg i resetInputVerdier()
 
-        const ventTilForsteSpm = 2000;         //ventetid før neste spørsmål kommer
+        const ventTilForsteSpm = 1000;         //ventetid før neste spørsmål kommer
         const ventTilNyttSpm = 500;          //tid å vente til neste spm, i millisekunder
         var  nedTellingsIntervall = 1000;     //hastighet på "klokka" som går, normalt 1000 milliSekunder
         var  oppstart = true;
@@ -776,7 +776,8 @@
         settOppLeveltaster();
         
         //Play!! Etter ett sekund 'ellerno'
-        setTimeout(resetInputVerdier, ventTilForsteSpm/10);
+        setTimeout(resetInputVerdier, ventTilForsteSpm);
+        setTimeout(startTidtaker(), ventTilForsteSpm);
         kobleInnLyttere();
 
     </script>
