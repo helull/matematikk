@@ -231,19 +231,20 @@
         function settOppOppgaveITrekant() {
             oppgaveSkalBesvares = true;
             console.log("i settoppoppgavei trekant")
-            //vurderTallene();
+            vurderTallene();
         }
         
         function videoFerdig() {
             oppgaveSkalBesvares = true;
             console.log("VideoFerdig!!!")
             videoFil.style.display = "none";
+            settOppOppgaveITrekant();
             //setTimeout(startTidtaker, ventTilForsteSpm/4);
             //startTidtaker();
             popAktuellEkspertmodus();
             kobleInnLyttere();
             //setTimeout(kobleInnLyttere, ventTilNyttSpm);
-            vurderTallene();
+            //vurderTallene();
             //resetInputVerdier();
         }
         
