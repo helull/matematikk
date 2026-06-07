@@ -276,7 +276,7 @@
             stoppTidtaker();
             btnVelgTall.innerHTML = "Lvl: "+ String(ekspertModusGrenseIndex) + ", Tempo: " + tidsPresentasjon;
         
-            setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
+            setTimeout(startTidtaker, ventTilNyttSpm);  //start tidtakeren
             popAktuellEkspertmodus();
             setTimeout(kobleInnLyttere, ventTilNyttSpm);
             //resetInputVerdier();
@@ -505,8 +505,8 @@
                      oppgaveModus = true;
                  }
                  console.log("i oppgavemodus av/på")
-                 setTimeout(startTidtaker, ventTilForsteSpm/4);
-                 setTimeout(resetInputVerdier, ventTilForsteSpm/2);
+                 setTimeout(startTidtaker, ventTilNyttSpm);
+                 setTimeout(resetInputVerdier, ventTilNyttSpm);
             }
 
             //Plakatmodus på eller av
@@ -520,7 +520,7 @@
                      btnVelgTall.innerHTML = "Plakat on";
                      oppgaveSomPlakat = true;
                  }
-                 setTimeout(resetInputVerdier, ventTilForsteSpm/2);
+                 setTimeout(resetInputVerdier, ventTilNyttSpm);
             }
 
             else if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
@@ -646,7 +646,7 @@
                         ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
                         settNedtellingstid();
                         if (oppgaveModus) {
-                            setTimeout(startRelevantOppgave, ventTilNyttSpm/2);
+                            setTimeout(startRelevantOppgave, ventTilNyttSpm);
                         }
                     }
                     
