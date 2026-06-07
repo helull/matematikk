@@ -464,9 +464,9 @@
                         videoFil.play();
                     } else {
                         console.log("i elsedelen etter fetch")
-                        setTimeout(startTidtaker, ventTilForsteSpm/4); //start tidtakeren
+                        startTidtaker();
                         popAktuellEkspertmodus();
-                        setTimeout(kobleInnLyttere, ventTilNyttSpm);
+                        kobleInnLyttere();
                         console.log("Video finnes ikke ❌");
                     }
                 }
