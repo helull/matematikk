@@ -226,7 +226,6 @@
         function fjernPlakat() {
             plakat.style.display = "none";
             btnVelgTall.style.display = "block";
-
             settOppOppgaveITrekant();
         }
 
@@ -237,17 +236,12 @@
         }
         
         function videoFerdig() {
-            oppgaveSkalBesvares = true;
+            btnVelgTall.style.display = "block";
             console.log("VideoFerdig!!!")
             videoFil.style.display = "none";
             settOppOppgaveITrekant();
-            //setTimeout(startTidtaker, ventTilForsteSpm/4);
-            //startTidtaker();
             popAktuellEkspertmodus();
             kobleInnLyttere();
-            //setTimeout(kobleInnLyttere, ventTilNyttSpm);
-            //vurderTallene();
-            //resetInputVerdier();
         }
         
         videoFil.addEventListener("ended", videoFerdig);
@@ -446,14 +440,12 @@
         }
 
         function startRelevantOppgave() {
-           //if ((oppgaveModus) && (forrigeVarRett)) {
                 stoppTidtaker();
                 btnVelgTall.style.display = "none";
                 hurtigTaster.style.display = "none";
                 if (oppgaveSomPlakat){
                         plakat.style.display = "block";
                         melding.innerHTML = "";
-                    //setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
                 }
                 else {
                     startVideo();
@@ -555,9 +547,6 @@
                 setTimeout(resetInputVerdier, ventTilForsteSpm);
                 melding.style.color = "green";
                 melding.innerHTML = "";
-
-
-                //btnVelgTall.innerHTML = poeng + " poeng";
             }
                 
             //stop, bruk trekanten som kalkulator
