@@ -646,8 +646,8 @@
                         ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
                         settNedtellingstid();
                         if (oppgaveModus) {
-                            //setTimeout(startRelevantOppgave, ventTilNyttSpm);
-                            startRelevantOppgave();
+                            setTimeout(startRelevantOppgave, ventTilNyttSpm+0.1);
+                            //startRelevantOppgave();
                         }
                     }
                     
