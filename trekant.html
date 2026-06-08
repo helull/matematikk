@@ -154,11 +154,77 @@
 
         .aktuellEkspertModus {
             border-width: 5px;
-        }        
+        }
+
+
+
+
+/* Container */
+.checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 18px;
+  gap: 10px;
+}
+
+/* Skjul standard checkbox */
+.checkbox-container input {
+  display: none;
+}
+
+/* Custom boks */
+.checkmark {
+  width: 20px;
+  height: 20px;
+  background-color: #eee;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+/* Hover-effekt */
+.checkbox-container:hover .checkmark {
+  background-color: #ccc;
+}
+
+/* Når checkbox er checked */
+.checkbox-container input:checked + .checkmark {
+  background-color: #4CAF50;
+}
+
+/* Lite "check"-ikon */
+.checkmark::after {
+  content: "";
+  display: none;
+}
+
+/* Vis check når aktiv */
+.checkbox-container input:checked + .checkmark::after {
+  display: block;
+  position: relative;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+        
+        
+        
     </style>
 </head>
 
 <body>
+    
+<label class="checkbox-container">
+  <input type="checkbox">
+  <span class="checkmark"></span>
+  Oppgaver
+</label>
+
     <img src="Trekant.png" alt="Bilde av trekant">
     <div id="trekant">
         <div id="tomrom"></div>
