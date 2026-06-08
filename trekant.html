@@ -597,11 +597,14 @@
                     (inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3))) {
                     oppgaveBlirBesvart = false;
                     riktigMelding();
-                    var tilleggsPoeng = int(ekspertModusGrenseIndex*5)
-                    btnVelgTall.innerHTML = "+" + tilleggsPoeng + " poeng!";
-                    poeng = poeng + ;
+                    var tilleggsPoeng = ekspertModusGrenseIndex * 5;
+                    btnVelgTall.innerHTML = "+" + String(tilleggsPoeng) + " poeng!";
+                    btnVelgTall.classList.add(".hoppe-knapp");
+                    poeng = poeng + tilleggsPoeng;
                     setTimeout(startTidtaker, ventTilForsteSpm);
                     setTimeout(resetInputVerdier, ventTilForsteSpm);
+                    btnVelgTall.classList.remove(".hoppe-knapp");
+
                 }
                 else {
                     inpTall1.value = "";
