@@ -133,6 +133,18 @@
             border-radius: 10%;
         }
 
+
+        @keyframes hopp {
+          0%   { transform: translateY(0); }
+          30%  { transform: translateY(-8px); } /* opp */
+          60%  { transform: translateY(2px); }  /* litt ned igjen */
+          100% { transform: translateY(0); }
+        }
+        
+        .hoppe-knapp {
+          animation: hopp 0.5s ease 1;
+        }
+
         @media only screen and (orientation:portrait) {
             input {
                 font-size: x-large;
@@ -585,8 +597,9 @@
                     (inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3))) {
                     oppgaveBlirBesvart = false;
                     riktigMelding();
-                    btnVelgTall.innerHTML = "+50 poeng!!";
-                    poeng = poeng + 50;
+                    var tilleggsPoeng = int(ekspertModusGrenseIndex*5)
+                    btnVelgTall.innerHTML = "+" + tilleggsPoeng + " poeng!";
+                    poeng = poeng + ;
                     setTimeout(startTidtaker, ventTilForsteSpm);
                     setTimeout(resetInputVerdier, ventTilForsteSpm);
                 }
