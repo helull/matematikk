@@ -357,9 +357,13 @@
         function sjekkOppgaver() {
             if (chkOppgaver.checked) {
                 console.log("sjekkoppgaver er checked");
+                oppgaveModus = true;
+                chkVideo.style.display="block";
             }
             else  {
                 console.log("sjekkoppgaver er ikke checked");
+                oppgaveModus = false;
+                chkVideo.style.display="none";
             }
         }
         
@@ -367,9 +371,11 @@
         function sjekkVideo() {
             if (chkVideo.checked) {
                 console.log("sjekkvideo er checked");
+                oppgaveSomPlakat = false;
             }
             else  {
                 console.log("sjekkvideo er ikke checked");
+                oppgaveSomPlakat = true;
             }
         }          
         
