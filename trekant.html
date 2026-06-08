@@ -189,7 +189,43 @@
         var oppgaveArray = [{tall1: 1, tall2: 1, tall3: 1}, {tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
                            {tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
                            {tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
-                           {tall1: 1, tall2: 1, tall3: 1}]
+                           {tall1: 1, tall2: 1, tall3: 1}];
+        var melding_text = ["Fantastisk jobbet!",
+                        "Bra!",
+                        "Tipp Topp",
+                        "Supert!!",
+                        "Jess!!",
+                        "Jepp!",
+                        "Jadda!!!",
+                        "Fytti katta så bra!",
+                        "Genialt",
+                        "Hoho",
+                        "Einstein!",
+                        "Mattehue!",
+                        "Spør meg igjen da!",
+                        "Ah, lett!",
+                        "Lættis",
+                        "Åh, løøø...",
+                        "Vidunderlig!",
+                        "Du nailer det..",
+                        "Bm!"];
+            var melding_text_feil = ["Nopsk!",
+                        "Er du verdens verste menneske, eller?",
+                        "Har'u røyka sokka dine eller?",
+                        "Hæ? Hvor kommer du fra?",
+                        "Taper!",
+                        "Ta deg sammen!",
+                        "Du er bedre enn det her!",
+                        "Ups, feil!",
+                        "Nå må du skjerpe deg!",
+                        "Brødhue!",
+                        "Nå er du på ville veier!",
+                        "Er'u på buss eller?",
+                        "Våkn opp",
+                        ".... nei!!",
+                        "Ah, feil!",
+                        "Dra meg baklengs inn i fuglekassa, NEI!!",
+                        "Du stinker!"];
 
         const ventTilForsteSpm = 1000;         //ventetid før neste spørsmål kommer
         const ventTilNyttSpm = 500;          //tid å vente til neste spm, i millisekunder
@@ -475,6 +511,20 @@
             popAktuellEkspertmodus();
             setTimeout(kobleInnLyttere, ventTilNyttSpm);
         }
+
+        function feilMelding() {
+                    melding.style.color = "red";
+                    btnVelgTall.style.backgroundColor = "darkgrey";
+                    var nr = Math.floor(Math.random() * melding_text_feil.length);
+                    melding.innerHTML = melding_text_feil[nr];
+        }
+        
+        function riktigMelding() {
+                    melding.style.color = "green";
+                    btnVelgTall.style.backgroundColor = "lightgrey";
+                    var nr = Math.floor(Math.random() * melding_text.length);
+                    melding.innerHTML = melding_text[nr];
+        }
         
         function vurderTallene() {
             oppstart = false;  //trengs bare å gjøres en gang, pga at jeg vil at "Trykk her" skal bli stående til første svar er gitt!
@@ -534,8 +584,7 @@
                     (inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex].tall2)) &&
                     (inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3))) {
                     oppgaveBlirBesvart = false;
-                    melding.innerHTML = "Hurra, du nailet det!";
-                    melding.style.color = "green";
+                    riktigMelding();
                     btnVelgTall.innerHTML = "+50 poeng!!";
                     poeng = poeng + 50;
                     setTimeout(startTidtaker, ventTilForsteSpm);
@@ -545,8 +594,9 @@
                     inpTall1.value = "";
                     inpTall2.value = "";
                     inpTall3.value = "";    
-                    melding.innerHTML = "Sorry! Prøv på nytt!";
-                    melding.style.color = "red";
+                    feilMelding();
+                    btnVelgTall.innerHTML = "Prøv på nytt";
+
                 }
             }
                 
@@ -582,7 +632,7 @@
                     inpTall3.style.color = "green";
                 }
 
-                setTimeout(resetInputVerdier, ventTilForsteSpm);
+                setTimeout(resetInputVerdier, ventTilForsteSpm*2);
 
                 melding.innerHTML = "...som er svaret...  La oss fortsette!";
                 btnVelgTall.innerHTML = poeng + " poeng";
@@ -606,31 +656,8 @@
                 if (Math.abs(tall1 - (tall2 * tall3)) < 0.01) {
                     console.log("forrige var rett");
                     forrigeVarRett = true;
-                    btnVelgTall.style.backgroundColor = "lightgrey";
                     poeng = poeng + pF;
-                    melding.style.color = "green";
-                    melding_text = ["Fantastisk jobbet!",
-                        "Bra!",
-                        "Tipp Topp",
-                        "Supert!!",
-                        "Jess!!",
-                        "Jepp!",
-                        "Jadda!!!",
-                        "Fytti katta så bra!",
-                        "Genialt",
-                        "Hoho",
-                        "Einstein!",
-                        "Mattehue!",
-                        "Spør meg igjen da!",
-                        "Ah, lett!",
-                        "Lættis",
-                        "Åh, løøø...",
-                        "Vidunderlig!",
-                        "Du nailer det..",
-                        "Bm!"
-                    ]
-                    var nr = Math.floor(Math.random() * melding_text.length);
-                    melding.innerHTML = melding_text[nr];
+                    riktigMelding();
                     btnVelgTall.innerHTML = poeng + " poeng";
 
                     if ((poeng > ekspertModusGrenser[ekspertModusGrenseIndex]) && (ekspertModusGrenseIndex < (ekspertModusGrenser.length - 1))) {
@@ -638,40 +665,20 @@
                         ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
                         settNedtellingstid();
                         if (oppgaveModus) {
-                            setTimeout(startRelevantOppgave, ventTilNyttSpm+3);
+                            setTimeout(startRelevantOppgave, ventTilNyttSpm+3);   //+3 fordi den må startes ETTER at tiden er resatt!
                             //startRelevantOppgave();
                         }
                     }
-                    
-                    // Finn nye tall i trekanten dersom man svarer rett
-                    setTimeout(resetInputVerdier, ventTilNyttSpm);
+                    else {
+                        // Finn nye tall i trekanten dersom man svarer rett samtidig som det IKKE skal vises ny oppgave
+                        setTimeout(resetInputVerdier, ventTilNyttSpm);
+                    }
                 }
 
                 //Brukeren gir feil svar
                 else {
                     forrigeVarRett = false;
-                    btnVelgTall.style.backgroundColor = "darkgrey";
-                    melding.style.color = "red";
-                    var melding_text_feil = ["Nopsk!",
-                        "Er du verdens verste menneske, eller?",
-                        "Har'u røyka sokka dine eller?",
-                        "Hæ? Hvor kommer du fra?",
-                        "Taper!",
-                        "Ta deg sammen!",
-                        "Du er bedre enn det her!",
-                        "Ups, feil!",
-                        "Nå må du skjerpe deg!",
-                        "Brødhue!",
-                        "Nå er du på ville veier!",
-                        "Er'u på buss eller?",
-                        "Våkn opp",
-                        ".... nei!!",
-                        "Ah, feil!",
-                        "Dra meg baklengs inn i fuglekassa, NEI!!",
-                        "Du stinker!"
-                    ]
-                    var nr = Math.floor(Math.random() * melding_text_feil.length);
-                    melding.innerHTML = melding_text_feil[nr];
+                    feilMelding();
                     //btnVelgTall.innerHTML = poeng + " poeng";
                     if (tallIBruk == 1) { inpTall1.value = ""; btnVelgTall.addEventListener("click", () => {inpTall1.focus();}, { once: true }); inpTall1.focus(); }
                     else if (tallIBruk == 2) { inpTall2.value = ""; btnVelgTall.addEventListener("click", () => {inpTall2.focus();}, { once: true }); inpTall2.focus(); }
