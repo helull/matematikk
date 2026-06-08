@@ -225,6 +225,8 @@
 
         function fjernPlakat() {
             plakat.style.display = "none";
+            btnVelgTall.style.display = "block";
+
             settOppOppgaveITrekant();
         }
 
@@ -450,7 +452,7 @@
                 hurtigTaster.style.display = "none";
                 if (oppgaveSomPlakat){
                         plakat.style.display = "block";
-                        melding.innerHTML = "Plakat...";
+                        melding.innerHTML = "";
                     //setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
                 }
                 else {
