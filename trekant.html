@@ -160,7 +160,7 @@
 
 
 /* Container */
-.checkbox-container {
+.checkbox1-container {
   z-index: 10;
   position: absolute; /* eller fixed / relative */
   top: 0;
@@ -172,9 +172,21 @@
   font-size: 12px;
   gap: 6px;
 }
+.checkbox2-container {
+  z-index: 10;
+  position: absolute; /* eller fixed / relative */
+  top: 20;
+  left: 0;
+  margin: 10px;      /* litt luft fra kanten */
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  gap: 6px;
+}
 
 /* Skjul standard checkbox */
-.checkbox-container input {
+.checkbox2-container input {
   display: none;
 }
 
@@ -188,12 +200,12 @@
 }
 
 /* Hover-effekt */
-.checkbox-container:hover .checkmark {
+.checkbox2-container:hover .checkmark {
   background-color: #ccc;
 }
 
 /* Når checkbox er checked */
-.checkbox-container input:checked + .checkmark {
+.checkbox1-container input:checked + .checkmark {
   background-color: #4CAF50;
 }
 
@@ -204,7 +216,7 @@
 }
 
 /* Vis check når aktiv */
-.checkbox-container input:checked + .checkmark::after {
+.checkbox1-container input:checked + .checkmark::after {
   display: block;
   position: relative;
   left: 6px;
@@ -224,12 +236,12 @@
 
 <body>
     
-   <label class="checkbox-container">
+   <label class="checkbox1-container">
       <input type="checkbox">
       <span class="checkmark"></span>
       Oppgaver
     </label>
-    <label class="checkbox-container">
+    <label class="checkbox2-container">
       <input type="checkbox">
       <span class="checkmark"></span>
       Video
