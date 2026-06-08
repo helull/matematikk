@@ -154,69 +154,52 @@
 
         .aktuellEkspertModus {
             border-width: 5px;
-        }
+        } 
 
-
-
-
-/* Container */
-.checkbox1-container {
-  z-index: 10;
-  position: absolute; /* eller fixed / relative */
+        
+/* Plasserer hele blokken oppe til venstre */
+.checkbox-wrapper {
+  position: fixed;
   top: 0;
   left: 0;
-  margin: 10px;      /* litt luft fra kanten */
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  font-size: 12px;
-  gap: 6px;
+  margin: 10px;
+
+  display: flex;
+  flex-direction: column; /* gjør at de ligger under hverandre */
+  gap: 8px; /* avstand mellom checkboxene */
 }
-.checkbox2-container {
-  z-index: 10;
-  position: absolute; /* eller fixed / relative */
-  top: 100;
-  left: 0;
-  margin: 10px;      /* litt luft fra kanten */
-  display: inline-flex;
-  align-items: center;
+
+/* Checkbox styling */
+.checkbox-container {
   cursor: pointer;
-  font-size: 12px;
-  gap: 6px;
 }
 
 /* Skjul standard checkbox */
-.checkbox2-container input {
+.checkbox-container input {
   display: none;
 }
 
 /* Custom boks */
 .checkmark {
-  width: 10px;
-  height: 10px;
+  width: 20px;
+  height: 20px;
   background-color: #eee;
-  border-radius: 2px;
-  transition: 0.2s;
+  border-radius: 4px;
+  display: inline-block;
 }
 
-/* Hover-effekt */
-.checkbox2-container:hover .checkmark {
-  background-color: #ccc;
-}
-
-/* Når checkbox er checked */
-.checkbox1-container input:checked + .checkmark {
+/* Når checked */
+.checkbox-container input:checked + .checkmark {
   background-color: #4CAF50;
 }
 
-/* Lite "check"-ikon */
+/* Check symbol */
 .checkmark::after {
   content: "";
   display: none;
 }
 
-/* Vis check når aktiv */
-.checkbox1-container input:checked + .checkmark::after {
+.checkbox-container input:checked + .checkmark::after {
   display: block;
   position: relative;
   left: 6px;
@@ -228,37 +211,25 @@
   transform: rotate(45deg);
 }
 
-/* Vis check når aktiv */
-.checkbox2-container input:checked + .checkmark::after {
-  display: block;
-  position: relative;
-  left: 6px;
-  top: 2px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-        
-        
         
     </style>
 </head>
 
 <body>
     
-   <label class="checkbox1-container">
-      <input type="checkbox">
-      <span class="checkmark"></span>
-      Oppgaver
-    </label>
-    <label class="checkbox2-container">
-      <input type="checkbox">
-      <span class="checkmark"></span>
-      Video
-    </label>
+
+<div class="checkbox-wrapper">
+  <label class="checkbox-container">
+    <input type="checkbox">aaa
+    <span class="checkmark">bbb</span>ccc
+  </label>
+
+  <label class="checkbox-container">
+    <input type="checkbox">ddd
+    <span class="checkmark">eee</span>fff
+  </label>
+</div>
+
 
     <img src="Trekant.png" alt="Bilde av trekant">
     <div id="trekant">
