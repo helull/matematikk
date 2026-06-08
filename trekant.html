@@ -528,25 +528,26 @@
                  btnVelgTall.innerHTML = " = ";
             }
             else if (oppgaveBlirBesvart) {    // Programmet skal vurdere et svar på en oppgave
-                oppgaveBlirBesvart = false;
                 console.log("i oppgaveBlirBesvart");
                 
                 if ((inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1)) && 
                     (inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1)) &&
                     (inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1))) {
-                    melding.innerHTML = "Hurra!!";
+                    oppgaveBlirBesvart = false;
+                    melding.innerHTML = "Hurra, du nailet det!";
                     melding.style.color = "green";
-                    btnVelgTall.innerHTML = "+50 poeng";
+                    btnVelgTall.innerHTML = "+50 poeng!!";
                     poeng = poeng + 50;
+                    setTimeout(startTidtaker, ventTilForsteSpm);
+                    setTimeout(resetInputVerdier, ventTilForsteSpm);
                 }
                 else {
-                    melding.innerHTML = "Sorry!";
+                    inpTall1.value = "";
+                    inpTall2.value = "";
+                    inpTall3.value = "";    
+                    melding.innerHTML = "Sorry! Prøv på nytt!";
                     melding.style.color = "red";
                 }
-                setTimeout(startTidtaker, ventTilForsteSpm);
-                setTimeout(resetInputVerdier, ventTilForsteSpm);
-                melding.style.color = "green";
-                melding.innerHTML = "";
             }
                 
             //stop, bruk trekanten som kalkulator
