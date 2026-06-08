@@ -276,7 +276,7 @@
         function fjernPlakat() {
             plakat.style.display = "none";
             btnVelgTall.style.display = "block";
-            trekant.style.display = "block";
+            //trekant.style.display = "block";
             settOppOppgaveITrekant();
         }
 
@@ -288,7 +288,7 @@
         
         function videoFerdig() {
             btnVelgTall.style.display = "block";
-            trekant.style.display = "block";
+            //trekant.style.display = "block";
             console.log("VideoFerdig!!!")
             videoFil.style.display = "none";
             settOppOppgaveITrekant();
@@ -495,7 +495,7 @@
                 stoppTidtaker();
                 btnVelgTall.style.display = "none";
                 hurtigTaster.style.display = "none";
-                trekant.style.display = "none";
+                //trekant.style.display = "none";
                 if (oppgaveSomPlakat){
                         plakat.style.display = "block";
                         melding.innerHTML = "";
@@ -517,7 +517,7 @@
                         videoFil.play();
                     } else {
                         console.log("i elsedelen etter fetch");
-                        trekant.style.display = "block";
+                        //trekant.style.display = "block";
                         startTidtaker();
                         popAktuellEkspertmodus();
                         kobleInnLyttere();
