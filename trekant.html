@@ -220,12 +220,12 @@
 
 <div class="checkbox-wrapper">
   <label class="checkbox-container">
-    <input type="checkbox">
+    <input type="checkbox" id="chkOppgaver>
     <span class="checkmark"></span>Oppgaver
   </label>
 
   <label class="checkbox-container">
-    <input type="checkbox">
+    <input type="checkbox" id="chkVideo">
     <span class="checkmark"></span>Video
   </label>
 </div>
@@ -341,7 +341,8 @@
         var videoFil = document.getElementById("videoFil");
         var plakat = document.getElementById("plakat");
         var trekant = document.getElementById("trekant");
-
+        var chkVideo = document.getElementById("chkVideo");
+        var chkOppgaver = document.getElementById("chkOppgaver");
 
         plakat.addEventListener("click", fjernPlakat);
 
@@ -352,6 +353,27 @@
             settOppOppgaveITrekant();
         }
 
+        chkOppgaver.addEventListener("click", sjekkOppgaver);
+        function sjekkOppgaver() {
+            if chkOppgaver.checked {
+                console.log("sjekkoppgaver er checked");
+            }
+            else  {
+                console.log("sjekkoppgaver er ikke checked");
+            }
+        }
+        
+        chkVideo.addEventListener("click", sjekkVideo);
+        function sjekkVideo() {
+            if chkVideo.checked {
+                console.log("sjekkvideo er checked");
+            }
+            else  {
+                console.log("sjekkvideo er ikke checked");
+            }
+        }          
+        }
+        
         function settOppOppgaveITrekant() {
             oppgaveSkalBesvares = true;
             console.log("i settoppoppgavei trekant")
