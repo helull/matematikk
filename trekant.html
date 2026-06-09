@@ -362,11 +362,14 @@
                 console.log("sjekkoppgaver er checked");
                 oppgaveModus = true;
                 chkVideo.style.display="block";
+                chkVideo.checked = false;
+                oppgaveSomPlakat = true;
             }
             else  {
                 console.log("sjekkoppgaver er ikke checked");
                 oppgaveModus = false;
                 chkVideo.style.display="none";
+                oppgaveSomPlakat = false;
             }
         }
         
