@@ -356,11 +356,9 @@
             settOppOppgaveITrekant();
         }
 
-        chkOppgaver.addEventListener("click", sjekkOppgaver);
+        chkOppgaver.addEventListener("change", sjekkOppgaver);
         function sjekkOppgaver() {
-            console.log("sjekkoppgaver er:" + chkOppgaver);
-
-            /*if (chkOppgaver.checked) {
+            if (chkOppgaver.checked) {
                 console.log("sjekkoppgaver er checked");
                 oppgaveModus = true;
                 chkVideo.style.display = "block";
@@ -371,10 +369,10 @@
                 console.log("sjekkoppgaver er ikke checked");
                 oppgaveModus = false;
                 chkVideo.style.display="none";
-            }*/
+            }
         }
         
-        chkVideo.addEventListener("click", sjekkVideo);
+        chkVideo.addEventListener("change", sjekkVideo);
         function sjekkVideo() {
             if (chkVideo.checked) {
                 console.log("sjekkvideo er checked");
