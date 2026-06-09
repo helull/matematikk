@@ -358,6 +358,7 @@
 
         chkOppgaver.addEventListener("change", sjekkOppgaver);
         function sjekkOppgaver() {
+            concole.log("i sjekkopppgaver, chkoppgaver er:" + chkOppgaver.checked)
             if (chkOppgaver.checked) {
                 console.log("sjekkoppgaver er checked");
                 oppgaveModus = true;
