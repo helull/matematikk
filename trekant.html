@@ -645,6 +645,8 @@
         
         function vurderTallene() {
             console.log("i vurdertallene, PLING");
+            console.log("i vurdertallene, oSkalBesvares: "+ oppgaveSkalBesvares);
+            console.log("i vurdertallene, oBlirBesvart: "+ oppgaveBlirBesvart);
             oppstart = false;  //trengs bare å gjøres en gang, pga at jeg vil at "Trykk her" skal bli stående til første svar er gitt!
             
             let tall1Norm = inpTall1.value.replaceAll(",",".");   // 28.05.2026 for å passe på iPhones numeriske tastatur som kun har komma
