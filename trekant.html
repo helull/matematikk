@@ -795,12 +795,11 @@
                         settNedtellingstid();
                         if (oppgaveModus) {
                             setTimeout(startRelevantOppgave, ventTilNyttSpm+3);   //+3 fordi den må startes ETTER at tiden er resatt!
-                            //startRelevantOppgave();
                         }
-                    }
-                    else {
-                        // Finn nye tall i trekanten dersom man svarer rett samtidig som det IKKE skal vises ny oppgave
-                        setTimeout(resetInputVerdier, ventTilNyttSpm);
+                        else {
+                            // Finn nye tall i trekanten dersom man svarer rett samtidig som det IKKE skal vises ny oppgave
+                            setTimeout(resetInputVerdier, ventTilNyttSpm);
+                        }
                     }
                 }
 
