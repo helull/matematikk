@@ -422,7 +422,7 @@
         }
 
         function settNedtellingstid() {
-            console.log("i settNedtellingstid");
+            console.log("i settNedtellingstid, ekspertmodusgrenseindeks er: "+ekspertModusGrenseIndex );
             kobleUtLyttere();
             nedTellingsIntervall = 800+(ekspertModusGrenseIndex*150)
             var tidsPresentasjon = String((800/nedTellingsIntervall).toFixed(1));
