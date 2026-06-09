@@ -348,8 +348,8 @@
 
         plakat.addEventListener("click", fjernPlakat);
 
-        chkOppgaver.style.display="none";
-        chkVideo.style.display="none";
+        chkOppgaverLabel.style.display="none";
+        chkVideoLabel.style.display="none";
         
         function fjernPlakat() {
             plakat.style.display = "none";
@@ -360,7 +360,6 @@
 
         chkOppgaver.addEventListener("change", sjekkOppgaver);
         function sjekkOppgaver() {
-            console.log("i sjekkopppgaver, chkoppgaver er:" + chkOppgaver.checked)
             if (chkOppgaver.checked) {
                 console.log("sjekkoppgaver er checked");
                 oppgaveModus = true;
