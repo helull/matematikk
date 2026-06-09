@@ -407,6 +407,10 @@
                 poeng--;
             }
             if(!oppstart) {btnVelgTall.innerHTML = poeng + " poeng";}
+            if (poeng > 100) {
+                hurtigTaster.style.display = "grid";
+                chkOppgaver.style.display = "block";
+            }
         }
 
         function settOppLeveltaster() {
@@ -599,7 +603,6 @@
                 stoppTidtaker();
                 btnVelgTall.style.display = "none";
                 hurtigTaster.style.display = "none";
-                //trekant.style.display = "none";
                 if (oppgaveSomPlakat){
                         plakat.style.display = "block";
                         melding.innerHTML = "";
@@ -887,13 +890,6 @@
             if (!tidtakerKjorer) {
                 tidtaker = setInterval(tellNed, nedTellingsIntervall);
                 tidtakerKjorer = true;
-
-                //vis hurtigtaster dersom vi har poengsum over 100
-                if (poeng > 100) {
-                    hurtigTaster.style.display = "grid";
-                    chkOppgaver.style.display = "block";
-                    chkOppgaver.checked = false;
-                }
             }
         }
 
