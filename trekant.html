@@ -219,13 +219,13 @@
     
 
 <div class="checkbox-wrapper">
-  <label class="checkbox-container" id="chkOppgaver">
-    <input type="checkbox">
+  <label class="checkbox-container" id="chkOppgaverLabel">
+    <input type="checkbox" id="chkOppgaver>
     <span class="checkmark"></span>Oppgaver
   </label>
 
-  <label class="checkbox-container" id="chkVideo">
-    <input type="checkbox">
+  <label class="checkbox-container" id="chkVideoLabel">
+    <input type="checkbox" id="chkVideo">
     <span class="checkmark"></span>Video
   </label>
 </div>
@@ -342,7 +342,9 @@
         var plakat = document.getElementById("plakat");
         var trekant = document.getElementById("trekant");
         var chkVideo    = document.getElementById("chkVideo");
+        var chkVideoLabel    = document.getElementById("chkVideoLabel");
         var chkOppgaver = document.getElementById("chkOppgaver");
+        var chkOppgaverLabel = document.getElementById("chkOppgaverLabel");
 
         plakat.addEventListener("click", fjernPlakat);
 
@@ -362,14 +364,14 @@
             if (chkOppgaver.checked) {
                 console.log("sjekkoppgaver er checked");
                 oppgaveModus = true;
-                chkVideo.style.display = "block";
+                chkVideoLabel.style.display = "block";
                 chkVideo.checked = false;
                 oppgaveSomPlakat = true;
             }
             else  {
                 console.log("sjekkoppgaver er ikke checked");
                 oppgaveModus = false;
-                chkVideo.style.display="none";
+                chkVideoLabel.style.display="none";
             }
         }
         
@@ -410,7 +412,7 @@
             if(!oppstart) {btnVelgTall.innerHTML = poeng + " poeng";}
             if (poeng > 100) {
                 hurtigTaster.style.display = "grid";
-                chkOppgaver.style.display = "block";
+                chkOppgaverLabel.style.display = "block";
             }
         }
 
