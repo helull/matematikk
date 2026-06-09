@@ -796,8 +796,8 @@
                     btnVelgTall.innerHTML = poeng + " poeng";
 
                     if ((poeng > ekspertModusGrenser[ekspertModusGrenseIndex]) && (ekspertModusGrenseIndex < (ekspertModusGrenser.length - 1))) {
-                        console.log("ekspertmodusGrense gjør at ekspertmodusGrenseIndex øker med 1");
                         ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
+                        console.log("ekspertmodusGrense gjør at ekspertmodusGrenseIndex øker med 1, et nå: "+ ekspertModusGrenseIndex);
                         settNedtellingstid();
                         if (oppgaveModus) {
                             setTimeout(startRelevantOppgave, ventTilNyttSpm+3);   //+3 fordi den må startes ETTER at tiden er resatt!
