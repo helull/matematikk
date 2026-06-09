@@ -358,7 +358,9 @@
 
         chkOppgaver.addEventListener("click", sjekkOppgaver);
         function sjekkOppgaver() {
-            if (chkOppgaver.checked) {
+            console.log("sjekkoppgaver er:" + chkOppgaver);
+
+            /*if (chkOppgaver.checked) {
                 console.log("sjekkoppgaver er checked");
                 oppgaveModus = true;
                 chkVideo.style.display = "block";
@@ -369,7 +371,7 @@
                 console.log("sjekkoppgaver er ikke checked");
                 oppgaveModus = false;
                 chkVideo.style.display="none";
-            }
+            }*/
         }
         
         chkVideo.addEventListener("click", sjekkVideo);
