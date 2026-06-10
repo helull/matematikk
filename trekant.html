@@ -260,8 +260,8 @@
 
     <script>
         var poeng = 0;
-        if (localStorage.trekantPoeng_v11) {
-            poeng = Number(localStorage.trekantPoeng_v11);
+        if (localStorage.trekantPoeng_v12) {
+            poeng = Number(localStorage.trekantPoeng_v12);
         }
 
         var pF = 10; //poengFaktor
@@ -829,7 +829,7 @@
                 }
                 
                 // anyway: lagre poengene i localStorage
-                localStorage.trekantPoeng_v11 = poeng;
+                localStorage.trekantPoeng_v12 = poeng;
                 setTimeout(kobleInnLyttere, ventTilNyttSpm);
             } 
         }
@@ -884,7 +884,7 @@
                 event.preventDefault();  //sørger for at det IKKE skrives "r".
                 poeng = 0;
                 ekspertModusGrenseIndex = 0;
-                localStorage.trekantPoeng_v11 = 0;
+                localStorage.trekantPoeng_v12 = 0;
             }
         }
 
