@@ -271,21 +271,17 @@
 
         //Heltallet er antall riktige svar som kreves for modusendring
         const ekspertModusGrenser = [5 * pF, 10 * pF, 20 * pF, 30 * pF, 50 * pF, 60 * pF, 70 * pF, 80 * pF, 90 * pF, 100 * pF];  //Må passe med antall valg i resetInputVerdier()
-        var oppgaveArray = [{tall1: "", tall2: 6, tall3: 11}, {tall1: 12, tall2: 3, tall3: ""},{tall1: "", tall2: 23, tall3: 2.5},
-                           {tall1: 305, tall2: 4.5, tall3: ""},{tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
-                           {tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
-                           {tall1: 1, tall2: 1, tall3: 1}];
-        var oppgaveTekstArray = ["Få trekanten til å regne ut 6 ganger 11.  Trykk deretter knappen!",
-                                "Få trekanten til å regne ut 12 delt på 3.  Trykk deretter knappen!",
-                                "Jeg syklet i hastigheten 23 km/t i 2,5 timer.  Hvor langt kom jeg?",
-                                "Jeg kjørte bil i 305 km.  Da hadde jeg kjørt i 4,5 timer.  Hva var gjennomsnittshastigheten min?",
-                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
-                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
-                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
-                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
-                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
-                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten"
-                                ];
+        var oppgaveArray = [{tekst: "Få trekanten til å regne ut 6 ganger 11.  Trykk deretter knappen!", tall1: "", tall2: 6, tall3: 11},
+                            {tekst: "Få trekanten til å regne ut 12 delt på 3.  Trykk deretter knappen!", tall1: 12, tall2: 3, tall3: ""},
+                            {tekst: "Jeg syklet i hastigheten 23 km/t i 2,5 timer.  Hvor langt kom jeg?", tall1: "", tall2: 23, tall3: 2.5},
+                            {tekst: "Jeg kjørte bil i 305 km.  Da hadde jeg kjørt i 4,5 timer.  Hva var gjennomsnittshastigheten min?", tall1: 305, tall2: 4.5, tall3: ""},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1}];
+        
         var melding_text = ["Fantastisk jobbet!",
                         "Bra!",
                         "Tipp Topp",
@@ -629,7 +625,7 @@
                 hurtigTaster.style.display = "none";
                 if (oppgaveSomPlakat){
                         oppgaveOverskrift.innerHTML = String(ekspertModusGrenseIndex-1);
-                        oppgaveInnhold.innerHTML = oppgaveArray[ekspertModusGrenseIndex-1];
+                        oppgaveInnhold.innerHTML = oppgaveArray[ekspertModusGrenseIndex-1].tekst;
                         plakat.style.display = "block";
                         melding.innerHTML = "";
                 }
@@ -727,8 +723,8 @@
             }
 
             else if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
-                console.log("I OppgaveSkalBesvares");
-                 oppgaveBoks.innerHTML = oppgaveTekstArray[ekspertModusGrenseIndex]
+                 console.log("I OppgaveSkalBesvares");
+                 //oppgaveBoks.innerHTML = oppgaveTekstArray[ekspertModusGrenseIndex]
                  stoppTidtaker();
                  oppgaveSkalBesvares = false;
                  oppgaveBlirBesvart = true;
@@ -746,15 +742,15 @@
                 var fasit;
                 bingo = false;
                 if (inpTall1.value == "") {
-                    if(inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex].tall2) &&
-                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3)) {
+                    if(inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2) &&
+                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) {
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3);
                          inpTall1.value = String(fasit);
                          inpTall2.style.color = "green";
                     }
-                    if(inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3) &&
-                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall2)){
+                    if(inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3) &&
+                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)){
                         bingo = true;
                         fasit = finnFasit(tall1, tall2, tall3);
                         inpTall1.value = String(fasit);
@@ -762,8 +758,8 @@
                     }
                 }
                 if (inpTall2.value == "") {
-                    if(inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1) &&
-                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3)) {
+                    if(inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1) &&
+                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) {
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3)
                          inpTall2.value = String(fasit.toFixed(antallDesimaler));
@@ -771,8 +767,8 @@
                     }
                 }
                 if (inpTall3.value == "") {
-                    if(inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1) &&
-                       inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex].tall2)){
+                    if(inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1) &&
+                       inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)){
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3)
                          inpTall2.value = String(fasit.toFixed(antallDesimaler));
