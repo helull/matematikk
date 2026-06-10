@@ -251,8 +251,8 @@
     </video>
 
     <div id="plakat">
-        <div class="overskrift">Oppgave!</div>
-        <div class="innhold" id="hovedinnhold">Få trekanten til å regne ut 12 delt på 4.  Trykk deretter knappen!</div>
+        <div class="overskrift" id="oppgaveOverskrift">Oppgave!</div>
+        <div class="innhold" id="oppgaveInnhold">Få trekanten til å regne ut 12 delt på 4.  Trykk deretter knappen!</div>
         <div class="spm">Du skal ikke skrive svaret!</div>
         <div class="innhold">Skriv tall to steder, trykk så =</div>
         <div class="innhold" >(Klikk her for å besvare)</div> 
@@ -357,7 +357,8 @@
         var chkVideoLabel    = document.getElementById("chkVideoLabel");
         var chkOppgaver = document.getElementById("chkOppgaver");
         var chkOppgaverLabel = document.getElementById("chkOppgaverLabel");
-        var oppgaveBoks = document.getElementById("hovedinnhold");
+        var oppgaveOverskrift = document.getElementById("oppgaveOverskrift");
+        var oppgaveInnhold = document.getElementById("oppgaveInnhold");
         
 
         plakat.addEventListener("click", fjernPlakat);
@@ -627,6 +628,8 @@
                 btnVelgTall.style.display = "none";
                 hurtigTaster.style.display = "none";
                 if (oppgaveSomPlakat){
+                        oppgaveOverskrift.innerHTML = String(ekspertModusGrenseIndex-1);
+                        oppgaveInnhold.innerHTML = oppgaveArray[ekspertModusGrenseIndex-1];
                         plakat.style.display = "block";
                         melding.innerHTML = "";
                 }
