@@ -750,15 +750,15 @@
                 var fasit;
                 bingo = false;
                 if (String(oppgaveArray[ekspertModusGrenseIndex-1].tall1) == "") {
-                    if(inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2) &&
-                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) {
+                    if(tall2 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2) &&
+                       tall3 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) {
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3);
                          inpTall1.value = String(fasit);
                          inpTall2.style.color = "green";
                     }
-                    if(inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3) &&
-                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)){
+                    if(tall2 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3) &&
+                       tall3 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)){
                         bingo = true;
                         fasit = finnFasit(tall1, tall2, tall3);
                         inpTall1.value = String(fasit);
@@ -766,9 +766,9 @@
                     }
                 }
                 if (String(oppgaveArray[ekspertModusGrenseIndex-1].tall2) == "") {
-                    if((inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1)) &&
-                       ((inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) ||
-                        (inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)) )
+                    if((tall1 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1)) &&
+                       ((tall3 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) ||
+                        (tall3 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)) )
                       ) {
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3)
@@ -777,9 +777,9 @@
                     }
                 }
                 if (String(oppgaveArray[ekspertModusGrenseIndex-1].tall3) == "") {
-                    if((inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1)) &&
-                       ((inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) ||
-                        (inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)) )
+                    if((tall1 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1)) &&
+                       ((tall2 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) ||
+                        (tall2 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)) )
                       ){
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3)
