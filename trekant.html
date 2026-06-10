@@ -377,15 +377,17 @@
                 chkVideoLabel.style.display = "block";
                 chkVideo.checked = false;
                 oppgaveSomPlakat = true;
+            }
+            else  {
+                console.log("sjekkoppgaver er ikke checked");
+                oppgaveModus = false;
+                
                 if (oppgaveBlirBesvart) {
                     oppgaveBlirBesvart = false;
                     oppgaveSkalBesvares = false;
                     resetInputVerdier();
                 }
-            }
-            else  {
-                console.log("sjekkoppgaver er ikke checked");
-                oppgaveModus = false;
+                
                 chkVideoLabel.style.display="none";
             }
         }
