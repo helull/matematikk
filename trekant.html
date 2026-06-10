@@ -372,6 +372,9 @@
                 chkVideoLabel.style.display = "block";
                 chkVideo.checked = false;
                 oppgaveSomPlakat = true;
+                if (oppgaveBlirBesvart) {
+                    resetInputVerdier();
+                }
             }
             else  {
                 console.log("sjekkoppgaver er ikke checked");
