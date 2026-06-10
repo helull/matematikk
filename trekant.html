@@ -252,8 +252,8 @@
 
     <div id="plakat">
         <div class="overskrift">Tegn for ganging</div>
-        <div class="innhold">Gangetegnet (×) ble først tatt i bruk på 1600-tallet av den engelske matematikeren William Oughtred. Bla blab lab labla blab labl ... Før dette skrev man ofte multiplikasjon uten eget symbol, eller brukte bokstaver og forkortelser. </div>
-        <div class="spm">Hva mener du?</div>
+        <div class="innhold">Få trekanten til å regne ut 12 delt på 4.  Trykk deretter knappen!</div>
+        <div class="spm">Du skal ikke skrive svaret!</div>
         <div class="innhold">Skriv tall to steder, trykk så =</div>
         <div class="innhold" >(Klikk her for å besvare)</div> 
     </div>
@@ -271,8 +271,8 @@
 
         //Heltallet er antall riktige svar som kreves for modusendring
         const ekspertModusGrenser = [5 * pF, 10 * pF, 20 * pF, 30 * pF, 50 * pF, 60 * pF, 70 * pF, 80 * pF, 90 * pF, 100 * pF];  //Må passe med antall valg i resetInputVerdier()
-        var oppgaveArray = [{tall1: 1, tall2: 1, tall3: 1}, {tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
-                           {tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
+        var oppgaveArray = [{tall1: "", tall6: 1, tall3: 11}, {tall1: 12, tall2: 3, tall3: ""},{tall1: "", tall2: 23, tall3: 2.5},
+                           {tall1: 305, tall2: 4.5, tall3: ""},{tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
                            {tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
                            {tall1: 1, tall2: 1, tall3: 1}];
         var melding_text = ["Fantastisk jobbet!",
