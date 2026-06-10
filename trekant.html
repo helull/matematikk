@@ -624,7 +624,7 @@
                 btnVelgTall.style.display = "none";
                 hurtigTaster.style.display = "none";
                 if (oppgaveSomPlakat){
-                        oppgaveOverskrift.innerHTML = String(ekspertModusGrenseIndex-1);
+                        oppgaveOverskrift.innerHTML = "Oppgave " +String(ekspertModusGrenseIndex);
                         oppgaveInnhold.innerHTML = oppgaveArray[ekspertModusGrenseIndex-1].tekst;
                         plakat.style.display = "block";
                         melding.innerHTML = "";
@@ -739,6 +739,14 @@
             }
             else if (oppgaveBlirBesvart) {    // Programmet skal vurdere et svar på en oppgave
                 console.log("i oppgaveBlirBesvart");
+
+                tall1Norm = inpTall1.value.replaceAll(",",".");
+                tall2Norm = inpTall2.value.replaceAll(",",".");
+                tall3Norm = inpTall3.value.replaceAll(",",".");
+                tall1 = Number(tall1Norm);
+                tall2 = Number(tall2Norm);
+                tall3 = Number(tall3Norm);
+                
                 var fasit;
                 bingo = false;
                 if (inpTall1.value == "") {
