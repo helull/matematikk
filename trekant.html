@@ -765,7 +765,8 @@
                 if (bingo) {
                     oppgaveBlirBesvart = false;
                     //riktigMelding();
-                    melding.innerHTML = "YES, X-TRA points!"
+                    melding.innerHTML = "YES, X-TRA points!";
+                    melding.style.color = "green";
                     var tilleggsPoeng = ekspertModusGrenseIndex * 5;
                     btnVelgTall.innerHTML = "+" + String(tilleggsPoeng) + " poeng!";
                     btnVelgTall.classList.add("hoppe-knapp");
