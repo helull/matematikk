@@ -728,9 +728,9 @@
                  stoppTidtaker();
                  oppgaveSkalBesvares = false;
                  oppgaveBlirBesvart = true;
-                 inpTall1.style.color = "green";
-                 inpTall2.style.color = "green";
-                 inpTall3.style.color = "green";
+                 inpTall1.style.color = "black";
+                 inpTall2.style.color = "black";
+                 inpTall3.style.color = "black";
                  inpTall1.value = "";
                  inpTall2.value = "";
                  inpTall3.value = "";                 
@@ -749,7 +749,7 @@
                 
                 var fasit;
                 bingo = false;
-                if (inpTall1.value == "") {
+                if (String(oppgaveArray[ekspertModusGrenseIndex-1].tall1) == "") {
                     if(inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2) &&
                        inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) {
                          bingo = true;
@@ -765,18 +765,22 @@
                         inpTall2.style.color = "green";
                     }
                 }
-                if (inpTall2.value == "") {
-                    if(inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1) &&
-                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) {
+                if (String(oppgaveArray[ekspertModusGrenseIndex-1].tall2) == "") {
+                    if((inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1)) &&
+                       ((inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) ||
+                        (inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)) )
+                      ) {
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3)
                          inpTall2.value = String(fasit.toFixed(antallDesimaler));
                          inpTall2.style.color = "green";
                     }
                 }
-                if (inpTall3.value == "") {
-                    if(inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1) &&
-                       inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)){
+                if (String(oppgaveArray[ekspertModusGrenseIndex-1].tall3) == "") {
+                    if((inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall1)) &&
+                       ((inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3)) ||
+                        (inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)) )
+                      ){
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3)
                          inpTall2.value = String(fasit.toFixed(antallDesimaler));
