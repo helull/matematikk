@@ -458,9 +458,9 @@
             stoppTidtaker();
             btnVelgTall.innerHTML = "Lvl: "+ String(ekspertModusGrenseIndex) + ", Tempo: " + tidsPresentasjon;
         
-            setTimeout(startTidtaker, ventTilNyttSpm);  //start tidtakeren
+            setTimeout(startTidtaker, ventTilNyttSpm/2);  //start tidtakeren
             popAktuellEkspertmodus();
-            setTimeout(kobleInnLyttere, ventTilNyttSpm);
+            setTimeout(kobleInnLyttere, ventTilNyttSpm/2);
             //resetInputVerdier();
         }
         
