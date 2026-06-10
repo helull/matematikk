@@ -256,7 +256,7 @@
     </video>
 
     <div id="plakat">
-        <div class="overskrift">Oppgave 1</div>
+        <div class="overskrift">Oppgave!</div>
         <div class="hovedinnhold">Få trekanten til å regne ut 12 delt på 4.  Trykk deretter knappen!</div>
         <div class="spm">Du skal ikke skrive svaret!</div>
         <div class="innhold">Skriv tall to steder, trykk så =</div>
@@ -280,6 +280,17 @@
                            {tall1: 305, tall2: 4.5, tall3: ""},{tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
                            {tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},{tall1: 1, tall2: 1, tall3: 1},
                            {tall1: 1, tall2: 1, tall3: 1}];
+        var oppgaveTekstArray = ["Få trekanten til å regne ut 6 ganger 11.  Trykk deretter knappen!",
+                                "Få trekanten til å regne ut 12 delt på 3.  Trykk deretter knappen!",
+                                "Jeg syklet i hastigheten 23 km/t i 2,5 timer.  Hvor langt kom jeg?",
+                                "Jeg kjørte bil i 305 km.  Da hadde jeg kjørt i 4,5 timer.  Hva var gjennomsnittshastigheten min?",
+                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
+                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
+                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
+                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
+                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten",
+                                "Ikke ferdig: Sett opp 1, 1, 1 i trekanten"
+                                ];
         var melding_text = ["Fantastisk jobbet!",
                         "Bra!",
                         "Tipp Topp",
@@ -351,6 +362,8 @@
         var chkVideoLabel    = document.getElementById("chkVideoLabel");
         var chkOppgaver = document.getElementById("chkOppgaver");
         var chkOppgaverLabel = document.getElementById("chkOppgaverLabel");
+        var oppgaveBoks = document.getElementById("hovedinnhold");
+        
 
         plakat.addEventListener("click", fjernPlakat);
 
@@ -715,6 +728,7 @@
 
             else if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
                 console.log("I OppgaveSkalBesvares");
+                 oppgaveBoks.innerHTML = oppgaveTekstArray[ekspertModusGrenseIndex]
                  stoppTidtaker();
                  oppgaveSkalBesvares = false;
                  oppgaveBlirBesvart = true;
