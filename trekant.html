@@ -259,6 +259,7 @@
     </div>
 
     <script>
+        var bingo = false;
         var poeng = 0;
         if (localStorage.trekantPoeng_v12) {
             poeng = Number(localStorage.trekantPoeng_v12);
@@ -409,9 +410,11 @@
                 poeng--;
             }
             if(!oppstart) {btnVelgTall.innerHTML = poeng + " poeng";}
+            if (poeng > 40) {
+                chkOppgaverLabel.style.display = "block";
+            }
             if (poeng > 100) {
                 hurtigTaster.style.display = "grid";
-                chkOppgaverLabel.style.display = "block";
             }
         }
 
@@ -627,7 +630,9 @@
                     } else {
                         console.log("i elsedelen etter fetch");
                         oppgaveSomPlakat = true;
+                        chkVideo.checked = false;
                         startRelevantOppgave();
+                        chkVideo.checked = false;
                         //trekant.style.display = "block";
                         /*startTidtaker();
                         popAktuellEkspertmodus();
@@ -716,20 +721,51 @@
             }
             else if (oppgaveBlirBesvart) {    // Programmet skal vurdere et svar på en oppgave
                 console.log("i oppgaveBlirBesvart");
-                
-                if ((inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1)) && 
-                    (inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex].tall2)) &&
-                    (inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3))) {
+                var fasit;
+                bingo = false;
+                if (inpTall1.value == "") {
+                    if(inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex].tall2) &&
+                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3)) {
+                         bingo = true;
+                         fasit = finnFasit(tall1, tall2, tall3);
+                         inpTall1.value = String(fasit);
+                         inpTall2.style.color = "green";
+                    }
+                    if(inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3) &&
+                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall2)){
+                        bingo = true;
+                        fasit = finnFasit(tall1, tall2, tall3);
+                        inpTall1.value = String(fasit);
+                        inpTall2.style.color = "green";
+                    }
+                if (inpTall2.value == "") {
+                    if(inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1) &&
+                       inpTall3.value == String(oppgaveArray[ekspertModusGrenseIndex].tall3)) {
+                         bingo = true;
+                         fasit = finnFasit(tall1, tall2, tall3)
+                         inpTall2.value = String(fasit.toFixed(antallDesimaler));
+                         inpTall2.style.color = "green";
+                    }
+                if (inpTall3.value == "") {
+                    if(inpTall1.value == String(oppgaveArray[ekspertModusGrenseIndex].tall1) &&
+                       inpTall2.value == String(oppgaveArray[ekspertModusGrenseIndex].tall2)){
+                         bingo = true;
+                         fasit = finnFasit(tall1, tall2, tall3)
+                         inpTall2.value = String(fasit.toFixed(antallDesimaler));
+                         inpTall2.style.color = "green";
+                    }    
+                } 
+                if (bingo) {
                     oppgaveBlirBesvart = false;
-                    riktigMelding();
+                    //riktigMelding();
+                    melding.innerHTML = "YES, X-TRA points!"
                     var tilleggsPoeng = ekspertModusGrenseIndex * 5;
                     btnVelgTall.innerHTML = "+" + String(tilleggsPoeng) + " poeng!";
                     btnVelgTall.classList.add("hoppe-knapp");
                     poeng = poeng + tilleggsPoeng;
-                    setTimeout(startTidtaker, ventTilForsteSpm);
-                    setTimeout(resetInputVerdier, ventTilForsteSpm);
+                    setTimeout(startTidtaker, ventTilForsteSpm*2);
+                    setTimeout(resetInputVerdier, ventTilForsteSpm*2);
                     btnVelgTall.classList.remove("hoppe-knapp");
-
                 }
                 else {
                     inpTall1.value = "";
@@ -737,7 +773,6 @@
                     inpTall3.value = "";    
                     feilMelding();
                     btnVelgTall.innerHTML = "Prøv på nytt";
-
                 }
             }
                 
