@@ -358,10 +358,8 @@
         
         plakat.addEventListener("click", fjernPlakat);
 
-        chkOppgaverLabel.style.display="block";
-        chkOppgaver.checked=true;
-        chkVideoLabel.style.display="block";
-        chkVideoLabel.checked=false;
+        chkOppgaverLabel.style.display="none";
+        chkVideoLabel.style.display="none";
         
         function fjernPlakat() {
             plakat.style.display = "none";
@@ -431,7 +429,10 @@
             }
             if(!oppstart) {btnVelgTall.innerHTML = poeng + " poeng";}
             if (poeng > 40) {
-                chkOppgaverLabel.style.display = "block";
+                chkOppgaverLabel.style.display="block";
+                chkOppgaver.checked=true;
+                chkVideoLabel.style.display="block";
+                chkVideoLabel.checked=false;
             }
             if (poeng > 100) {
                 hurtigTaster.style.display = "grid";
