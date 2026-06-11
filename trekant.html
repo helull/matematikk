@@ -382,9 +382,11 @@
                 console.log("sjekkoppgaver er ikke checked");
                 oppgaveModus = false;
                 
-                if (oppgaveBlirBesvart) {
+                if (oppgaveBlirBesvart) { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
                     oppgaveBlirBesvart = false;
                     oppgaveSkalBesvares = false;
+                    melding.innerHTML = "Oppgaven ble kansellert!!";
+                    startTidtaker();
                     resetInputVerdier();
                 }
                 
