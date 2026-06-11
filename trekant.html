@@ -372,15 +372,7 @@
         function sjekkOppgaver() {
             if (chkOppgaver.checked) {
                 console.log("sjekkoppgaver er checked");
-                oppgaveModus = true;
-                chkVideoLabel.style.display = "block";
-                chkVideo.checked = false;
-                oppgaveSomPlakat = true;
-            }
-            else  {
-                console.log("sjekkoppgaver er ikke checked");
-                oppgaveModus = false;
-                
+
                 if (oppgaveBlirBesvart) { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
                     oppgaveBlirBesvart = false;
                     oppgaveSkalBesvares = false;
@@ -389,6 +381,14 @@
                     resetInputVerdier();
                 }
                 
+                oppgaveModus = true;
+                chkVideoLabel.style.display = "block";
+                chkVideo.checked = false;
+                oppgaveSomPlakat = true;
+            }
+            else  {
+                console.log("sjekkoppgaver er ikke checked");
+                oppgaveModus = false;               
                 chkVideoLabel.style.display="none";
             }
         }
