@@ -373,18 +373,18 @@
             if (chkOppgaver.checked) {
                 console.log("sjekkoppgaver er checked");
 
-                if (oppgaveBlirBesvart) { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
+                if (!oppgaveBlirBesvart) { 
+                    oppgaveModus = true;
+                    chkVideoLabel.style.display = "block";
+                    chkVideo.checked = false;
+                    oppgaveSomPlakat = true;
+                } else { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
                     oppgaveBlirBesvart = false;
                     oppgaveSkalBesvares = false;
                     melding.innerHTML = "Oppgaven ble kansellert!!";
                     startTidtaker();
                     resetInputVerdier();
                 }
-                
-                oppgaveModus = true;
-                chkVideoLabel.style.display = "block";
-                chkVideo.checked = false;
-                oppgaveSomPlakat = true;
             }
             else  {
                 console.log("sjekkoppgaver er ikke checked");
