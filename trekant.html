@@ -271,16 +271,16 @@
 
         //Heltallet er antall riktige svar som kreves for modusendring
         const ekspertModusGrenser = [5 * pF, 10 * pF, 20 * pF, 30 * pF, 50 * pF, 60 * pF, 70 * pF, 80 * pF, 90 * pF, 100 * pF];  //Må passe med antall valg i resetInputVerdier()
-        var oppgaveArray = [{tekst: "Få trekanten til å regne ut 6 ganger 11.  Trykk deretter knappen!", tall1: "", tall2: 6, tall3: 11},
-                            {tekst: "Få trekanten til å regne ut 12 delt på 3.  Trykk deretter knappen!", tall1: 12, tall2: 3, tall3: ""},
-                            {tekst: "Jeg syklet i hastigheten 23 km/t i 2,5 timer.  Hvor langt kom jeg?", tall1: "", tall2: 23, tall3: 2.5},
-                            {tekst: "Jeg kjørte bil i 305 km.  Da hadde jeg kjørt i 4,5 timer.  Hva var gjennomsnittshastigheten min?", tall1: 305, tall2: 4.5, tall3: ""},
-                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
-                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
-                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
-                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
-                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1},
-                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1}];
+        var oppgaveArray = [{tekst: "Få trekanten til å regne ut 6 ganger 11.  Trykk deretter knappen!", tall1: "", tall2: 6, tall3: 11, iBruk:false},
+                            {tekst: "Få trekanten til å regne ut 12 delt på 3.  Trykk deretter knappen!", tall1: 12, tall2: 3, tall3: "", iBruk:false},
+                            {tekst: "Jeg syklet i hastigheten 23 km/t i 2,5 timer.  Hvor langt kom jeg?", tall1: "", tall2: 23, tall3: 2.5, iBruk:false},
+                            {tekst: "Jeg kjørte bil i 305 km.  Da hadde jeg kjørt i 4,5 timer.  Hva var gjennomsnittshastigheten min?", tall1: 305, tall2: 4.5, tall3: "", iBruk:false},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1, iBruk:false},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1, iBruk:false},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1, iBruk:false},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1, iBruk:false},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1, iBruk:false},
+                            {tekst: "Ikke ferdig: Sett opp 1, 1, 1 i trekanten", tall1: 1, tall2: 1, tall3: 1, iBruk:false}];
         
         var melding_text = ["Fantastisk jobbet!",
                         "Bra!",
@@ -648,10 +648,13 @@
                         videoFil.play();
                     } else {
                         console.log("i elsedelen etter fetch");
-                        oppgaveSomPlakat = true;
-                        chkVideo.checked = false;
-                        startRelevantOppgave();
-                        chkVideo.checked = false;
+                        if((oppgaveArray[ekspertModusGrenseIndex - 1].iBruk == false)) {
+                            console.log("i elsedelen etter fetch, oppgaven har ikke blitt vist tidligere");
+                            oppgaveSomPlakat = true;
+                            chkVideo.checked = false;
+                            startRelevantOppgave();
+                            chkVideo.checked = false;
+                        }
                         //trekant.style.display = "block";
                         /*startTidtaker();
                         popAktuellEkspertmodus();
@@ -876,7 +879,7 @@
                         ekspertModusGrenseIndex = ekspertModusGrenseIndex + 1;
                         console.log("Nådde grensen, indeksen øker med 1, er nå:  "+ ekspertModusGrenseIndex);
                         settNedtellingstid();
-                        if (oppgaveModus) {
+                        if (oppgaveModus && (oppgaveArray[ekspertModusGrenseIndex - 1].iBruk == false)) {
                             setTimeout(startRelevantOppgave, ventTilNyttSpm+3);   //+3 fordi den må startes ETTER at tiden er resatt!
                         }
                         //else {
