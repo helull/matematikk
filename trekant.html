@@ -641,7 +641,7 @@
           // }
         }
         function startVideo() {
-             var filnavn = "videoer/" + String(ekspertModusGrenseIndex)+".mp4";
+             var filnavn = "videoer/" + String(ekspertModusGrenseIndex-1)+".mp4";
              fetch(filnavn, { method: "HEAD" }) //Vis videoen hvis den finnes
                 .then(response => {
                     if (response.ok) {
