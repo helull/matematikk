@@ -379,11 +379,13 @@
                 oppgaveSomPlakat = true;
                 */
                 if (!oppgaveBlirBesvart) { 
+                    console.log("!oppgaveBlirBesvart");
                     oppgaveModus = true;
                     chkVideoLabel.style.display = "block";
                     chkVideo.checked = false;
                     oppgaveSomPlakat = true;
                 } else { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
+                    console.log("oppgaveBlirBesvart");
                     oppgaveBlirBesvart = false;
                     oppgaveSkalBesvares = false;
                     melding.innerHTML = "Oppgaven ble kansellert!!";
