@@ -358,7 +358,7 @@
         
         plakat.addEventListener("click", fjernPlakat);
 
-        chkOppgaverLabel.style.display="none";
+        chkOppgaverLabel.style.display="block";
         chkVideoLabel.style.display="none";
         
         function fjernPlakat() {
@@ -429,7 +429,7 @@
             }
             if(!oppstart) {btnVelgTall.innerHTML = poeng + " poeng";}
             if (poeng > 40) {
-                chkOppgaverLabel.style.display="block";
+               // chkOppgaverLabel.style.display="block";
                 chkOppgaver.checked=true;
                 chkVideoLabel.style.display="block";
                 chkVideoLabel.checked=false;
