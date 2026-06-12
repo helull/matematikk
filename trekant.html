@@ -157,7 +157,7 @@
         } 
 
         
-/* Plasserer hele blokken oppe til venstre */
+/* Plasserer hele blokken med oppgave og video-sjekkbokser oppe til venstre */
 .checkbox-wrapper {
   position: fixed;
   top: 0;
@@ -360,7 +360,8 @@
 
         chkOppgaverLabel.style.display="block";
         chkOppgaver.checked=true;
-        chkVideoLabel.style.display="none";
+        chkVideoLabel.style.display="block";
+        chkVideoLabel.checked=false;
         
         function fjernPlakat() {
             plakat.style.display = "none";
