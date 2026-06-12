@@ -373,12 +373,12 @@
         function sjekkOppgaver() {
             if (chkOppgaver.checked) {
                 console.log("sjekkoppgaver er checked");
-/*                oppgaveModus = true;
+                oppgaveModus = true;
                 chkVideoLabel.style.display = "block";
                 chkVideo.checked = false;
                 oppgaveSomPlakat = true;
-                */
-                if (!oppgaveBlirBesvart) { 
+                
+                /*if (!oppgaveBlirBesvart) { 
                     console.log("!oppgaveBlirBesvart");
                     oppgaveModus = true;
                     chkVideoLabel.style.display = "block";
@@ -391,12 +391,21 @@
                     melding.innerHTML = "Oppgaven ble kansellert!!";
                     startTidtaker();
                     resetInputVerdier();
-                }
+                }*/
             }
             else  {
                 console.log("sjekkoppgaver er ikke checked");
-                oppgaveModus = false;               
-                chkVideoLabel.style.display="none";
+                if (!oppgaveBlirBesvart) {    //vanlig modus
+                    oppgaveModus = false;               
+                    chkVideoLabel.style.display="none"; 
+                } else {  //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
+                    console.log("oppgaveBlirBesvart");
+                    oppgaveBlirBesvart = false;
+                    oppgaveSkalBesvares = false;
+                    melding.innerHTML = "Oppgaven ble kansellert!!";
+                    startTidtaker();
+                    resetInputVerdier();
+                }
             }
         }
         
