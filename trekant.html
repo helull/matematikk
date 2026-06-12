@@ -668,24 +668,13 @@
                         videoFil.load();
                         videoFil.play();
                     } else {
-                        console.log("i elsedelen etter fetch");
-                        if((oppgaveArray[ekspertModusGrenseIndex - 1].iBruk == false)) {
-                            console.log("i elsedelen etter fetch, oppgaven har ikke blitt vist tidligere");
-                            oppgaveSomPlakat = true;
-                            chkVideo.checked = false;
-                            startRelevantOppgave();
-                            chkVideo.checked = false;
-                        }
-                        //trekant.style.display = "block";
-                        /*startTidtaker();
-                        popAktuellEkspertmodus();
-                        kobleInnLyttere();
-                        oppgaveSomPlakat = true;*/
                         console.log("Video finnes ikke ❌");
+                        oppgaveSomPlakat = true;
+                        chkVideo.checked = false;
+                        startRelevantOppgave();
                     }
                 }
             )
-            //setTimeout(startTidtaker, ventTilForsteSpm/4);  //start tidtakeren
             popAktuellEkspertmodus();
             setTimeout(kobleInnLyttere, ventTilNyttSpm);
         }
