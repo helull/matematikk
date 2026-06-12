@@ -396,10 +396,9 @@
             }
             else  {
                 console.log("sjekkoppgaver er ikke checked");
-                if (!oppgaveBlirBesvart) {    //vanlig modus
-                    oppgaveModus = false;               
-                    chkVideoLabel.style.display="none"; 
-                } else {  //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
+                oppgaveModus = false;
+                chkVideoLabel.style.display="none"; 
+                if (oppgaveBlirBesvart)  //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
                     console.log("oppgaveBlirBesvart");
                     oppgaveBlirBesvart = false;
                     oppgaveSkalBesvares = false;
