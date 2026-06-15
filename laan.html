@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serielån vs Annuitetslån</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Serielån vs. annuitetslån</h1>
+      <p>Juster verdiene og se hvordan terminbeløp, renter, avdrag og restlån utvikler seg over tid.</p>
+    </header>
+
+    <section class="controls">
+      <div class="field">
+        <label for="loanAmount">Lånebeløp</label>
+        <input id="loanAmount" type="number" value="3000000" min="0" step="10000" />
+      </div>
+      <div class="field">
+        <label for="rate">Rente per år (%)</label>
+        <input id="rate" type="number" value="5.0" min="0" step="0.1" />
+      </div>
+      <div class="field">
+        <label for="years">Nedbetalingstid (år)</label>
+        <input id="years" type="number" value="25" min="1" step="1" />
+      </div>
+      <div class="field">
+        <label for="paymentsPerYear">Termin per år</label>
+        <select id="paymentsPerYear">
+          <option value="12" selected>12 (månedlig)</option>
+          <option value="4">4 (kvartalsvis)</option>
+          <option value="2">2 (halvårlig)</option>
+          <option value="1">1 (årlig)</option>
+        </select>
+      </div>
+      <div class="buttons">
+        <button id="calcBtn">Beregn</button>
+        <button id="resetBtn" class="secondary">Tilbakestill</button>
+      </div>
+    </section>
+
+    <section class="legend">
+      <div><span class="swatch term"></span> Terminbeløp = det du betaler hver termin</div>
+      <div><span class="swatch interest"></span> Renter = kostnaden for å låne penger</div>
+      <div><span class="swatch principal"></span> Avdrag = delen som nedbetaler lånet</div>
+      <div><span class="swatch rest"></span> Restlån = det du fortsatt skylder</div>
+    </section>
+
+    <section class="summary">
+      <div class="card">
+        <h2>Serielån</h2>
+        <p id="serialPayment"></p>
+        <p id="serialTotal"></p>
+      </div>
+      <div class="card">
+        <h2>Annuitetslån</h2>
+        <p id="annPayment"></p>
+        <p id="annTotal"></p>
+      </div>
+    </section>
+
+    <section class="comparison">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Termin</th>
+              <th>Serielån terminbeløp</th>
+              <th>Serielån renter</th>
+              <th>Serielån avdrag</th>
+              <th>Serielån restlån</th>
+              <th>Annuitetslån terminbeløp</th>
+              <th>Annuitetslån renter</th>
+              <th>Annuitetslån avdrag</th>
+              <th>Annuitetslån restlån</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
