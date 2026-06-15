@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serielån vs Annuitetslån</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --blue: #2563eb;
+      --red: #ef4444;
+      --green: #22c55e;
+      --gray: #6b7280;
+      --line: #e5e7eb;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .container {
+      max-width: 1450px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    header { margin-bottom: 20px; }
+    h1 { margin: 0 0 8px; font-size: 2rem; }
+    p { line-height: 1.5; }
+    .controls, .summary, .legend, .charts {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .controls {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      background: var(--card);
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .field label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .field input, .field select, button {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 1rem;
+    }
+    .buttons {
+      display: grid;
+      gap: 10px;
+      align-content: end;
+    }
+    button {
+      background: var(--blue);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    button.secondary { background: #64748b; }
+    .legend {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      background: var(--card);
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .swatch {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    .term { background: var(--blue); }
+    .interest { background: var(--red); }
+    .principal { background: var(--green); }
+    .rest { background: var(--gray); }
+    .summary { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .card {
+      background: var(--card);
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .card h2 { margin-top: 0; }
+    .charts { grid-template-columns: 1fr; }
+    .chart-card {
+      background: var(--card);
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+    .chart-card h3 { margin-top: 0; }
+    .chart-wrap {
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 460px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--card);
+      border-radius: 14px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1200px;
+    }
+    th, td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      white-space: nowrap;
+    }
+    th:first-child, td:first-child { text-align: left; }
+    thead th {
+      position: sticky;
+      top: 0;
+      background: #eff6ff;
+      z-index: 1;
+    }
+    tr:hover td { background: #f8fafc; }
+    @media (max-width: 700px) {
+      h1 { font-size: 1.6rem; }
+      canvas { height: 360px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Serielån vs. annuitetslån</h1>
+      <p>Juster verdiene og se hvordan terminbeløp, renter, avdrag og restlån utvikler seg over tid.</p>
+    </header>
+
+    <section class="controls">
+      <div class="field">
+        <label for="loanAmount">Lånebeløp</label>
+        <input id="loanAmount" type="number" value="3000000" min="0" step="10000" />
+      </div>
+      <div class="field">
+        <label for="rate">Rente per år (%)</label>
+        <input id="rate" type="number" value="5.0" min="0" step="0.1" />
+      </div>
+      <div class="field">
+        <label for="years">Nedbetalingstid (år)</label>
+        <input id="years" type="number" value="25" min="1" step="1" />
+      </div>
+      <div class="field">
+        <label for="paymentsPerYear">Termin per år</label>
+        <select id="paymentsPerYear">
+          <option value="12" selected>12 (månedlig)</option>
+          <option value="4">4 (kvartalsvis)</option>
+          <option value="2">2 (halvårlig)</option>
+          <option value="1">1 (årlig)</option>
+        </select>
+      </div>
+      <div class="buttons">
+        <button id="calcBtn">Beregn</button>
+        <button id="resetBtn" class="secondary">Tilbakestill</button>
+      </div>
+    </section>
+
+    <section class="legend">
+      <div><span class="swatch term"></span> Terminbeløp = det du betaler hver termin</div>
+      <div><span class="swatch interest"></span> Renter = kostnaden for å låne penger</div>
+      <div><span class="swatch principal"></span> Avdrag = delen som nedbetaler lånet</div>
+      <div><span class="swatch rest"></span> Restlån = det du fortsatt skylder</div>
+    </section>
+
+    <section class="summary">
+      <div class="card">
+        <h2>Serielån</h2>
+        <p id="serialPayment"></p>
+        <p id="serialTotal"></p>
+        <p id="serialFirst"></p>
+      </div>
+      <div class="card">
+        <h2>Annuitetslån</h2>
+        <p id="annPayment"></p>
+        <p id="annTotal"></p>
+        <p id="annFirst"></p>
+      </div>
+    </section>
+
+    <section class="charts">
+      <div class="chart-card">
+        <h3>Hver termin: renter, avdrag og totalt terminbeløp</h3>
+        <div class="chart-wrap">
+          <canvas id="paymentChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="comparison">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Termin</th>
+              <th>Serielån terminbeløp</th>
+              <th>Serielån renter</th>
+              <th>Serielån avdrag</th>
+              <th>Serielån restlån</th>
+              <th>Annuitetslån terminbeløp</th>
+              <th>Annuitetslån renter</th>
+              <th>Annuitetslån avdrag</th>
+              <th>Annuitetslån restlån</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+const els = {
+  loanAmount: document.getElementById('loanAmount'),
+  rate: document.getElementById('rate'),
+  years: document.getElementById('years'),
+  paymentsPerYear: document.getElementById('paymentsPerYear'),
+  calcBtn: document.getElementById('calcBtn'),
+  resetBtn: document.getElementById('resetBtn'),
+  scheduleBody: document.getElementById('scheduleBody'),
+  serialPayment: document.getElementById('serialPayment'),
+  serialTotal: document.getElementById('serialTotal'),
+  serialFirst: document.getElementById('serialFirst'),
+  annPayment: document.getElementById('annPayment'),
+  annTotal: document.getElementById('annTotal'),
+  annFirst: document.getElementById('annFirst'),
+  paymentChart: document.getElementById('paymentChart')
+};
+
+const defaults = {
+  loanAmount: 3000000,
+  rate: 5.0,
+  years: 25,
+  paymentsPerYear: 12
+};
+
+const fmt = new Intl.NumberFormat('no-NO', { maximumFractionDigits: 0 });
+const fmt2 = new Intl.NumberFormat('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+function money(n) { return fmt.format(Math.round(n)) + ' kr'; }
+function money2(n) { return fmt2.format(n) + ' kr'; }
+
+function resizeCanvas(canvas) {
+  const rect = canvas.getBoundingClientRect();
+  const ratio = window.devicePixelRatio || 1;
+  canvas.width = Math.floor(rect.width * ratio);
+  canvas.height = Math.floor(rect.height * ratio);
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  return ctx;
+}
+
+function drawPaymentChart(canvas, serial, ann, labels) {
+  const ctx = resizeCanvas(canvas);
+  const w = canvas.getBoundingClientRect().width;
+  const h = canvas.getBoundingClientRect().height;
+  ctx.clearRect(0, 0, w, h);
+
+  const margin = { top: 40, right: 20, bottom: 70, left: 70 };
+  const plotW = w - margin.left - margin.right;
+  const plotH = h - margin.top - margin.bottom;
+  const maxY = Math.max(...serial.map(d => d.total), ...ann.map(d => d.total)) * 1.12;
+  const groups = labels.length;
+  const groupGap = 14;
+  const barArea = plotW / groups;
+  const barWidth = Math.max(10, (barArea - groupGap - 10) / 2);
+
+  ctx.fillStyle = '#111827';
+  ctx.font = 'bold 14px Arial';
+  ctx.fillText('Blå: serielån, rød: annuitetslån. Delene viser renter + avdrag, og hele søylen er totalt terminbeløp.', margin.left, 22);
+
+  ctx.strokeStyle = '#d1d5db';
+  ctx.lineWidth = 1;
+  ctx.fillStyle = '#6b7280';
+  ctx.font = '12px Arial';
+  ctx.textAlign = 'right';
+  ctx.textBaseline = 'middle';
+
+  for (let i = 0; i <= 5; i++) {
+    const y = margin.top + plotH * (i / 5);
+    const val = maxY * (1 - i / 5);
+    ctx.beginPath();
+    ctx.moveTo(margin.left, y);
+    ctx.lineTo(w - margin.right, y);
+    ctx.stroke();
+    ctx.fillText(money(val), margin.left - 8, y);
+  }
+
+  function drawStackedBar(x, data, topColor, bottomColor) {
+    const totalH = (data.total / maxY) * plotH;
+    const interestH = (data.interest / maxY) * plotH;
+    const principalH = (data.principal / maxY) * plotH;
+    const yBottom = margin.top + plotH;
+    ctx.fillStyle = bottomColor;
+    ctx.fillRect(x, yBottom - principalH, barWidth, principalH);
+    ctx.fillStyle = topColor;
+    ctx.fillRect(x, yBottom - principalH - interestH, barWidth, interestH);
+    ctx.strokeStyle = '#e5e7eb';
+    ctx.strokeRect(x, yBottom - totalH, barWidth, totalH);
+  }
+
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'top';
+  ctx.fillStyle = '#374151';
+
+  for (let i = 0; i < groups; i++) {
+    const baseX = margin.left + i * barArea + 4;
+    const serialX = baseX;
+    const annX = baseX + barWidth + 8;
+
+    drawStackedBar(serialX, serial[i], '#60a5fa', '#2563eb');
+    drawStackedBar(annX, ann[i], '#fca5a5', '#ef4444');
+
+    ctx.fillStyle = '#111827';
+    ctx.font = '11px Arial';
+    ctx.fillText(labels[i], baseX + barWidth + 4, margin.top + plotH + 12);
+
+    const serialTop = margin.top + plotH - ((serial[i].total) / maxY) * plotH;
+    const annTop = margin.top + plotH - ((ann[i].total) / maxY) * plotH;
+    ctx.fillStyle = '#1f2937';
+    ctx.font = '10px Arial';
+    ctx.fillText('S', serialX + barWidth / 2, serialTop - 14);
+    ctx.fillText('A', annX + barWidth / 2, annTop - 14);
+  }
+
+  ctx.fillStyle = '#2563eb';
+  ctx.fillRect(w - 230, 10, 10, 10);
+  ctx.fillStyle = '#111827';
+  ctx.fillText('Serielån', w - 210, 15);
+  ctx.fillStyle = '#ef4444';
+  ctx.fillRect(w - 140, 10, 10, 10);
+  ctx.fillStyle = '#111827';
+  ctx.fillText('Annuitetslån', w - 120, 15);
+}
+
+function calc() {
+  const loan = Number(els.loanAmount.value);
+  const annualRate = Number(els.rate.value) / 100;
+  const years = Number(els.years.value);
+  const n = Number(els.paymentsPerYear.value);
+  const periods = years * n;
+  const r = annualRate / n;
+
+  const serialPrincipal = loan / periods;
+  const annPaymentFixed = r === 0 ? loan / periods : loan * (r / (1 - Math.pow(1 + r, -periods)));
+
+  let serialRest = loan;
+  let annRest = loan;
+  let serialTotal = 0;
+  let annTotal = 0;
+  let rows = '';
+  const serialChart = [];
+  const annChart = [];
+  const labels = [];
+
+  const maxRows = periods <= 30 ? periods : 30;
+  const showEvery = periods <= 30 ? 1 : Math.ceil(periods / 30);
+
+  for (let i = 1; i <= periods; i++) {
+    const serialInterest = serialRest * r;
+    const serialPayment = serialPrincipal + serialInterest;
+    serialRest = Math.max(0, serialRest - serialPrincipal);
+    serialTotal += serialPayment;
+
+    const annInterest = annRest * r;
+    let annPrincipal = annPaymentFixed - annInterest;
+    if (i === periods) annPrincipal = annRest;
+    const annPayment = annInterest + annPrincipal;
+    annRest = Math.max(0, annRest - annPrincipal);
+    annTotal += annPayment;
+
+    serialChart.push({ interest: serialInterest, principal: serialPrincipal, total: serialPayment });
+    annChart.push({ interest: annInterest, principal: annPrincipal, total: annPayment });
+
+    if (i <= maxRows) {
+      rows += `<tr>
+        <td>${i}</td>
+        <td>${money2(serialPayment)}</td>
+        <td>${money2(serialInterest)}</td>
+        <td>${money2(serialPrincipal)}</td>
+        <td>${money2(serialRest)}</td>
+        <td>${money2(annPayment)}</td>
+        <td>${money2(annInterest)}</td>
+        <td>${money2(annPrincipal)}</td>
+        <td>${money2(annRest)}</td>
+      </tr>`;
+    }
+
+    if (i === 1 || i % showEvery === 0 || i === periods) labels.push(String(i));
+  }
+
+  els.scheduleBody.innerHTML = rows;
+
+  const serialFirstInterest = loan * r;
+  const serialFirstPayment = serialPrincipal + serialFirstInterest;
+  const annFirstInterest = loan * r;
+  const annFirstPrincipal = annPaymentFixed - annFirstInterest;
+
+  els.serialPayment.innerHTML = `Serielån har like stort avdrag hver termin, så terminbeløpet blir lavere etter hvert.`;
+  els.serialTotal.innerHTML = `Total tilbakebetaling: <strong>${money2(serialTotal)}</strong>.`;
+  els.serialFirst.innerHTML = `Første termin: terminbeløp <strong>${money2(serialFirstPayment)}</strong>, renter <strong>${money2(serialFirstInterest)}</strong>, avdrag <strong>${money2(serialPrincipal)}</strong>.`;
+
+  els.annPayment.innerHTML = `Annuitetslån har omtrent likt terminbeløp hele veien.`;
+  els.annTotal.innerHTML = `Total tilbakebetaling: <strong>${money2(annTotal)}</strong>.`;
+  els.annFirst.innerHTML = `Første termin: terminbeløp <strong>${money2(annPaymentFixed)}</strong>, renter <strong>${money2(annFirstInterest)}</strong>, avdrag <strong>${money2(annFirstPrincipal)}</strong>.`;
+
+  drawPaymentChart(els.paymentChart, serialChart, annChart, labels);
+}
+
+function reset() {
+  els.loanAmount.value = defaults.loanAmount;
+  els.rate.value = defaults.rate;
+  els.years.value = defaults.years;
+  els.paymentsPerYear.value = defaults.paymentsPerYear;
+  calc();
+}
+
+els.calcBtn.addEventListener('click', calc);
+els.resetBtn.addEventListener('click', reset);
+[els.loanAmount, els.rate, els.years, els.paymentsPerYear].forEach(el => el.addEventListener('input', calc));
+window.addEventListener('resize', calc);
+reset();
+  </script>
+</body>
+</html>
