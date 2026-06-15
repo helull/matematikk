@@ -1,0 +1,327 @@
+Her er et komplett forslag til et interaktivt program i HTML, CSS og JavaScript som viser forskjellen mellom serielån og annuitetslån, og lar brukeren endre verdier selv. Det er laget for å gjøre begrepene terminbeløp, renter, avdrag og restlån tydelige.
+HTML
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Serielån vs Annuitetslån</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Serielån vs. annuitetslån</h1>
+      <p>Juster verdiene og se hvordan terminbeløp, renter, avdrag og restlån utvikler seg over tid.</p>
+    </header>
+
+    <section class="controls">
+      <div class="field">
+        <label for="loanAmount">Lånebeløp</label>
+        <input id="loanAmount" type="number" value="3000000" min="0" step="10000" />
+      </div>
+      <div class="field">
+        <label for="rate">Rente per år (%)</label>
+        <input id="rate" type="number" value="5.0" min="0" step="0.1" />
+      </div>
+      <div class="field">
+        <label for="years">Nedbetalingstid (år)</label>
+        <input id="years" type="number" value="25" min="1" step="1" />
+      </div>
+      <div class="field">
+        <label for="paymentsPerYear">Termin per år</label>
+        <select id="paymentsPerYear">
+          <option value="12" selected>12 (månedlig)</option>
+          <option value="4">4 (kvartalsvis)</option>
+          <option value="2">2 (halvårlig)</option>
+          <option value="1">1 (årlig)</option>
+        </select>
+      </div>
+      <div class="buttons">
+        <button id="calcBtn">Beregn</button>
+        <button id="resetBtn" class="secondary">Tilbakestill</button>
+      </div>
+    </section>
+
+    <section class="legend">
+      <div><span class="swatch term"></span> Terminbeløp = det du betaler hver termin</div>
+      <div><span class="swatch interest"></span> Renter = kostnaden for å låne penger</div>
+      <div><span class="swatch principal"></span> Avdrag = delen som nedbetaler lånet</div>
+      <div><span class="swatch rest"></span> Restlån = det du fortsatt skylder</div>
+    </section>
+
+    <section class="summary">
+      <div class="card">
+        <h2>Serielån</h2>
+        <p id="serialPayment"></p>
+        <p id="serialTotal"></p>
+      </div>
+      <div class="card">
+        <h2>Annuitetslån</h2>
+        <p id="annPayment"></p>
+        <p id="annTotal"></p>
+      </div>
+    </section>
+
+    <section class="comparison">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Termin</th>
+              <th>Serielån terminbeløp</th>
+              <th>Serielån renter</th>
+              <th>Serielån avdrag</th>
+              <th>Serielån restlån</th>
+              <th>Annuitetslån terminbeløp</th>
+              <th>Annuitetslån renter</th>
+              <th>Annuitetslån avdrag</th>
+              <th>Annuitetslån restlån</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+CSS
+* { box-sizing: border-box; }
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  background: #f5f7fb;
+  color: #1f2937;
+}
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+header {
+  margin-bottom: 20px;
+}
+h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+}
+p {
+  line-height: 1.5;
+}
+.controls, .summary, .legend {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.controls {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.field label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.field input, .field select, button {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+.buttons {
+  display: grid;
+  gap: 10px;
+  align-content: end;
+}
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+button.secondary {
+  background: #64748b;
+}
+.legend {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.swatch {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.term { background: #2563eb; }
+.interest { background: #ef4444; }
+.principal { background: #22c55e; }
+.rest { background: #6b7280; }
+.summary {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+.card h2 {
+  margin-top: 0;
+}
+.table-wrap {
+  overflow-x: auto;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1200px;
+}
+th, td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: right;
+  white-space: nowrap;
+}
+th:first-child, td:first-child {
+  text-align: left;
+}
+thead th {
+  position: sticky;
+  top: 0;
+  background: #eff6ff;
+  z-index: 1;
+}
+tr:hover td {
+  background: #f8fafc;
+}
+@media (max-width: 700px) {
+  h1 { font-size: 1.6rem; }
+}
+JavaScript
+const els = {
+  loanAmount: document.getElementById('loanAmount'),
+  rate: document.getElementById('rate'),
+  years: document.getElementById('years'),
+  paymentsPerYear: document.getElementById('paymentsPerYear'),
+  calcBtn: document.getElementById('calcBtn'),
+  resetBtn: document.getElementById('resetBtn'),
+  scheduleBody: document.getElementById('scheduleBody'),
+  serialPayment: document.getElementById('serialPayment'),
+  serialTotal: document.getElementById('serialTotal'),
+  annPayment: document.getElementById('annPayment'),
+  annTotal: document.getElementById('annTotal')
+};
+
+const defaults = {
+  loanAmount: 3000000,
+  rate: 5.0,
+  years: 25,
+  paymentsPerYear: 12
+};
+
+const fmt = new Intl.NumberFormat('no-NO', { maximumFractionDigits: 0 });
+const fmt2 = new Intl.NumberFormat('no-NO', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+function money(n) {
+  return fmt.format(Math.round(n)) + ' kr';
+}
+
+function money2(n) {
+  return fmt2.format(n) + ' kr';
+}
+
+function calc() {
+  const loan = Number(els.loanAmount.value);
+  const annualRate = Number(els.rate.value) / 100;
+  const years = Number(els.years.value);
+  const n = Number(els.paymentsPerYear.value);
+  const periods = years * n;
+  const r = annualRate / n;
+
+  const serialPrincipal = loan / periods;
+  const annPaymentFixed = r === 0
+    ? loan / periods
+    : loan * (r / (1 - Math.pow(1 + r, -periods)));
+
+  let serialRest = loan;
+  let annRest = loan;
+  let serialTotal = 0;
+  let annTotal = 0;
+  let rows = '';
+
+  for (let i = 1; i <= periods; i++) {
+    const serialInterest = serialRest * r;
+    const serialPayment = serialPrincipal + serialInterest;
+    serialRest = Math.max(0, serialRest - serialPrincipal);
+    serialTotal += serialPayment;
+
+    const annInterest = annRest * r;
+    let annPrincipal = annPaymentFixed - annInterest;
+    if (i === periods) annPrincipal = annRest;
+    const annPayment = annInterest + annPrincipal;
+    annRest = Math.max(0, annRest - annPrincipal);
+    annTotal += annPayment;
+
+    rows += `<tr>
+      <td>${i}</td>
+      <td>${money2(serialPayment)}</td>
+      <td>${money2(serialInterest)}</td>
+      <td>${money2(serialPrincipal)}</td>
+      <td>${money2(serialRest)}</td>
+      <td>${money2(annPayment)}</td>
+      <td>${money2(annInterest)}</td>
+      <td>${money2(annPrincipal)}</td>
+      <td>${money2(annRest)}</td>
+    </tr>`;
+  }
+
+  els.scheduleBody.innerHTML = rows;
+  els.serialPayment.innerHTML = `Terminbeløpet starter høyere og blir lavere over tid. Første terminbeløp: <strong>${money2(serialPrincipal + loan * r)}</strong>.`;
+  els.serialTotal.innerHTML = `Total tilbakebetaling: <strong>${money2(serialTotal)}</strong>. Avdraget er like stort hver termin, mens rentene synker.`;
+  els.annPayment.innerHTML = `Terminbeløpet er omtrent likt hver termin. Første terminbeløp: <strong>${money2(annPaymentFixed)}</strong>.`;
+  els.annTotal.innerHTML = `Total tilbakebetaling: <strong>${money2(annTotal)}</strong>. Rentene er høyest i starten, og avdraget øker etter hvert.`;
+}
+
+function reset() {
+  els.loanAmount.value = defaults.loanAmount;
+  els.rate.value = defaults.rate;
+  els.years.value = defaults.years;
+  els.paymentsPerYear.value = defaults.paymentsPerYear;
+  calc();
+}
+
+els.calcBtn.addEventListener('click', calc);
+els.resetBtn.addEventListener('click', reset);
+[els.loanAmount, els.rate, els.years, els.paymentsPerYear].forEach(el => el.addEventListener('input', calc));
+reset();
+Hva programmet lærer bort
+Terminbeløp: det totale beløpet som betales hver termin.
+Renter: kostnaden for å låne penger.
+Avdrag: delen av betalingen som faktisk nedbetaler lånet.
+Restlån: det du fortsatt skylder etter hver termin.
+Viktige forskjeller
+I et serielån er avdraget likt hver termin, så terminbeløpet blir lavere og lavere.
+I et annuitetslån er terminbeløpet omtrent likt hele veien, men rentene er høyest i starten og avdraget øker etter hvert.
+Tabellen gjør det lett å sammenligne utviklingen for begge lånetypene side om side.
+Forbedringer du kan legge til
+En graf som viser restlån over tid.
+Fargekoding av renter og avdrag i et stolpediagram.
+Valg mellom nominell og effektiv rente.
+En forklaringstekst som oppdateres når brukeren endrer verdier.
+Jeg kan også lage en mer pedagogisk versjon med store farger, enklere språk og en graf som viser utviklingen visuelt.
