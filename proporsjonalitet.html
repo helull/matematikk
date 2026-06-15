@@ -1,1 +1,284 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Utforsk proporsjonalitet</title>
+  <style>
+    :root { --bg:#f5f7fb; --card:#fff; --text:#1f2937; --muted:#64748b; --blue:#2563eb; --red:#ef4444; --green:#22c55e; --line:#dbe3ef; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1400px;margin:0 auto;padding:24px}
+    h1{margin:0 0 8px;font-size:2rem}
+    p{line-height:1.5}
+    .panel,.card{background:var(--card);border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+    .panel{padding:16px;margin-bottom:16px;display:grid;gap:14px}
+    .controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+    label{display:block;font-weight:700;margin-bottom:6px}
+    input,select,button{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:1rem}
+    button{background:var(--blue);color:#fff;border:none;font-weight:700;cursor:pointer}
+    button.secondary{background:#64748b}
+    .legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;color:var(--muted)}
+    .sw{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:middle;margin-right:8px}
+    .b{background:var(--blue)} .r{background:var(--red)} .g{background:var(--green)}
+    .grid{display:grid;grid-template-columns:1.4fr .9fr;gap:16px;align-items:start}
+    .card{padding:16px}
+    .card h2,.card h3{margin-top:0}
+    canvas{width:100%;height:520px;border:1px solid var(--line);border-radius:12px;background:#fff;display:block}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px 12px;border-bottom:1px solid #e5e7eb;text-align:right;white-space:nowrap}
+    th:first-child,td:first-child{text-align:left}
+    .notes{display:grid;gap:12px}
+    .callout{padding:12px 14px;border-left:5px solid var(--blue);background:#eff6ff;border-radius:10px}
+    .small{color:var(--muted);font-size:.95rem}
+    @media (max-width: 900px){.grid{grid-template-columns:1fr} canvas{height:420px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Utforsk proporsjonalitet og omvendt proporsjonalitet</h1>
+      <p>Programmet lar brukeren endre verdier, se grafen oppdatere seg og lære å beskrive sammenhengen mellom størrelser.</p>
+    </header>
 
+    <section class="panel">
+      <div class="controls">
+        <div>
+          <label for="mode">Type sammenheng</label>
+          <select id="mode">
+            <option value="prop">Proporsjonalitet</option>
+            <option value="inv">Omvendt proporsjonalitet</option>
+          </select>
+        </div>
+        <div>
+          <label for="k">Konstant k</label>
+          <input id="k" type="number" value="2" step="0.1" />
+        </div>
+        <div>
+          <label for="xval">Valgt x-verdi</label>
+          <input id="xval" type="number" value="3" step="0.1" />
+        </div>
+        <div>
+          <label for="xmin">Min x</label>
+          <input id="xmin" type="number" value="-10" step="1" />
+        </div>
+        <div>
+          <label for="xmax">Maks x</label>
+          <input id="xmax" type="number" value="10" step="1" />
+        </div>
+        <div>
+          <label for="step">Steg i tabell</label>
+          <input id="step" type="number" value="1" step="0.5" min="0.1" />
+        </div>
+        <div style="align-content:end;display:grid;gap:10px">
+          <button id="reset">Tilbakestill</button>
+          <button id="example" class="secondary">Lag eksempel</button>
+        </div>
+      </div>
+      <div class="legend">
+        <div><span class="sw b"></span> Graf</div>
+        <div><span class="sw r"></span> Valgt punkt</div>
+        <div><span class="sw g"></span> Tabell og nøkkelfakta</div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>Graf</h2>
+        <canvas id="chart"></canvas>
+        <p class="small">Grafen oppdateres når du endrer type, k-verdi eller x-verdi.</p>
+      </div>
+
+      <div class="notes">
+        <div class="card">
+          <h3>Nøkkelsetning</h3>
+          <div id="statement" class="callout"></div>
+        </div>
+        <div class="card">
+          <h3>Utforsk punktet</h3>
+          <div id="pointInfo" class="callout"></div>
+        </div>
+        <div class="card">
+          <h3>Beskriv sammenhengen</h3>
+          <div id="description" class="callout"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel card" style="margin-top:16px">
+      <h2>Tabell med verdier</h2>
+      <div style="overflow:auto">
+        <table>
+          <thead>
+            <tr><th>x</th><th>y</th><th>Forhold y/x</th><th>Produkt x·y</th></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script>
+const els = {
+  mode: document.getElementById('mode'),
+  k: document.getElementById('k'),
+  xval: document.getElementById('xval'),
+  xmin: document.getElementById('xmin'),
+  xmax: document.getElementById('xmax'),
+  step: document.getElementById('step'),
+  reset: document.getElementById('reset'),
+  example: document.getElementById('example'),
+  chart: document.getElementById('chart'),
+  statement: document.getElementById('statement'),
+  pointInfo: document.getElementById('pointInfo'),
+  description: document.getElementById('description'),
+  tableBody: document.getElementById('tableBody')
+};
+
+const defaults = { mode:'prop', k:2, xval:3, xmin:-10, xmax:10, step:1 };
+const fmt = new Intl.NumberFormat('no-NO', { maximumFractionDigits: 2 });
+
+function f(n){ return Number.isFinite(n) ? fmt.format(n) : '–'; }
+function yOf(x, k, mode){ return mode === 'prop' ? k * x : (x === 0 ? NaN : k / x); }
+
+function resizeCanvas(canvas){
+  const r = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = Math.floor(r.width * dpr);
+  canvas.height = Math.floor(r.height * dpr);
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return ctx;
+}
+
+function draw(){
+  const mode = els.mode.value;
+  const k = Number(els.k.value);
+  let xval = Number(els.xval.value);
+  let xmin = Number(els.xmin.value);
+  let xmax = Number(els.xmax.value);
+  const step = Math.max(0.1, Number(els.step.value));
+
+  if (xmin >= xmax) xmax = xmin + 1;
+  if (mode === 'inv' && xmin < 0 && xmax > 0 && xval === 0) xval = 1;
+
+  const ctx = resizeCanvas(els.chart);
+  const w = els.chart.getBoundingClientRect().width;
+  const h = els.chart.getBoundingClientRect().height;
+  ctx.clearRect(0,0,w,h);
+
+  const margin = { top: 30, right: 20, bottom: 40, left: 55 };
+  const plotW = w - margin.left - margin.right;
+  const plotH = h - margin.top - margin.bottom;
+
+  let data = [];
+  for (let x = xmin; x <= xmax + 1e-9; x += step) {
+    if (mode === 'inv' && Math.abs(x) < 1e-9) continue;
+    const y = yOf(x, k, mode);
+    if (Number.isFinite(y)) data.push({x,y});
+  }
+  if (!data.length) return;
+
+  const xs = data.map(d => d.x), ys = data.map(d => d.y);
+  const xminD = Math.min(...xs), xmaxD = Math.max(...xs), yminD = Math.min(...ys), ymaxD = Math.max(...ys);
+  const padX = (xmaxD - xminD) * 0.12 || 1;
+  const padY = (ymaxD - yminD) * 0.12 || 1;
+  const x0 = xminD - padX, x1 = xmaxD + padX, y0 = yminD - padY, y1 = ymaxD + padY;
+
+  const sx = x => margin.left + (x - x0) / (x1 - x0) * plotW;
+  const sy = y => margin.top + plotH - (y - y0) / (y1 - y0) * plotH;
+
+  ctx.strokeStyle = '#d1d5db'; ctx.lineWidth = 1; ctx.fillStyle = '#6b7280'; ctx.font = '12px Arial'; ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+  for (let i = 0; i <= 5; i++) {
+    const y = margin.top + plotH * i / 5;
+    const val = y1 - (y1 - y0) * i / 5;
+    ctx.beginPath(); ctx.moveTo(margin.left, y); ctx.lineTo(w - margin.right, y); ctx.stroke();
+    ctx.fillText(f(val), margin.left - 8, y);
+  }
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let i = 0; i <= 6; i++) {
+    const x = margin.left + plotW * i / 6;
+    const val = x0 + (x1 - x0) * i / 6;
+    ctx.beginPath(); ctx.moveTo(x, margin.top); ctx.lineTo(x, margin.top + plotH); ctx.stroke();
+    ctx.fillText(f(val), x, margin.top + plotH + 6);
+  }
+
+  const zx = (0 >= x0 && 0 <= x1) ? sx(0) : null;
+  const zy = (0 >= y0 && 0 <= y1) ? sy(0) : null;
+  ctx.strokeStyle = '#111827'; ctx.lineWidth = 2;
+  if (zx !== null) { ctx.beginPath(); ctx.moveTo(zx, margin.top); ctx.lineTo(zx, margin.top + plotH); ctx.stroke(); }
+  if (zy !== null) { ctx.beginPath(); ctx.moveTo(margin.left, zy); ctx.lineTo(w - margin.right, zy); ctx.stroke(); }
+
+  ctx.strokeStyle = '#2563eb'; ctx.lineWidth = 3; ctx.beginPath();
+  data.forEach((d,i)=>{ const X=sx(d.x), Y=sy(d.y); if(i===0) ctx.moveTo(X,Y); else ctx.lineTo(X,Y); });
+  ctx.stroke();
+
+  const px = xval;
+  const py = yOf(px, k, mode);
+  if (Number.isFinite(py)) {
+    const X = sx(px), Y = sy(py);
+    ctx.fillStyle = '#ef4444';
+    ctx.beginPath(); ctx.arc(X, Y, 6, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#111827'; ctx.font = 'bold 12px Arial'; ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+    ctx.fillText(`(${f(px)}, ${f(py)})`, X + 10, Y - 10);
+  }
+
+  ctx.fillStyle = '#111827'; ctx.font = 'bold 13px Arial'; ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+  ctx.fillText(mode === 'prop' ? 'Proporsjonalitet: y = kx' : 'Omvendt proporsjonalitet: y = k/x', margin.left, 6);
+
+  const rows = [];
+  const start = -5;
+  const end = 5;
+  for (let i = start; i <= end; i++) {
+    const x = i * step;
+    if (mode === 'inv' && Math.abs(x) < 1e-9) continue;
+    const y = yOf(x, k, mode);
+    const ratio = mode === 'prop' ? (x !== 0 ? y / x : NaN) : NaN;
+    const product = x * y;
+    rows.push(`<tr><td>${f(x)}</td><td>${f(y)}</td><td>${mode === 'prop' ? f(ratio) : '–'}</td><td>${mode === 'inv' ? f(product) : '–'}</td></tr>`);
+  }
+  els.tableBody.innerHTML = rows.join('');
+
+  if (mode === 'prop') {
+    els.statement.textContent = `Sammenhengen er proporsjonal: når x dobles, dobles y også. Forholdstallet y/x er konstant og lik ${f(k)}.`;
+    els.pointInfo.textContent = Number.isFinite(py) ? `Punktet du har valgt er (${f(px)}, ${f(py)}). Her er y/x = ${f(py/px)}.` : 'Velg en x-verdi som ikke er 0.';
+    els.description.textContent = `Grafen er en rett linje gjennom origo. Du kan beskrive den som “jo større x, jo større y i samme forhold”.`;
+  } else {
+    els.statement.textContent = `Sammenhengen er omvendt proporsjonal: når x øker, minker y. Produktet x·y er konstant og lik ${f(k)}.`;
+    els.pointInfo.textContent = Number.isFinite(py) ? `Punktet du har valgt er (${f(px)}, ${f(py)}). Her er x·y = ${f(px * py)}.` : 'x kan ikke være 0 i en omvendt proporsjonal sammenheng.';
+    els.description.textContent = `Grafen er en kurve som nærmer seg aksene. Du kan beskrive den som “jo større x, jo mindre y”.`;
+  }
+}
+
+function reset(){
+  els.mode.value = defaults.mode;
+  els.k.value = defaults.k;
+  els.xval.value = defaults.xval;
+  els.xmin.value = defaults.xmin;
+  els.xmax.value = defaults.xmax;
+  els.step.value = defaults.step;
+  draw();
+}
+
+els.mode.addEventListener('change', draw);
+els.k.addEventListener('input', draw);
+els.xval.addEventListener('input', draw);
+els.xmin.addEventListener('input', draw);
+els.xmax.addEventListener('input', draw);
+els.step.addEventListener('input', draw);
+els.reset.addEventListener('click', reset);
+els.example.addEventListener('click', () => {
+  if (els.mode.value === 'prop') {
+    els.k.value = 3;
+    els.xval.value = 4;
+  } else {
+    els.k.value = 12;
+    els.xval.value = 3;
+  }
+  draw();
+});
+window.addEventListener('resize', draw);
+reset();
+  </script>
+</body>
+</html>
