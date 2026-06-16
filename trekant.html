@@ -155,61 +155,60 @@
         .aktuellEkspertModus {
             border-width: 5px;
         } 
-
         
-/* Plasserer hele blokken med oppgave og video-sjekkbokser oppe til venstre */
-.checkbox-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin: 10px;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column; /* gjør at de ligger under hverandre */
-  gap: 6px; /* avstand mellom checkboxene */
-}
+        /* Plasserer hele blokken med oppgave og video-sjekkbokser oppe til venstre */
+        .checkbox-wrapper {
+          position: fixed;
+          top: 0;
+          left: 0;
+          margin: 10px;
+          font-size: 12px;
+          display: flex;
+          flex-direction: column; /* gjør at de ligger under hverandre */
+          gap: 6px; /* avstand mellom checkboxene */
+        }
 
-/* Checkbox styling */
-.checkbox-container {
-  cursor: pointer;
-}
+        /* Checkbox styling */
+        .checkbox-container {
+          cursor: pointer;
+        }
 
-/* Skjul standard checkbox */
-.checkbox-container input {
-  display: none;
-}
+        /* Skjul standard checkbox */
+        .checkbox-container input {
+          display: none;
+        }
 
-/* Custom boks */
-.checkmark {
-  width: 15px;
-  height: 15px;
-  background-color: #eee;
-  border-radius: 2px;
-  display: inline-block;
-}
+        /* Custom boks */
+        .checkmark {
+          width: 15px;
+          height: 15px;
+          background-color: #eee;
+          border-radius: 2px;
+          display: inline-block;
+        }
 
-/* Når checked */
-.checkbox-container input:checked + .checkmark {
-  background-color: #4CAF50;
-}
+        /* Når checked */
+        .checkbox-container input:checked + .checkmark {
+          background-color: #4CAF50;
+        }
 
-/* Check symbol */
-.checkmark::after {
-  content: "";
-  display: none;
-}
+        /* Check symbol */
+        .checkmark::after {
+          content: "";
+          display: none;
+        }
 
-.checkbox-container input:checked + .checkmark::after {
-  display: block;
-  position: relative;
-  left: 6px;
-  top: 2px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
+        .checkbox-container input:checked + .checkmark::after {
+          display: block;
+          position: relative;
+          left: 6px;
+          top: 2px;
+          width: 5px;
+          height: 10px;
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          transform: rotate(45deg);
+        }
 
         
     </style>
@@ -217,19 +216,17 @@
 
 <body>
     
+    <div class="checkbox-wrapper">
+      <label class="checkbox-container" id="chkOppgaverLabel">
+        <input type="checkbox" id="chkOppgaver">
+        <span class="checkmark"></span>Oppgaver
+      </label>
 
-<div class="checkbox-wrapper">
-  <label class="checkbox-container" id="chkOppgaverLabel">
-    <input type="checkbox" id="chkOppgaver">
-    <span class="checkmark"></span>Oppgaver
-  </label>
-
-  <label class="checkbox-container" id="chkVideoLabel">
-    <input type="checkbox" id="chkVideo">
-    <span class="checkmark"></span>Video
-  </label>
-</div>
-
+      <label class="checkbox-container" id="chkVideoLabel">
+        <input type="checkbox" id="chkVideo">
+        <span class="checkmark"></span>Video
+      </label>
+    </div>
 
     <img src="Trekant.png" alt="Bilde av trekant">
     <div id="trekant">
@@ -245,7 +242,7 @@
     <div id="hurtigTaster">
     </div>
     <br>
-    <video id="videoFil" width="600" playsinline webkit-playsinline style="width: 70%; max-width: 50%">
+    <video id="videoFil" width="600" playsinline webkit-playsinline style="width: 70%; max-width: 50%; max-height: 70%">
         <source src="videoer/1.mp4" type="video/mp4">
         Nettleseren støtter ikke video.
     </video>
@@ -378,27 +375,12 @@
                 chkVideoLabel.style.display = "block";
                 chkVideo.checked = false;
                 oppgaveSomPlakat = true;
-                
-                /*if (!oppgaveBlirBesvart) { 
-                    console.log("!oppgaveBlirBesvart");
-                    oppgaveModus = true;
-                    chkVideoLabel.style.display = "block";
-                    chkVideo.checked = false;
-                    oppgaveSomPlakat = true;
-                } else { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
-                    console.log("oppgaveBlirBesvart");
-                    oppgaveBlirBesvart = false;
-                    oppgaveSkalBesvares = false;
-                    melding.innerHTML = "Oppgaven ble kansellert!!";
-                    startTidtaker();
-                    resetInputVerdier();
-                }*/
             }
             else  {
                 console.log("sjekkoppgaver er ikke checked");
                 oppgaveModus = false;
                 chkVideoLabel.style.display="none"; 
-                if (oppgaveBlirBesvart) { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  *cancel*...
+                if (oppgaveBlirBesvart) { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  dvs *cancel*...
                     console.log("oppgaveBlirBesvart");
                     oppgaveBlirBesvart = false;
                     oppgaveSkalBesvares = false;
@@ -429,7 +411,6 @@
         
         function videoFerdig() {
             btnVelgTall.style.display = "block";
-            //trekant.style.display = "block";
             console.log("VideoFerdig!!!")
             videoFil.style.display = "none";
             settOppOppgaveITrekant();
@@ -444,12 +425,7 @@
                 poeng--;
             }
             if(!oppstart) {btnVelgTall.innerHTML = poeng + " poeng";}
-            if (poeng > 40) {
-                /*chkOppgaverLabel.style.display="block";
-                chkOppgaver.checked=true;
-                chkVideoLabel.style.display="block";
-                chkVideoLabel.checked=false;*/
-            }
+
             if (poeng > 100) {
                 hurtigTaster.style.display = "grid";
             }
@@ -504,12 +480,6 @@
         }
 
         function resetInputVerdier() {
-            //kobleInnLyttere();   //disse er fjernet 05.06
-            //startTidtaker();    //...
-
-            //"Null ut tekst" hvis man har vært i kalkulatormodus - utrolig klønete løsning!
-            if (melding.innerHTML == "...som er svaret...  La oss fortsette!") {melding.innerHTML = "";}
-            
             // Sett sort tekst i tilfelle den har vært grønn
             inpTall1.style.color = "black";
             inpTall2.style.color = "black";
