@@ -242,7 +242,7 @@
     <div id="hurtigTaster">
     </div>
     <br>
-    <video id="videoFil" width="600" playsinline webkit-playsinline style="width: 70%; max-width: 50%; max-height: 70%">
+    <video id="videoFil" width="600" playsinline webkit-playsinline style="width: 70%; max-width: 50%; max-height: 90%">
         <source src="videoer/1.mp4" type="video/mp4">
         Nettleseren støtter ikke video.
     </video>
@@ -675,38 +675,8 @@
             tall1 = Number(tall1Norm);
             tall2 = Number(tall2Norm);
             tall3 = Number(tall3Norm);
-                
-            // Oppgavemodus på eller av
-            if ((tall1Norm == "...") || (tall2Norm == "...") || (tall3Norm == "...")) {    
-                 stoppTidtaker();
-                 if (oppgaveModus == true) {
-                     btnVelgTall.innerHTML = "Oppgaver off";
-                     oppgaveModus = false;
-                 }
-                 else {
-                     btnVelgTall.innerHTML = "Oppgaver on";
-                     oppgaveModus = true;
-                 }
-                 console.log("i oppgavemodus av/på")
-                 setTimeout(startTidtaker, ventTilNyttSpm);
-                 setTimeout(resetInputVerdier, ventTilNyttSpm);
-            }
 
-            //Plakatmodus på eller av
-            else if ((tall1Norm == "....") || (tall2Norm == "....") || (tall3Norm == "....")) {    
-                 stoppTidtaker();
-                 if (oppgaveSomPlakat == true) {
-                     btnVelgTall.innerHTML = "Plakat off";
-                     oppgaveSomPlakat = false;
-                 }
-                 else {
-                     btnVelgTall.innerHTML = "Plakat on";
-                     oppgaveSomPlakat = true;
-                 }
-                 setTimeout(resetInputVerdier, ventTilNyttSpm);
-            }
-
-            else if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
+            if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
                  console.log("I OppgaveSkalBesvares");
                  //oppgaveBoks.innerHTML = oppgaveTekstArray[ekspertModusGrenseIndex]
                  stoppTidtaker();
@@ -794,46 +764,8 @@
                 }
             }
                 
-            //stop, bruk trekanten som kalkulator
-            else if ((tall1Norm == "..") || (tall2Norm == "..") || (tall3Norm == "..")) {    // Programmet skal i kalkulatormodus
-                 stoppTidtaker();
-                 inpTall1.value = "";
-                 inpTall2.value = "";
-                 inpTall3.value = "";
-                 kalkulatorModus = true;
-                 melding.innerHTML = "Skriv to tall, deretter knappen";
-                 btnVelgTall.innerHTML = "   =   ";
-            }
-            else if(kalkulatorModus == true) { //OK, programmet "kommer fra" kalkulatormodus og "skal tilbake"
-                console.log("Kalkulatormodus");
 
-                //Presenterer fasiten!
-                if ((inpTall1.value == "") && (inpTall2.value == "") && (inpTall3.value == "")){ // brukeren har bedt om å spille video på nytt
-                    startRelevantOppgave();
-                }
-                else if (inpTall1.value == "") { //Setter opp fasit i felt øverst i trekant.
-                    fasit = finnFasit(tall1, tall2, tall3);
-                    inpTall1.value = String(fasit);
-                    inpTall1.style.color = "green";
-                }
-                else if (inpTall2.value == "") {//Setter opp fasit i felt nede til venstre i
-                    fasit = finnFasit(tall1, tall2, tall3)
-                    inpTall2.value = String(fasit.toFixed(antallDesimaler));
-                    inpTall2.style.color = "green";
-                }
-                else {  //dvs. inpTall3.value == ""  //Setter opp fasit i felt nede til venstre i trekant
-                    fasit = finnFasit(tall1, tall2, tall3)
-                    inpTall3.value = String(fasit.toFixed(antallDesimaler));
-                    inpTall3.style.color = "green";
-                }
-
-                setTimeout(resetInputVerdier, ventTilForsteSpm*2);
-
-                melding.innerHTML = "...som er svaret...  La oss fortsette!";
-                btnVelgTall.innerHTML = poeng + " poeng";
-                
-                kalkulatorModus = false;
-            }
+            
 
             else { //normal omgang!
                 console.log("Normal omgang. poeng er: " + poeng);
