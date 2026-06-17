@@ -93,9 +93,11 @@
     const elev = document.getElementById("elev").value;
 
     // ✅ Lagre midlertidig
-    localStorage.setItem("klasse", klasse);
-    localStorage.setItem("elev", elev);
-
+    /*localStorage.setItem("klasse", klasse);
+    localStorage.setItem("elev", elev);*/
+    localStorage.trekantKlasse = klasse;
+    localStorage.trekantElev = elev;
+      
     // 🔄 Gå videre til hovedside
     alert("Logger inn som " + elev + " i " + klasse);
 
