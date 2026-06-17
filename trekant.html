@@ -402,7 +402,7 @@
                 console.log("sjekkoppgaver er ikke checked");
                 oppgaveModus = false;
                 chkVideoLabel.style.display="none"; 
-                if (oppgaveBlirBesvart) { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  dvs *cancel*...
+                if (oppgaveBlirBesvart || (plakat.style.display != "none")) { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  dvs *cancel*...
                     console.log("oppgaveBlirBesvart");
                     plakat.style.display = "none";
                     oppgaveBlirBesvart = false;
