@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .login-box {
+    background: #1e293b;
+    padding: 40px;
+    border-radius: 16px;
+    width: 320px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+  }
+
+  input:focus {
+    box-shadow: 0 0 5px #22c55e;
+  }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background: #22c55e;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  button:hover {
+    background: #16a34a;
+  }
+
+  .footer {
+    margin-top: 15px;
+    font-size: 12px;
+    opacity: 0.7;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+  <h1>Logg inn</h1>
+
+  <form id="loginForm">
+    <input type="text" id="klasse" placeholder="Klassenavn" required>
+    <input type="text" id="elev" placeholder="Elevnavn / ID" required>
+
+    <button type="submit">Start</button>
+  </form>
+
+  <div class="footer">
+    Trekanttavle system
+  </div>
+</div>
+
+<script>
+  document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const klasse = document.getElementById("klasse").value;
+    const elev = document.getElementById("elev").value;
+
+    // ✅ Lagre midlertidig
+    localStorage.setItem("klasse", klasse);
+    localStorage.setItem("elev", elev);
+
+    // 🔄 Gå videre til hovedside
+    alert("Logger inn som " + elev + " i " + klasse);
+
+    // Her kan du sende brukeren videre:
+    window.location.href = "trekant.html";
+  });
+</script>
+</body>
+</html>
