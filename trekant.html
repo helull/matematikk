@@ -65,10 +65,11 @@
 
     .plakat.flyttet {
       position: absolute;
-      top: clamp(10px, 2vw, 40px);
-      right: clamp(10px, 2vw, 40px);
-  
-      transform: scale(0.3);
+      top: clamp(2px, 2vw, 40px);
+      right: clamp(2px, 2vw, 40px);
+      z-index: -1;
+
+      transform: scale(0.4);
     }
         
         .overskrift {
@@ -377,7 +378,6 @@
         chkVideoLabel.checked=false;
         
         function fjernPlakat() {
-            //plakat.style.display = "none";
             plakat.classList.add("flyttet");
 
             btnVelgTall.style.display = "block";
@@ -400,6 +400,7 @@
                 chkVideoLabel.style.display="none"; 
                 if (oppgaveBlirBesvart) { //bruker har unchecked "Oppgaver" mens en oppgave er i ferd med å besvares.  dvs *cancel*...
                     console.log("oppgaveBlirBesvart");
+                    plakat.style.display = "none";
                     oppgaveBlirBesvart = false;
                     oppgaveSkalBesvares = false;
                     melding.innerHTML = "Oppgaven ble kansellert!!";
@@ -762,7 +763,7 @@
                 if (bingo) {
                     oppgaveArray[ekspertModusGrenseIndex - 1].iBruk = true;
                     oppgaveBlirBesvart = false;
-                    //riktigMelding();
+                    plakat.style.display = "none";
                     melding.innerHTML = "YES, X-TRA points!";
                     melding.style.color = "green";
                     var tilleggsPoeng = ekspertModusGrenseIndex * 5;
