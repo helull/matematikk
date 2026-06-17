@@ -157,7 +157,7 @@
           100% { transform: translateY(0); }
         }
         
-        .hoppe-knapp {
+        .hoppeKnapp {
           animation: hopp 0.5s ease 1;
         }
 
@@ -774,11 +774,11 @@
                     melding.style.color = "green";
                     var tilleggsPoeng = ekspertModusGrenseIndex * 5;
                     btnVelgTall.innerHTML = "+" + String(tilleggsPoeng) + " poeng!";
-                    btnVelgTall.classList.add("hoppe-knapp");
+                    btnVelgTall.classList.add("hoppeKnapp");
                     poeng = poeng + tilleggsPoeng;
                     setTimeout(startTidtaker, ventTilForsteSpm*2);
                     setTimeout(resetInputVerdier, ventTilForsteSpm*2);
-                    btnVelgTall.classList.remove("hoppe-knapp");
+                    btnVelgTall.classList.remove("hoppeKnapp");
                 }
                 else {
                     inpTall1.value = "";
