@@ -304,6 +304,7 @@
 
         var lagretIDB = false;
         var klasseNavnPoengKort = "";
+        var klasseElevKort = "";
         var klasseNavn = "";
         var elevNavn = "";
         
@@ -319,8 +320,12 @@
             lagretIDB = false;
         }
         else {
+            // legg inn elev i Firebase
+            klasseElevKort = 'klasser/' + klasseNavn + '/' + elevNavn;
+            set(ref(db, klasseElevKort), {navn: elevNavn, poeng: poeng});
+            
             klasseNavnPoengKort = 'klasser/' + klasseNavn + '/' + elevNavn + '/poeng';
-            lagretIDB = false;
+            lagretIDB = true;
         }
 
 
