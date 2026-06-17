@@ -271,12 +271,59 @@
         <div class="innhold" >(Klikk her for å besvare)</div> 
     </div>
 
+<script type="module">
+
+  // 🔥 Firebase SDK (via CDN)
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  // ✅ LIM INN DIN CONFIG HER
+  const firebaseConfig = {
+    apiKey: "AIzaSyAemmodCGkeIzNzH_al84CQqvxK6xwDFig",
+    authDomain: "trekanttavle.firebaseapp.com",
+    databaseURL: "https://trekanttavle-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "trekanttavle",
+    storageBucket: "trekanttavle.firebasestorage.app",
+    messagingSenderId: "407327020612",
+    appId: "1:407327020612:web:4d41d1beb2371e80d30e11"
+  };
+
+  // 🔧 Init Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  };
+
+</script>
+
+    
     <script>
         var bingo = false;
         var poeng = 0;
-        if (localStorage.trekantPoeng_v12) {
-            poeng = Number(localStorage.trekantPoeng_v12);
+        if (localStorage.trekantPoeng) {
+            poeng = Number(localStorage.trekantPoeng);
         }
+
+        var lagretIDB = false;
+        var klasseNavnPoengKort = "";
+        var klasseNavn = "";
+        var elevNavn = "";
+        
+        if (localStorage.trekantKlasse) {
+            klasseNavn = (localStorage.trekantKlasse);
+        }
+
+        if (localStorage.trekantElev) {
+            elevNavn = (localStorage.trekantElev);
+        }
+
+        if ((elevNavn == "") || (klasseNavn == "")) {
+            lagretIDB = false;
+        }
+        else {
+            klasseNavnPoengKort = 'klasser/' + klasseNavn + '/' + elevNavn + '/poeng';
+            lagretIDB = false;
+        }
+
 
         var pF = 10; //poengFaktor
         var deleModus = false;
@@ -839,7 +886,8 @@
                 }
                 
                 // anyway: lagre poengene i localStorage
-                localStorage.trekantPoeng_v12 = poeng;
+                localStorage.trekantPoeng = poeng;
+                if (lagretIDB) {set(ref(db, klasseNavnPoengKort), poeng); alert("Data sendt til Firebase!");}
                 setTimeout(kobleInnLyttere, ventTilNyttSpm);
             } 
         }
@@ -894,7 +942,8 @@
                 event.preventDefault();  //sørger for at det IKKE skrives "r".
                 poeng = 0;
                 ekspertModusGrenseIndex = 0;
-                localStorage.trekantPoeng_v12 = 0;
+                localStorage.trekantPoeng = 0;
+                if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); alert("Data sendt til Firebase!");}
             }
         }
 
