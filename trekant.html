@@ -44,6 +44,25 @@
             z-index: 10;
         }
 
+
+    .plakat2 {
+      position: absolute;
+      top: clamp(10px, 2vw, 40px);
+      right: clamp(10px, 2vw, 40px);
+        
+      transform: scale(0.1) translate(50%, -50%);
+      transform-origin: top right;
+    }
+        
+    .plakat3 {
+      position: absolute;
+      top: clamp(10px, 2vw, 40px);
+      right: clamp(10px, 2vw, 40px);
+  
+      transform: scale(0.1);
+      transform-origin: top right;
+    }
+       
         #plakat {
             text-align: center;
             background-color: aliceblue;
@@ -247,7 +266,7 @@
         Nettleseren støtter ikke video.
     </video>
 
-    <div id="plakat">
+    <div id="plakat2">
         <div class="overskrift" id="oppgaveOverskrift">Oppgave!</div>
         <div class="innhold" id="oppgaveInnhold">Få trekanten til å regne ut 12 delt på 4.  Trykk deretter knappen!</div>
         <div class="spm">Du skal ikke skrive svaret!</div>
@@ -361,7 +380,9 @@
         chkVideoLabel.checked=false;
         
         function fjernPlakat() {
-            plakat.style.display = "none";
+            //plakat.style.display = "none";
+            plakat.classList.add("plakat3");
+
             btnVelgTall.style.display = "block";
             //trekant.style.display = "block";
             settOppOppgaveITrekant();
