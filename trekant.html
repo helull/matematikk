@@ -67,9 +67,8 @@
       position: absolute;
       top: clamp(2px, 2vw, 40px);
       right: clamp(2px, 2vw, 40px);
-      z-index: -1;
 
-      transform: scale(0.4);
+      transform: scale(0.25);
     }
         
         .overskrift {
@@ -369,6 +368,7 @@
         var chkOppgaverLabel = document.getElementById("chkOppgaverLabel");
         var oppgaveOverskrift = document.getElementById("oppgaveOverskrift");
         var oppgaveInnhold = document.getElementById("oppgaveInnhold");
+        var plakatenErStor = true;
         
         plakat.addEventListener("click", fjernPlakat);
 
@@ -378,11 +378,15 @@
         chkVideoLabel.checked=false;
         
         function fjernPlakat() {
-            plakat.classList.add("flyttet");
-
-            btnVelgTall.style.display = "block";
-            //trekant.style.display = "block";
-            settOppOppgaveITrekant();
+            if(plakatenErStor) {
+                plakat.classList.add("flyttet");
+                plakatenErStor = false;
+                btnVelgTall.style.display = "block";
+                settOppOppgaveITrekant();
+            }  else { //plakaten er liten
+                plakat.classList.remove("flyttet");
+                plakatenErStor = true;
+            }
         }
 
         chkOppgaver.addEventListener("change", sjekkOppgaver);
@@ -635,6 +639,7 @@
                 btnVelgTall.style.display = "none";
                 hurtigTaster.style.display = "none";
                 if (oppgaveSomPlakat){
+                        plakat.classList.remove("flyttet");
                         oppgaveOverskrift.innerHTML = "Oppgave " +String(ekspertModusGrenseIndex);
                         oppgaveInnhold.innerHTML = oppgaveArray[ekspertModusGrenseIndex-1].tekst;
                         plakat.style.display = "block";
