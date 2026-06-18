@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <title>Klassevisning</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      margin: 8px 0;
+    }
+
+    .name {
+      width: 150px;
+    }
+
+    .bar-container {
+      flex: 1;
+      background: #334155;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 20px;
+    }
+
+    .bar {
+      height: 100%;
+      background: linear-gradient(to right, #22c55e, #4ade80);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    /* 🎉 POP-ANIMASJON */
+    @keyframes pop {
+      0%   { transform: scaleY(1); }
+      30%  { transform: scaleY(1.5); }
+      60%  { transform: scaleY(0.8); }
+      100% { transform: scaleY(1); }
+    }
+
+    .pop {
+      animation: pop 0.4s ease;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1 id="classTitle">Laster...</h1>
+  <div id="list"></div>
+</div>
+
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAemmodCGkeIzNzH_al84CQqvxK6xwDFig",
+    authDomain: "trekanttavle.firebaseapp.com",
+    databaseURL: "https://trekanttavle-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "trekanttavle",
+    storageBucket: "trekanttavle.firebasestorage.app",
+    messagingSenderId: "407327020612",
+    appId: "1:407327020612:web:4d41d1beb2371e80d30e11"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const classId = prompt("Skriv inn klasse-ID:");
+  document.getElementById("classTitle").innerText = classId;
+
+  const dbRef = ref(db, "klasser/" + classId);
+
+  // 🧠 lagrer forrige poeng
+  const previousScores = {};
+
+  onValue(dbRef, (snapshot) => {
+    const list = document.getElementById("list");
+    list.innerHTML = "";
+
+    if (!snapshot.exists()) {
+      list.innerHTML = "<p>Ingen data funnet</p>";
+      return;
+    }
+
+    const data = snapshot.val();
+
+    Object.keys(data).slice(0, 30).forEach(elevId => {
+      const elev = data[elevId];
+      const prosent = (elev.poeng / 2000) * 100;
+
+      const gammel = previousScores[elevId] || 0;
+      const endring = elev.poeng - gammel;
+
+      const row = document.createElement("div");
+      row.className = "row";
+
+      const barClass = (Math.abs(endring) >= 11) ? "bar pop" : "bar";
+
+      row.innerHTML = `
+        <div class="name">${elev.navn}</div>
+        <div class="bar-container">
+          <div class="${barClass}" style="width:${prosent}%"></div>
+        </div>
+      `;
+
+      list.appendChild(row);
+
+      // 🧠 oppdater lagret verdi
+      previousScores[elevId] = elev.poeng;
+    });
+
+  });
+
+</script>
+
+</body>
+</html>
