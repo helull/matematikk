@@ -750,7 +750,14 @@
             tall2 = Number(tall2Norm);
             tall3 = Number(tall3Norm);
 
-            if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
+            if ((tall1Norm == ".") && (tall2Norm == ".") && (tall3Norm == "."))  { //reset poeng til null!
+                console.log("I OppgaveSkalBesvares");
+                poeng = 0;
+                ekspertModusGrenseIndex = 0;
+                localStorage.trekantPoeng = 0;
+                if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
+            }
+            else if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
                  console.log("I OppgaveSkalBesvares");
                  kobleInnLyttere();
                  stoppTidtaker();
@@ -865,19 +872,14 @@
                         if (oppgaveModus && (oppgaveArray[ekspertModusGrenseIndex - 1].iBruk == false)) {
                             setTimeout(startRelevantOppgave, ventTilNyttSpm+3);   //+3 fordi den må startes ETTER at tiden er resatt!
                         }
-                        //else {
-                            // Finn nye tall i trekanten dersom man svarer rett samtidig som det IKKE skal vises ny oppgave
                     }
                     setTimeout(resetInputVerdier, ventTilNyttSpm);
-                        //}
-                    
                 }
 
                 //Brukeren gir feil svar
                 else {
                     forrigeVarRett = false;
                     feilMelding();
-                    //btnVelgTall.innerHTML = poeng + " poeng";
                     if (tallIBruk == 1) { inpTall1.value = ""; btnVelgTall.addEventListener("click", () => {inpTall1.focus();}, { once: true }); inpTall1.focus(); }
                     else if (tallIBruk == 2) { inpTall2.value = ""; btnVelgTall.addEventListener("click", () => {inpTall2.focus();}, { once: true }); inpTall2.focus(); }
                     else if (tallIBruk == 3) { inpTall3.value = ""; btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true }); inpTall3.focus(); }
@@ -886,7 +888,7 @@
             }
             // anyway: lagre poengene i localStorage
             localStorage.trekantPoeng = poeng;
-            if (lagretIDB) {set(ref(db, klasseNavnPoengKort), poeng); alert("Data sendt til Firebase!");}
+            if (lagretIDB) {set(ref(db, klasseNavnPoengKort), poeng); console.log("Data sendt til Firebase!");}
             setTimeout(kobleInnLyttere, ventTilNyttSpm);
         }
 
@@ -941,7 +943,7 @@
                 poeng = 0;
                 ekspertModusGrenseIndex = 0;
                 localStorage.trekantPoeng = 0;
-                if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); alert("Data sendt til Firebase!");}
+                if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
             }
         }
 
