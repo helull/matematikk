@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<title>Startside</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    text-align: center;
+  }
+
+  h1 {
+    color: white;
+    margin-bottom: 40px;
+  }
+
+  button {
+    display: block;
+    width: 300px;
+    margin: 15px auto;
+    padding: 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    color: white;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+  }
+
+  .btn1 { background: #22c55e; }
+  .btn2 { background: #3b82f6; }
+  .btn3 { background: #ef4444; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Velg handling</h1>
+
+  <button class="btn1" onclick="startTrekanter()">Elev: Start trekanten</button>
+  <button class="btn2" onclick="startTavle()">Lærer:Start tavle-visning</button>
+  <button class="btn3" onclick="slettKlasse()">Slett en bestemt klasse fra databasen</button>
+</div>
+
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getDatabase, ref, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "DIN_API_KEY",
+    authDomain: "trekanttavle.firebaseapp.com",
+    databaseURL: "https://trekanttavle-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "trekanttavle"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  // 🟢 Start filer
+  window.startTrekanter = () => {
+    window.location.href = "trekanter.html";
+  };
+
+  window.startTavle = () => {
+    window.location.href = "trekanttavle.html";
+  };
+
+  // 🔴 Slett klasse
+  window.slettKlasse = () => {
+    const klasse = prompt("Hvilken klasse vil du slette?");
+
+    if (!klasse) return;
+
+    const bekreft = confirm("Er du SIKKER på at du vil slette " + klasse + "?");
+
+    if (!bekreft) return;
+
+    remove(ref(db, "klasser/" + klasse))
+      .then(() => {
+        alert("Klasse slettet!");
+      })
+      .catch(err => {
+        alert("Feil: " + err);
+      });
+  };
+
+</script>
+
+</body>
+</html>
