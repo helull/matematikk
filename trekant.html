@@ -828,7 +828,7 @@
                     plakat.style.display = "none";
                     melding.innerHTML = "YES, X-TRA points!";
                     melding.style.color = "green";
-                    var tilleggsPoeng = ekspertModusGrenseIndex * 5;
+                    var tilleggsPoeng = (ekspertModusGrenseIndex * 5) + 10;
                     btnVelgTall.innerHTML = "+" + String(tilleggsPoeng) + " poeng!";
                     btnVelgTall.classList.add("hoppeKnapp");
                     poeng = poeng + tilleggsPoeng;
@@ -944,6 +944,7 @@
                 ekspertModusGrenseIndex = 0;
                 localStorage.trekantPoeng = 0;
                 if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
+                settOppOppgaveITrekant();
             }
         }
 
