@@ -753,7 +753,7 @@
             if ((tall1Norm == ".") && (tall2Norm == ".") && (tall3Norm == "."))  { //reset poeng til null!
                 console.log("I OppgaveSkalBesvares");
                 poeng = 10;
-                ekspertModusGrenseIndex = 10;
+                ekspertModusGrenseIndex = 0;
                 localStorage.trekantPoeng = 10;
                 if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
                 settOppOppgaveITrekant();
