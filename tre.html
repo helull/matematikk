@@ -227,9 +227,9 @@
         }
 
         #btnInfo {
-          margin-top: 15px;
-          width: 40px;
-          height: 40px;
+          margin-top: 10px;
+          width: 20px;
+          height: 20px;
           border-radius: 50%;
           background: #3b82f6;
           color: white;
@@ -395,7 +395,8 @@
                         "Ah, feil!",
                         "Dra meg baklengs inn i fuglekassa, NEI!!",
                         "Du stinker!"];
-
+        var hjelpeTekst = "Her kommer hjelpetekst";
+        var hjelpeModus = false;
         const ventTilForsteSpm = 1000;         //ventetid før neste spørsmål kommer
         const ventTilNyttSpm = 500;          //tid å vente til neste spm, i millisekunder
         var  nedTellingsIntervall = 1000;     //hastighet på "klokka" som går, normalt 1000 milliSekunder
@@ -425,6 +426,7 @@
         
         var videoFil = document.getElementById("videoFil");
         var plakat = document.getElementById("plakatdiv");
+        var btnInfo = document.getElementById("btnInfo");
         var trekant = document.getElementById("trekant");
         var chkVideo    = document.getElementById("chkVideo");
         var chkVideoLabel    = document.getElementById("chkVideoLabel");
@@ -435,12 +437,26 @@
         var plakatenErStor = true;
         
         plakat.addEventListener("click", fjernPlakat);
+        btnInfo.addEventListener("click",visHjelp);
 
         chkOppgaverLabel.style.display="block";
         chkOppgaver.checked=true;
         chkVideoLabel.style.display="block";
         chkVideoLabel.checked=false;
-        
+
+        function visHjelp() {
+            if (hjelpeModus == true) {
+                hjelpeModus = false;
+                plakat.style.display = "none";
+            }
+            else {
+                hjelpeModus = true;
+                oppgaveOverskrift.innerHTML = "Hjelp";
+                oppgaveInnhold.innerHTML = hjelpeTekst;
+                plakat.style.display = "block";
+            }
+        }
+    
         function fjernPlakat() {
             if(plakatenErStor) {
                 plakat.classList.add("flyttet");
