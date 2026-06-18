@@ -753,7 +753,8 @@
                 poeng = 10;
                 ekspertModusGrenseIndex = 0;
                 localStorage.trekantPoeng = 10;
-                //if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
+                if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
+                console.log("Før oppgave settes opp, men etter data er sendt til Firebase");
                 //settOppOppgaveITrekant();
             }
             else if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
