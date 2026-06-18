@@ -751,7 +751,6 @@
             tall3 = Number(tall3Norm);
 
             if ((tall1Norm == ".") && (tall2Norm == ".") && (tall3Norm == "."))  { //reset poeng til null!
-                console.log("I OppgaveSkalBesvares");
                 poeng = 10;
                 ekspertModusGrenseIndex = 0;
                 localStorage.trekantPoeng = 10;
@@ -791,14 +790,14 @@
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3);
                          inpTall1.value = String(fasit);
-                         inpTall2.style.color = "green";
+                         inpTall1.style.color = "green";
                     }
                     if(tall2 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall3) &&
                        tall3 == String(oppgaveArray[ekspertModusGrenseIndex-1].tall2)){
                         bingo = true;
                         fasit = finnFasit(tall1, tall2, tall3);
                         inpTall1.value = String(fasit);
-                        inpTall2.style.color = "green";
+                        inpTall1.style.color = "green";
                     }
                 }
                 if (String(oppgaveArray[ekspertModusGrenseIndex-1].tall2) == "") {
@@ -819,8 +818,8 @@
                       ){
                          bingo = true;
                          fasit = finnFasit(tall1, tall2, tall3)
-                         inpTall2.value = String(fasit.toFixed(antallDesimaler));
-                         inpTall2.style.color = "green";
+                         inpTall3.value = String(fasit.toFixed(antallDesimaler));
+                         inpTall3.style.color = "green";
                     }    
                 } 
                 if (bingo) {
