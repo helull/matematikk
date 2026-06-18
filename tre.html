@@ -44,8 +44,6 @@
             z-index: 10;
         }
        
-
-       
         .plakat {
             text-align: center;
             background-color: aliceblue;
@@ -56,18 +54,12 @@
             height: 40vh;
             border: 4px solid;
             border-radius: 10px;
-
-  /*transform: translate(-50%, -50%) scale(1);*/
-  transform-origin: top right;
-  transition: all 0.5s ease;
-
+            transform-origin: top right;
+            transition: all 0.5s ease;
         }
 
     .plakat.flyttet {
       position: absolute;
-      /*top: clamp(2px, 2vw, 40px);
-      right: clamp(2px, 2vw, 40px);*/
-
       transform: scale(0.25);
     }
         
@@ -284,7 +276,12 @@
         <div class="innhold" id="oppgaveInnhold">Blablabla....  Trykk knappen!</div>
         <div class="spm">Du skal ikke skrive svaret!</div>
         <div class="innhold">Skriv tall to steder, trykk så =</div>
-        <div class="innhold" >(Klikk her for å besvare)</div> 
+        <div class="innhold">(Klikk her for å besvare)</div> 
+    </div>
+
+     <div id="hjelpediv" class="plakat">
+        <div class="overskrift">Hjelp</div>
+        <div class="innhold" id="hjelpeInnhold">Blablabla....  </div>
     </div>
 
 <script type="module">
@@ -426,6 +423,8 @@
         
         var videoFil = document.getElementById("videoFil");
         var plakat = document.getElementById("plakatdiv");
+        var hjelp = document.getElementById("hjelpediv");
+        var hjelpeInnhold = document.getElementById("hjelpeInnhold");
         var btnInfo = document.getElementById("btnInfo");
         var trekant = document.getElementById("trekant");
         var chkVideo    = document.getElementById("chkVideo");
@@ -438,25 +437,30 @@
         
         plakat.addEventListener("click", fjernPlakat);
         btnInfo.addEventListener("click",visHjelp);
+        hjelp.addEventListener("click",skjulHjelp);
+
 
         chkOppgaverLabel.style.display="block";
         chkOppgaver.checked=true;
         chkVideoLabel.style.display="block";
         chkVideoLabel.checked=false;
 
+        function skjulHjelp() {
+                hjelpeModus = false;
+                hjelp.style.display = "none";
+        }
+    
         function visHjelp() {
             if (hjelpeModus == true) {
-                hjelpeModus = false;
-                plakat.style.display = "none";
+                skjulHjelp();
             }
             else {
                 hjelpeModus = true;
-                oppgaveOverskrift.innerHTML = "Hjelp";
-                oppgaveInnhold.innerHTML = hjelpeTekst;
-                plakat.style.display = "block";
+                hjelpeInnhold.innerHTML = hjelpeTekst;
+                hjelp.style.display = "block";
             }
         }
-    
+
         function fjernPlakat() {
             if(plakatenErStor) {
                 plakat.classList.add("flyttet");
