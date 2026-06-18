@@ -885,12 +885,11 @@
                     else if (tallIBruk == 3) { inpTall3.value = ""; btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true }); inpTall3.focus(); }
                     else { alert("Jøje oss - tallIBruk er: " + tallIBruk) }
                 }
-                
-                // anyway: lagre poengene i localStorage
-                localStorage.trekantPoeng = poeng;
-                if (lagretIDB) {set(ref(db, klasseNavnPoengKort), poeng); alert("Data sendt til Firebase!");}
-                setTimeout(kobleInnLyttere, ventTilNyttSpm);
-            } 
+            }
+            // anyway: lagre poengene i localStorage
+            localStorage.trekantPoeng = poeng;
+            if (lagretIDB) {set(ref(db, klasseNavnPoengKort), poeng); alert("Data sendt til Firebase!");}
+            setTimeout(kobleInnLyttere, ventTilNyttSpm);
         }
 
         function finnFasit(t1, t2, t3) {
