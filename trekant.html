@@ -752,10 +752,11 @@
 
             if ((tall1Norm == ".") && (tall2Norm == ".") && (tall3Norm == "."))  { //reset poeng til null!
                 console.log("I OppgaveSkalBesvares");
-                poeng = 0;
-                ekspertModusGrenseIndex = 0;
-                localStorage.trekantPoeng = 0;
+                poeng = 10;
+                ekspertModusGrenseIndex = 10;
+                localStorage.trekantPoeng = 10;
                 if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
+                settOppOppgaveITrekant();
             }
             else if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
                  console.log("I OppgaveSkalBesvares");
