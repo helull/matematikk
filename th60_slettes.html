@@ -457,131 +457,272 @@ button{
 
 </nav>
 
-<script>
+<script type="module">
 
-function showPage(pageId, btn){
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
-    document.querySelectorAll('.page').forEach(function(page){
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+/* ==========================
+   FIREBASE
+   ========================== */
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBxWbDN_HyCuVe0jd6BQgRM0p08qdKhcKQ",
+    authDomain: "th60-f50e3.firebaseapp.com",
+    projectId: "th60-f50e3",
+    storageBucket: "th60-f50e3.firebasestorage.app",
+    messagingSenderId: "278322575307",
+    appId: "1:278322575307:web:22c3217f462444df54684e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+/* ==========================
+   SIDEVISNING
+   ========================== */
+
+window.showPage = async function(pageId, btn){
+
+    document.querySelectorAll('.page').forEach(page=>{
         page.classList.remove('active');
     });
 
-    const selectedPage=document.getElementById(pageId);
+    const selectedPage = document.getElementById(pageId);
 
     if(selectedPage){
         selectedPage.classList.add('active');
     }
 
     document.querySelectorAll('.bottom-nav button')
-        .forEach(function(button){
+        .forEach(button=>{
             button.classList.remove('active');
         });
 
     btn.classList.add('active');
 
-    loadParticipants();
-    updateCakeAvailability();
+    await loadParticipants();
+    await updateCakeAvailability();
 
     window.scrollTo({
         top:0,
         behavior:'smooth'
     });
-}
+};
 
-function registerParticipant(){
+/* ==========================
+   HENT DELTAKERE
+   ========================== */
 
-    const first=document.getElementById('firstName').value.trim();
-    const last=document.getElementById('lastName').value.trim();
-    const allergy=document.getElementById('allergy').value.trim();
+async function getParticipants(){
 
-    const selectedCake=
-        document.querySelector('input[name="cake"]:checked');
-
-    const cake=selectedCake ? selectedCake.value : "";
-
-    if(!first || !last){
-        alert('Fyll inn både fornavn og etternavn.');
-        return;
-    }
-
-    let participants=
-        JSON.parse(localStorage.getItem('participants')) || [];
-
-    participants.push({
-        first:first,
-        last:last,
-        allergy:allergy,
-        cake:cake
-    });
-
-    localStorage.setItem(
-        'participants',
-        JSON.stringify(participants)
+    const q = query(
+        collection(db,"participants"),
+        orderBy("created","asc")
     );
 
-    alert('Takk for påmeldingen!');
+    const snapshot = await getDocs(q);
 
-    document.getElementById('firstName').value='';
-    document.getElementById('lastName').value='';
-    document.getElementById('allergy').value='';
+    const participants = [];
 
-    document.querySelectorAll('input[name="cake"]')
-        .forEach(c=>c.checked=false);
+    snapshot.forEach(doc=>{
+        participants.push(doc.data());
+    });
 
-    updateCakeAvailability();
+    return participants;
 }
 
-function updateCakeAvailability(){
+/* ==========================
+   REGISTRER DELTAKER
+   ========================== */
 
-    const participants=
-        JSON.parse(localStorage.getItem('participants')) || [];
+window.registerParticipant = async function(){
 
-    const usedCakes=
-        participants
-            .filter(p=>p.cake)
-            .map(p=>p.cake);
+    const first =
+        document.getElementById('firstName')
+        .value.trim();
 
-    document.querySelectorAll('input[name="cake"]')
-        .forEach(cake=>{
+    const last =
+        document.getElementById('lastName')
+        .value.trim();
 
-            cake.disabled=false;
-            cake.parentElement.classList.remove('disabled-cake');
+    const allergy =
+        document.getElementById('allergy')
+        .value.trim();
 
-            if(usedCakes.includes(cake.value)){
-                cake.disabled=true;
-                cake.parentElement.classList.add('disabled-cake');
-            }
-        });
-}
+    const selectedCake =
+        document.querySelector(
+            'input[name="cake"]:checked'
+        );
 
-function loadParticipants(){
+    const cake =
+        selectedCake ? selectedCake.value : "";
 
-    const container=
-        document.getElementById('participantList');
+    if(!first || !last){
 
-    const participants=
-        JSON.parse(localStorage.getItem('participants')) || [];
+        alert(
+            'Fyll inn både fornavn og etternavn.'
+        );
 
-    if(participants.length===0){
-        container.innerHTML='<p>Ingen påmeldte ennå.</p>';
         return;
     }
 
-    container.innerHTML=
-        participants.map(p=>`
-        <div class="participant">
+    try{
 
-            <strong>${p.first} ${p.last}</strong>
+        const participants =
+            await getParticipants();
 
-            ${p.allergy ? `<br><small>Matallergi: ${p.allergy}</small>` : ''}
+        const existingPerson =
+            participants.find(p =>
+                p.first.toLowerCase() === first.toLowerCase()
+                &&
+                p.last.toLowerCase() === last.toLowerCase()
+            );
 
-            ${p.cake ? `<br><small>Kake: ${p.cake}</small>` : ''}
+        if(existingPerson){
 
-        </div>
+            alert(
+                'Denne personen er allerede registrert.'
+            );
+
+            return;
+        }
+
+        await addDoc(
+            collection(db,"participants"),
+            {
+                first,
+                last,
+                allergy,
+                cake,
+                created: Date.now()
+            }
+        );
+
+        alert(
+            'Takk for påmeldingen!'
+        );
+
+        document.getElementById('firstName')
+            .value = '';
+
+        document.getElementById('lastName')
+            .value = '';
+
+        document.getElementById('allergy')
+            .value = '';
+
+        document.querySelectorAll(
+            'input[name="cake"]'
+        ).forEach(c=>c.checked=false);
+
+        await loadParticipants();
+        await updateCakeAvailability();
+
+    }
+    catch(error){
+
+        console.error(error);
+
+        alert(
+            'Feil ved lagring til Firebase.'
+        );
+    }
+};
+
+/* ==========================
+   KAKER
+   ========================== */
+
+async function updateCakeAvailability(){
+
+    const participants =
+        await getParticipants();
+
+    const usedCakes =
+        participants
+            .filter(p => p.cake)
+            .map(p => p.cake);
+
+    document.querySelectorAll(
+        'input[name="cake"]'
+    ).forEach(cake=>{
+
+        cake.disabled = false;
+
+        cake.parentElement
+            .classList.remove('disabled-cake');
+
+        if(usedCakes.includes(cake.value)){
+
+            cake.disabled = true;
+
+            cake.parentElement
+                .classList.add('disabled-cake');
+        }
+    });
+}
+
+/* ==========================
+   VIS DELTAKERE
+   ========================== */
+
+async function loadParticipants(){
+
+    const container =
+        document.getElementById(
+            'participantList'
+        );
+
+    const participants =
+        await getParticipants();
+
+    if(participants.length === 0){
+
+        container.innerHTML =
+            '<p>Ingen påmeldte ennå.</p>';
+
+        return;
+    }
+
+    container.innerHTML =
+        participants.map(p => `
+            <div class="participant">
+
+                <strong>
+                    ${p.first} ${p.last}
+                </strong>
+
+                ${
+                    p.allergy
+                    ? `<br><small>Matallergi: ${p.allergy}</small>`
+                    : ''
+                }
+
+                ${
+                    p.cake
+                    ? `<br><small>Kake: ${p.cake}</small>`
+                    : ''
+                }
+
+            </div>
         `).join('');
 }
 
-updateCakeAvailability();
-loadParticipants();
+/* ==========================
+   OPPSTART
+   ========================== */
+
+await updateCakeAvailability();
+await loadParticipants();
 
 </script>
 
