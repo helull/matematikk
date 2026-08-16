@@ -631,14 +631,27 @@ window.registerParticipant = async function(){
         await updateCakeAvailability();
 
     }
-    catch(error){
+    /* catch(error){
 
         console.error(error);
 
         alert(
             'Feil ved lagring til Firebase.'
         );
-    }
+    } */
+
+    catch(error){
+
+    console.error(error);
+
+    alert(
+        'Feil: ' +
+        error.code +
+        ' - ' +
+        error.message
+    );
+}
+    
 };
 
 /* ==========================
