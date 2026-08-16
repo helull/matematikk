@@ -24,7 +24,7 @@
 }
 
 body{
-    font-family:"Segoe UI", Arial, sans-serif;
+    font-family:"Segoe UI",Arial,sans-serif;
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
@@ -53,6 +53,13 @@ body{
     margin-bottom:15px;
 }
 
+.hero .subtitle{
+    display:block;
+    margin-top:10px;
+    color:var(--secondary);
+    font-size:0.75em;
+}
+
 .hero p{
     font-size:1.1rem;
 }
@@ -62,7 +69,7 @@ body{
     padding:22px;
     border-radius:18px;
     margin-bottom:18px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
 
 .card h2{
@@ -97,7 +104,7 @@ button.action{
 }
 
 button.action:hover{
-    opacity:0.9;
+    opacity:.9;
 }
 
 .participant{
@@ -119,19 +126,30 @@ a{
     color:var(--primary);
 }
 
+.cake-list label{
+    display:block;
+    padding:4px 0;
+}
+
+.disabled-cake{
+    color:#999;
+}
+
 .bottom-nav{
     position:fixed;
     bottom:0;
     left:0;
     right:0;
-    height:75px;
+    height:80px;
     background:var(--menu);
     border-top:1px solid #dcccae;
     display:flex;
+    z-index:9999;
 }
 
 .bottom-nav button{
     flex:1;
+    min-width:0;
     border:none;
     background:var(--menu);
     color:var(--primary);
@@ -139,13 +157,17 @@ a{
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    gap:3px;
-    font-size:0.75rem;
     cursor:pointer;
+    padding:8px 2px;
+    gap:4px;
 }
 
 .bottom-nav button span:first-child{
-    font-size:1.3rem;
+    font-size:1.25rem;
+}
+
+.bottom-nav button span:last-child{
+    font-size:.7rem;
 }
 
 .bottom-nav button.active{
@@ -153,16 +175,12 @@ a{
     font-weight:bold;
 }
 
-.cake-list label{
-    display:block;
-    margin-bottom:8px;
+button{
+    -webkit-tap-highlight-color:transparent;
+    touch-action:manipulation;
 }
 
-.disabled-cake{
-    color:#999;
-}
-
-@media (max-width:600px){
+@media(max-width:600px){
 
     .hero{
         padding:25px 10px;
@@ -172,20 +190,23 @@ a{
         height:250px;
     }
 
-    .bottom-nav button{
-        font-size:0.65rem;
+    .bottom-nav button span:last-child{
+        font-size:.62rem;
     }
 }
 
 </style>
 </head>
-
 <body>
 
 <section class="page active" id="welcome">
 
     <div class="hero">
-        <h1>Helge & Torstein 2 × 60 år</h1>
+
+        <h1>
+            Helge & Torstein
+            <span class="subtitle">2 × 60 år</span>
+        </h1>
 
         <p>En festaften inspirert av Vazelina Bilopphøggers</p>
 
@@ -194,9 +215,11 @@ a{
         <p class="highlight">
             Fredag 23. oktober 2026 kl. 19.00
         </p>
+
     </div>
 
     <div class="card">
+
         <h2>🎉 Velkommen</h2>
 
         <p>
@@ -206,18 +229,21 @@ a{
         <br>
 
         <p>
-            Vi inviterer til en hyggelig kveld med tapas, godt drikke,
-            Vazelina-stemning og masse godt selskap.
+            Vi inviterer til en hyggelig kveld med tapas,
+            godt drikke, Vazelina-stemning og masse godt selskap.
         </p>
+
     </div>
 
     <div class="card">
+
         <h2>📌 Viktig</h2>
 
         <p>
             <strong>Påmeldingsfrist:</strong>
             Fredag 18. september 2026.
         </p>
+
     </div>
 
 </section>
@@ -225,14 +251,17 @@ a{
 <section class="page" id="info">
 
     <div class="card">
+
         <h2>Praktisk informasjon</h2>
 
         <p><strong>Dato:</strong> 23. oktober 2026</p>
         <p><strong>Tid:</strong> 19.00</p>
         <p><strong>Tema:</strong> Vazelina Bilopphøggers</p>
+
     </div>
 
     <div class="card">
+
         <h2>Mat og drikke</h2>
 
         <p>Tapas</p>
@@ -240,12 +269,12 @@ a{
 
         <br>
 
-        <p>
-            Gi beskjed om eventuelle matallergier.
-        </p>
+        <p>Gi beskjed om eventuelle matallergier.</p>
+
     </div>
 
     <div class="card">
+
         <h2>Gaver mottas ikke</h2>
 
         <p>
@@ -257,64 +286,17 @@ a{
         <br>
 
         <p>
-            Har du lyst til å bidra med underholdning i løpet av kvelden
-            setter vi stor pris på det. Vi ønsker gjerne morsomme innslag,
-            musikk, historier, quiz eller andre kreative bidrag fremfor
-            tradisjonelle taler.
+            Vi setter stor pris på underholdningsinnslag.
+            Gjerne historier, musikk, quiz eller andre kreative bidrag
+            fremfor tradisjonelle taler.
         </p>
 
         <br>
 
         <p>
-            Vi setter også stor pris på de som ønsker å bake en kake.
+            Vi setter også pris på de som ønsker å bake en kake.
             Dette registreres under fanen <strong>Påmelding</strong>.
         </p>
-    </div>
-
-    <div class="card">
-        <h2>Overnatting</h2>
-
-        <p>
-            Vi har fått avtalepris på Scandic Asker.
-        </p>
-
-        <br>
-
-        <p>
-            <strong>Pris:</strong>
-            Enkeltrom 1095,- / dobbeltrom 1295,- med frokost
-        </p>
-
-        <p>
-            Hotellet ligger i gangavstand fra festen.
-        </p>
-
-        <br>
-
-        <p>
-            Bestilling:
-            <a href="mailto:asker@scandichotels.com">
-                asker@scandichotels.com
-            </a>
-        </p>
-
-        <br>
-
-        <p>
-            Merk bestillingen med:
-            <strong>Helge og Torstein 60 år</strong>
-        </p>
-
-    </div>
-
-    <div class="card">
-
-        <h2>Feststed</h2>
-
-        <iframe
-            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d562.578506585378!2d10.436860081972553!3d59.83582189229551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sno!2sno!4v1786887186258!5m2!1sno!2sno"
-            loading="lazy">
-        </iframe>
 
     </div>
 
@@ -323,23 +305,27 @@ a{
 <section class="page" id="clothing">
 
     <div class="card">
+
         <h2>Antrekk</h2>
 
         <p>
-            Det kan være alt fra en øks på bilopphøggerskjorta
-            (ref. «Borghild»), eller en hatt, til fullt
-            50-tallsantrekk.
+            Det kan være alt fra en øks på
+            bilopphøggerskjorta (ref. «Borghild»),
+            eller en hatt, til fullt 50-tallsantrekk.
         </p>
+
     </div>
 
     <div class="card">
+
         <h2>Inspirasjon</h2>
 
         <p>
-            For de som ikke kjenner til Vazelina Bilopphøggers eller ønsker
-            inspirasjon: Søk opp sangene på en strømmetjeneste eller bilder
-            for inspirasjon til antrekk.
+            For de som ikke kjenner til Vazelina Bilopphøggers:
+            søk opp sangene på Spotify eller lignende,
+            og se på bilder for inspirasjon til antrekk.
         </p>
+
     </div>
 
 </section>
@@ -356,9 +342,9 @@ a{
 
         <input type="text" id="allergy" placeholder="Evt. matallergi">
 
-        <p style="margin-bottom:10px;">
-            Jeg kan bake en kake, kryss av nedenfor:
-        </p>
+        <p><strong>Jeg kan bake en kake, kryss av nedenfor:</strong></p>
+
+        <br>
 
         <div class="cake-list">
 
@@ -430,25 +416,30 @@ a{
 
 function showPage(pageId, btn){
 
-    document.querySelectorAll('.page').forEach(page=>{
+    document.querySelectorAll('.page').forEach(function(page){
         page.classList.remove('active');
     });
 
-    document.getElementById(pageId).classList.add('active');
+    const selectedPage=document.getElementById(pageId);
 
-    document.querySelectorAll('.bottom-nav button').forEach(button=>{
-        button.classList.remove('active');
-    });
+    if(selectedPage){
+        selectedPage.classList.add('active');
+    }
+
+    document.querySelectorAll('.bottom-nav button')
+        .forEach(function(button){
+            button.classList.remove('active');
+        });
 
     btn.classList.add('active');
 
-    if(pageId==="participants"){
-        loadParticipants();
-    }
+    loadParticipants();
+    updateCakeAvailability();
 
-    if(pageId==="signup"){
-        updateCakeAvailability();
-    }
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
+    });
 }
 
 function registerParticipant(){
@@ -457,7 +448,8 @@ function registerParticipant(){
     const last=document.getElementById('lastName').value.trim();
     const allergy=document.getElementById('allergy').value.trim();
 
-    const selectedCake=document.querySelector('input[name="cake"]:checked');
+    const selectedCake=
+        document.querySelector('input[name="cake"]:checked');
 
     const cake=selectedCake ? selectedCake.value : "";
 
@@ -487,9 +479,8 @@ function registerParticipant(){
     document.getElementById('lastName').value='';
     document.getElementById('allergy').value='';
 
-    document.querySelectorAll('input[name="cake"]').forEach(c=>{
-        c.checked=false;
-    });
+    document.querySelectorAll('input[name="cake"]')
+        .forEach(c=>c.checked=false);
 
     updateCakeAvailability();
 }
@@ -504,15 +495,17 @@ function updateCakeAvailability(){
             .filter(p=>p.cake)
             .map(p=>p.cake);
 
-    document.querySelectorAll('input[name="cake"]').forEach(cake=>{
+    document.querySelectorAll('input[name="cake"]')
+        .forEach(cake=>{
 
-        if(usedCakes.includes(cake.value)){
+            cake.disabled=false;
+            cake.parentElement.classList.remove('disabled-cake');
 
-            cake.disabled=true;
-
-            cake.parentElement.classList.add('disabled-cake');
-        }
-    });
+            if(usedCakes.includes(cake.value)){
+                cake.disabled=true;
+                cake.parentElement.classList.add('disabled-cake');
+            }
+        });
 }
 
 function loadParticipants(){
@@ -524,22 +517,28 @@ function loadParticipants(){
         JSON.parse(localStorage.getItem('participants')) || [];
 
     if(participants.length===0){
-
         container.innerHTML='<p>Ingen påmeldte ennå.</p>';
         return;
     }
 
     container.innerHTML=
         participants.map(p=>`
-            <div class="participant">
-                <strong>${p.first} ${p.last}</strong>
+        <div class="participant">
 
-                ${p.allergy ? `<br><small>Matallergi: ${p.allergy}</small>` : ''}
+            <strong>${p.first} ${p.last}</strong>
 
-                ${p.cake ? `<br><small>Kake: ${p.cake}</small>` : ''}
-            </div>
+            ${p.allergy ? `<br><small>Matallergi: ${p.allergy}</small>` : ''}
+
+            ${p.cake ? `<br><small>Kake: ${p.cake}</small>` : ''}
+
+        </div>
         `).join('');
 }
 
+updateCakeAvailability();
 loadParticipants();
-updateCake
+
+</script>
+
+</body>
+</html>
