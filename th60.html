@@ -24,7 +24,7 @@
 }
 
 body{
-    font-family: "Segoe UI", Arial, sans-serif;
+    font-family:"Segoe UI", Arial, sans-serif;
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
@@ -76,7 +76,7 @@ body{
     font-size:1.1rem;
 }
 
-input{
+input[type=text]{
     width:100%;
     padding:14px;
     font-size:1rem;
@@ -153,6 +153,15 @@ a{
     font-weight:bold;
 }
 
+.cake-list label{
+    display:block;
+    margin-bottom:8px;
+}
+
+.disabled-cake{
+    color:#999;
+}
+
 @media (max-width:600px){
 
     .hero{
@@ -173,16 +182,12 @@ a{
 
 <body>
 
-<!-- VELKOMMEN -->
-
 <section class="page active" id="welcome">
 
     <div class="hero">
         <h1>Helge & Torstein 2 × 60 år</h1>
 
-        <p>
-            En festaften inspirert av Vazelina Bilopphøggers
-        </p>
+        <p>En festaften inspirert av Vazelina Bilopphøggers</p>
 
         <br>
 
@@ -201,8 +206,8 @@ a{
         <br>
 
         <p>
-            Vi inviterer til en hyggelig kveld med tapas,
-            godt drikke, Vazelina-stemning og masse godt selskap.
+            Vi inviterer til en hyggelig kveld med tapas, godt drikke,
+            Vazelina-stemning og masse godt selskap.
         </p>
     </div>
 
@@ -216,8 +221,6 @@ a{
     </div>
 
 </section>
-
-<!-- INFO -->
 
 <section class="page" id="info">
 
@@ -233,8 +236,7 @@ a{
         <h2>Mat og drikke</h2>
 
         <p>Tapas</p>
-        <p>Vin/øl/alkoholfritt</p>
-
+        <p>Vin / øl / alkoholfritt</p>
 
         <br>
 
@@ -247,8 +249,25 @@ a{
         <h2>Gaver mottas ikke</h2>
 
         <p>
-            ...men vi håper du tar med ditt gode humør. Ta gjerne med en flaske vin eller noen gode øl
+            ...men vi håper du tar med ditt gode humør.
+            Ta gjerne med en flaske vin eller noen gode øl
             til vår felles bar.
+        </p>
+
+        <br>
+
+        <p>
+            Har du lyst til å bidra med underholdning i løpet av kvelden
+            setter vi stor pris på det. Vi ønsker gjerne morsomme innslag,
+            musikk, historier, quiz eller andre kreative bidrag fremfor
+            tradisjonelle taler.
+        </p>
+
+        <br>
+
+        <p>
+            Vi setter også stor pris på de som ønsker å bake en kake.
+            Dette registreres under fanen <strong>Påmelding</strong>.
         </p>
     </div>
 
@@ -262,7 +281,8 @@ a{
         <br>
 
         <p>
-            <strong>Pris:</strong> Enkeltrom 1095,-/dobbeltrom 1295,- med frokost
+            <strong>Pris:</strong>
+            Enkeltrom 1095,- / dobbeltrom 1295,- med frokost
         </p>
 
         <p>
@@ -282,11 +302,13 @@ a{
 
         <p>
             Merk bestillingen med:
-            <strong>"Helge og Torstein 60 år"</strong>
+            <strong>Helge og Torstein 60 år</strong>
         </p>
+
     </div>
 
     <div class="card">
+
         <h2>Feststed</h2>
 
         <iframe
@@ -298,41 +320,29 @@ a{
 
 </section>
 
-<!-- ANTREKK -->
-
 <section class="page" id="clothing">
 
     <div class="card">
-
         <h2>Antrekk</h2>
 
         <p>
-            Det kan være alt fra en øks på
-            bilopphøggerskjorta
-            (ref. «Borghild»),
-            eller en hatt, til fullt
+            Det kan være alt fra en øks på bilopphøggerskjorta
+            (ref. «Borghild»), eller en hatt, til fullt
             50-tallsantrekk.
         </p>
-
     </div>
 
     <div class="card">
-
         <h2>Inspirasjon</h2>
 
         <p>
-            For de som ikke kjenner til
-            Vazelina Bilopphøggers eller ønsker inspirasjon: Søk opp sangene på en strømmetjeneste
-            eller bilder for inspirasjon til antrekk.
+            For de som ikke kjenner til Vazelina Bilopphøggers eller ønsker
+            inspirasjon: Søk opp sangene på en strømmetjeneste eller bilder
+            for inspirasjon til antrekk.
         </p>
-
-        <br>
-
     </div>
 
 </section>
-
-<!-- PÅMELDING -->
 
 <section class="page" id="signup">
 
@@ -340,27 +350,40 @@ a{
 
         <h2>Påmelding</h2>
 
-        <input
-            type="text"
-            id="firstName"
-            placeholder="Fornavn">
+        <input type="text" id="firstName" placeholder="Fornavn">
 
-        <input
-            type="text"
-            id="lastName"
-            placeholder="Etternavn">
+        <input type="text" id="lastName" placeholder="Etternavn">
 
-        <button
-            class="action"
-            onclick="registerParticipant()">
+        <input type="text" id="allergy" placeholder="Evt. matallergi">
+
+        <p style="margin-bottom:10px;">
+            Jeg kan bake en kake, kryss av nedenfor:
+        </p>
+
+        <div class="cake-list">
+
+            <label><input type="radio" name="cake" value="Ostekake"> Ostekake</label>
+            <label><input type="radio" name="cake" value="Sjokoladekake"> Sjokoladekake</label>
+            <label><input type="radio" name="cake" value="Gulrotkake"> Gulrotkake</label>
+            <label><input type="radio" name="cake" value="Kvæfjordkake"> Kvæfjordkake</label>
+            <label><input type="radio" name="cake" value="Suksessterte"> Suksessterte</label>
+            <label><input type="radio" name="cake" value="Napoleonskake"> Napoleonskake</label>
+            <label><input type="radio" name="cake" value="Kransekake"> Kransekake</label>
+            <label><input type="radio" name="cake" value="Bløtkake"> Bløtkake</label>
+            <label><input type="radio" name="cake" value="Eplekake"> Eplekake</label>
+            <label><input type="radio" name="cake" value="Verdens Beste"> Verdens Beste</label>
+
+        </div>
+
+        <br>
+
+        <button class="action" onclick="registerParticipant()">
             Meld meg på
         </button>
 
     </div>
 
 </section>
-
-<!-- DELTAKERE -->
 
 <section class="page" id="participants">
 
@@ -374,36 +397,29 @@ a{
 
 </section>
 
-<!-- MENY -->
-
 <nav class="bottom-nav">
 
-    <button class="active"
-            onclick="showPage('welcome',this)">
+    <button class="active" onclick="showPage('welcome',this)">
         <span>🏠</span>
         <span>Velkommen</span>
     </button>
 
-    <button
-            onclick="showPage('info',this)">
+    <button onclick="showPage('info',this)">
         <span>ℹ️</span>
         <span>Info</span>
     </button>
 
-    <button
-            onclick="showPage('clothing',this)">
+    <button onclick="showPage('clothing',this)">
         <span>👕</span>
         <span>Antrekk</span>
     </button>
 
-    <button
-            onclick="showPage('signup',this)">
+    <button onclick="showPage('signup',this)">
         <span>✅</span>
         <span>Påmelding</span>
     </button>
 
-    <button
-            onclick="showPage('participants',this)">
+    <button onclick="showPage('participants',this)">
         <span>👥</span>
         <span>Deltakere</span>
     </button>
@@ -414,47 +430,50 @@ a{
 
 function showPage(pageId, btn){
 
-    document.querySelectorAll('.page')
-    .forEach(page => page.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(page=>{
+        page.classList.remove('active');
+    });
 
-    document.getElementById(pageId)
-    .classList.add('active');
+    document.getElementById(pageId).classList.add('active');
 
-    document.querySelectorAll('.bottom-nav button')
-    .forEach(button => button.classList.remove('active'));
+    document.querySelectorAll('.bottom-nav button').forEach(button=>{
+        button.classList.remove('active');
+    });
 
     btn.classList.add('active');
 
-    if(pageId === 'participants'){
+    if(pageId==="participants"){
         loadParticipants();
+    }
+
+    if(pageId==="signup"){
+        updateCakeAvailability();
     }
 }
 
 function registerParticipant(){
 
-    const first =
-        document.getElementById('firstName').value.trim();
+    const first=document.getElementById('firstName').value.trim();
+    const last=document.getElementById('lastName').value.trim();
+    const allergy=document.getElementById('allergy').value.trim();
 
-    const last =
-        document.getElementById('lastName').value.trim();
+    const selectedCake=document.querySelector('input[name="cake"]:checked');
+
+    const cake=selectedCake ? selectedCake.value : "";
 
     if(!first || !last){
-
-        alert(
-            'Fyll inn både fornavn og etternavn.'
-        );
-
+        alert('Fyll inn både fornavn og etternavn.');
         return;
     }
 
-    let participants =
-        JSON.parse(
-            localStorage.getItem('participants')
-        ) || [];
+    let participants=
+        JSON.parse(localStorage.getItem('participants')) || [];
 
     participants.push({
         first:first,
-        last:last
+        last:last,
+        allergy:allergy,
+        cake:cake
     });
 
     localStorage.setItem(
@@ -462,43 +481,65 @@ function registerParticipant(){
         JSON.stringify(participants)
     );
 
-    alert(
-        'Takk for påmeldingen!'
-    );
+    alert('Takk for påmeldingen!');
 
     document.getElementById('firstName').value='';
     document.getElementById('lastName').value='';
+    document.getElementById('allergy').value='';
+
+    document.querySelectorAll('input[name="cake"]').forEach(c=>{
+        c.checked=false;
+    });
+
+    updateCakeAvailability();
+}
+
+function updateCakeAvailability(){
+
+    const participants=
+        JSON.parse(localStorage.getItem('participants')) || [];
+
+    const usedCakes=
+        participants
+            .filter(p=>p.cake)
+            .map(p=>p.cake);
+
+    document.querySelectorAll('input[name="cake"]').forEach(cake=>{
+
+        if(usedCakes.includes(cake.value)){
+
+            cake.disabled=true;
+
+            cake.parentElement.classList.add('disabled-cake');
+        }
+    });
 }
 
 function loadParticipants(){
 
-    const container =
+    const container=
         document.getElementById('participantList');
 
-    const participants =
-        JSON.parse(
-            localStorage.getItem('participants')
-        ) || [];
+    const participants=
+        JSON.parse(localStorage.getItem('participants')) || [];
 
-    if(participants.length === 0){
+    if(participants.length===0){
 
-        container.innerHTML =
-            '<p>Ingen påmeldte ennå.</p>';
-
+        container.innerHTML='<p>Ingen påmeldte ennå.</p>';
         return;
     }
 
-    container.innerHTML =
-        participants.map(p =>
-            `<div class="participant">
-                ${p.first} ${p.last}
-            </div>`
-        ).join('');
+    container.innerHTML=
+        participants.map(p=>`
+            <div class="participant">
+                <strong>${p.first} ${p.last}</strong>
+
+                ${p.allergy ? `<br><small>Matallergi: ${p.allergy}</small>` : ''}
+
+                ${p.cake ? `<br><small>Kake: ${p.cake}</small>` : ''}
+            </div>
+        `).join('');
 }
 
 loadParticipants();
-
-</script>
-
-</body>
-</html>
+updateCake
