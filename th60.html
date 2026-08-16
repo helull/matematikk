@@ -9,11 +9,12 @@
 <style>
 
 :root{
-    --bg:#181818;
-    --card:#252525;
-    --yellow:#ffca28;
-    --red:#c62828;
-    --text:#f4f4f4;
+    --bg:#f8f3ea;
+    --card:#ffffff;
+    --primary:#8b5e34;
+    --secondary:#d4a437;
+    --text:#4f3b28;
+    --menu:#f1e7d4;
 }
 
 *{
@@ -23,7 +24,7 @@
 }
 
 body{
-    font-family:Arial,Helvetica,sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
     background:var(--bg);
     color:var(--text);
     min-height:100vh;
@@ -32,9 +33,9 @@ body{
 
 .page{
     display:none;
-    padding:20px;
     max-width:900px;
     margin:auto;
+    padding:20px;
 }
 
 .page.active{
@@ -43,88 +44,68 @@ body{
 
 .hero{
     text-align:center;
-    padding:40px 20px;
+    padding:40px 10px;
 }
 
 .hero h1{
-    color:var(--yellow);
+    color:var(--primary);
     font-size:clamp(2rem,5vw,4rem);
+    margin-bottom:15px;
 }
 
 .hero p{
-    margin-top:15px;
-    font-size:1.2rem;
+    font-size:1.1rem;
 }
 
 .card{
     background:var(--card);
-    padding:20px;
-    border-radius:15px;
-    margin-bottom:15px;
+    padding:22px;
+    border-radius:18px;
+    margin-bottom:18px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
 .card h2{
-    color:var(--yellow);
-    margin-bottom:15px;
+    color:var(--secondary);
+    margin-bottom:12px;
 }
 
 .highlight{
-    color:var(--yellow);
+    color:var(--primary);
     font-weight:bold;
+    font-size:1.1rem;
 }
 
 input{
     width:100%;
-    padding:12px;
-    border:none;
+    padding:14px;
+    font-size:1rem;
+    border:1px solid #ddd;
     border-radius:10px;
     margin-bottom:15px;
-    font-size:1rem;
 }
 
-button{
+button.action{
     width:100%;
-    padding:14px;
-    background:var(--red);
+    background:var(--secondary);
     color:white;
     border:none;
+    padding:14px;
     border-radius:10px;
-    cursor:pointer;
     font-size:1rem;
+    cursor:pointer;
 }
 
-button:hover{
+button.action:hover{
     opacity:0.9;
 }
 
 .participant{
-    background:#333;
-    margin-bottom:10px;
+    background:#faf6ee;
+    border-left:4px solid var(--secondary);
     padding:12px;
     border-radius:10px;
-}
-
-.bottom-nav{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    height:70px;
-    background:#111;
-    display:flex;
-    border-top:1px solid #444;
-}
-
-.bottom-nav button{
-    flex:1;
-    border-radius:0;
-    background:#111;
-    color:white;
-    font-size:0.9rem;
-}
-
-.bottom-nav button.active{
-    background:var(--red);
+    margin-bottom:10px;
 }
 
 iframe{
@@ -134,8 +115,62 @@ iframe{
     border-radius:12px;
 }
 
+a{
+    color:var(--primary);
+}
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:75px;
+    background:var(--menu);
+    border-top:1px solid #dcccae;
+    display:flex;
+}
+
+.bottom-nav button{
+    flex:1;
+    border:none;
+    background:var(--menu);
+    color:var(--primary);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    gap:3px;
+    font-size:0.75rem;
+    cursor:pointer;
+}
+
+.bottom-nav button span:first-child{
+    font-size:1.3rem;
+}
+
+.bottom-nav button.active{
+    background:#e7d4b3;
+    font-weight:bold;
+}
+
+@media (max-width:600px){
+
+    .hero{
+        padding:25px 10px;
+    }
+
+    iframe{
+        height:250px;
+    }
+
+    .bottom-nav button{
+        font-size:0.65rem;
+    }
+}
+
 </style>
 </head>
+
 <body>
 
 <!-- VELKOMMEN -->
@@ -143,8 +178,17 @@ iframe{
 <section class="page active" id="welcome">
 
     <div class="hero">
-        <h1>🚗 Helge & Torstein 2 x 60 år 🚗</h1>
-        <p>Vazelina Bilopphøggers-temafest</p>
+        <h1>🚗 Helge & Torstein 2 × 60 år 🚗</h1>
+
+        <p>
+            En festaften inspirert av Vazelina Bilopphøggers
+        </p>
+
+        <br>
+
+        <p class="highlight">
+            Fredag 23. oktober 2026 kl. 19.00
+        </p>
     </div>
 
     <div class="card">
@@ -157,15 +201,17 @@ iframe{
         <br>
 
         <p>
-            Finn fram ditt beste <strong>Vazelina-inspirerte antrekk</strong>
-            og bli med på en kveld med tapas, god stemning og en
-            velfylt fellesbar.
+            Vi inviterer til en hyggelig kveld med tapas,
+            godt drikke, Vazelina-stemning og masse godt selskap.
         </p>
+    </div>
 
-        <br>
+    <div class="card">
+        <h2>📌 Viktig</h2>
 
-        <p class="highlight">
-            Fredag 23. oktober 2026 kl. 18.00
+        <p>
+            <strong>Påmeldingsfrist:</strong>
+            Fredag 15. september 2026.
         </p>
     </div>
 
@@ -179,16 +225,28 @@ iframe{
         <h2>📅 Praktisk informasjon</h2>
 
         <p><strong>Dato:</strong> 23. oktober 2026</p>
-        <p><strong>Tid:</strong> 18.00</p>
+        <p><strong>Tid:</strong> 19.00</p>
         <p><strong>Tema:</strong> Vazelina Bilopphøggers</p>
-        <p><strong>Antrekk:</strong> Vazelina-inspirert</p>
-        <p><strong>Mat:</strong> Tapas</p>
+    </div>
+
+    <div class="card">
+        <h2>🍽️ Mat</h2>
+
+        <p>Tapas.</p>
+
+        <br>
+
+        <p>
+            Gi beskjed om eventuelle matallergier.
+        </p>
     </div>
 
     <div class="card">
         <h2>🍷 Gaver</h2>
+
         <p>
-            Ta med en flaske vin eller noen gode øl til vår felles bar.
+            Ta gjerne med en flaske vin eller noen gode øl
+            til vår felles bar.
         </p>
     </div>
 
@@ -196,15 +254,23 @@ iframe{
         <h2>🛏️ Overnatting</h2>
 
         <p>
-            Scandic Asker tilbyr rom til avtalepris.
+            Vi har fått avtalepris på Scandic Asker.
         </p>
 
         <br>
 
-        <p><strong>Pris:</strong> 1 295 kr for dobbeltrom</p>
+        <p>
+            <strong>Pris:</strong> 1295 kr for dobbeltrom.
+        </p>
 
         <p>
-            Bestill på:
+            Hotellet ligger i gangavstand fra festen.
+        </p>
+
+        <br>
+
+        <p>
+            Bestilling:
             <a href="mailto:asker@scandichotels.com">
                 asker@scandichotels.com
             </a>
@@ -214,7 +280,7 @@ iframe{
 
         <p>
             Merk bestillingen med:
-            <strong>«Helge og Torstein 60 år»</strong>
+            <strong>"Helge og Torstein 60 år"</strong>
         </p>
     </div>
 
@@ -222,8 +288,49 @@ iframe{
         <h2>📍 Feststed</h2>
 
         <iframe
-            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d562.578506585378!2d10.436860081972553!3d59.83582189229551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sno!2sno!4v1786887186258!5m2!1sno!2sno">
+            src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d562.578506585378!2d10.436860081972553!3d59.83582189229551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sno!2sno!4v1786887186258!5m2!1sno!2sno"
+            loading="lazy">
         </iframe>
+
+    </div>
+
+</section>
+
+<!-- ANTREKK -->
+
+<section class="page" id="clothing">
+
+    <div class="card">
+
+        <h2>👕 Antrekk</h2>
+
+        <p>
+            Det kan være alt fra en øks på
+            bilopphøggerskjorta
+            (ref. «Gi meg fri i kveld»),
+            eller en hatt og til fullt
+            50-tallsantrekk.
+        </p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>🎵 Inspirasjon</h2>
+
+        <p>
+            For de som ikke vet kan dere søke opp
+            Vazelina Bilopphøggers på en strømmetjeneste
+            (Spotify eller lignende) og høre på noen av sangene.
+        </p>
+
+        <br>
+
+        <p>
+            I tillegg kan dere søke opp bilder for å få
+            tips og inspirasjon til kleskode.
+        </p>
+
     </div>
 
 </section>
@@ -236,11 +343,19 @@ iframe{
 
         <h2>✅ Påmelding</h2>
 
-        <input type="text" id="firstName" placeholder="Fornavn">
+        <input
+            type="text"
+            id="firstName"
+            placeholder="Fornavn">
 
-        <input type="text" id="lastName" placeholder="Etternavn">
+        <input
+            type="text"
+            id="lastName"
+            placeholder="Etternavn">
 
-        <button onclick="registerParticipant()">
+        <button
+            class="action"
+            onclick="registerParticipant()">
             Meld meg på
         </button>
 
@@ -253,9 +368,11 @@ iframe{
 <section class="page" id="participants">
 
     <div class="card">
+
         <h2>👥 Påmeldte gjester</h2>
 
         <div id="participantList"></div>
+
     </div>
 
 </section>
@@ -264,20 +381,34 @@ iframe{
 
 <nav class="bottom-nav">
 
-    <button class="active" onclick="showPage('welcome',this)">
-        Velkommen
+    <button class="active"
+            onclick="showPage('welcome',this)">
+        <span>🏠</span>
+        <span>Velkommen</span>
     </button>
 
-    <button onclick="showPage('info',this)">
-        Info
+    <button
+            onclick="showPage('info',this)">
+        <span>ℹ️</span>
+        <span>Info</span>
     </button>
 
-    <button onclick="showPage('signup',this)">
-        Påmelding
+    <button
+            onclick="showPage('clothing',this)">
+        <span>👕</span>
+        <span>Antrekk</span>
     </button>
 
-    <button onclick="showPage('participants',this)">
-        Deltakere
+    <button
+            onclick="showPage('signup',this)">
+        <span>✅</span>
+        <span>Påmelding</span>
+    </button>
+
+    <button
+            onclick="showPage('participants',this)">
+        <span>👥</span>
+        <span>Deltakere</span>
     </button>
 
 </nav>
@@ -287,13 +418,13 @@ iframe{
 function showPage(pageId, btn){
 
     document.querySelectorAll('.page')
-        .forEach(p => p.classList.remove('active'));
+    .forEach(page => page.classList.remove('active'));
 
     document.getElementById(pageId)
-        .classList.add('active');
+    .classList.add('active');
 
     document.querySelectorAll('.bottom-nav button')
-        .forEach(b => b.classList.remove('active'));
+    .forEach(button => button.classList.remove('active'));
 
     btn.classList.add('active');
 
@@ -311,12 +442,18 @@ function registerParticipant(){
         document.getElementById('lastName').value.trim();
 
     if(!first || !last){
-        alert("Fyll inn både fornavn og etternavn.");
+
+        alert(
+            'Fyll inn både fornavn og etternavn.'
+        );
+
         return;
     }
 
     let participants =
-        JSON.parse(localStorage.getItem('participants')) || [];
+        JSON.parse(
+            localStorage.getItem('participants')
+        ) || [];
 
     participants.push({
         first:first,
@@ -328,33 +465,38 @@ function registerParticipant(){
         JSON.stringify(participants)
     );
 
-    alert("Takk for påmeldingen!");
+    alert(
+        'Takk for påmeldingen!'
+    );
 
-    document.getElementById('firstName').value="";
-    document.getElementById('lastName').value="";
+    document.getElementById('firstName').value='';
+    document.getElementById('lastName').value='';
 }
 
 function loadParticipants(){
 
-    const list =
+    const container =
         document.getElementById('participantList');
 
     const participants =
-        JSON.parse(localStorage.getItem('participants')) || [];
+        JSON.parse(
+            localStorage.getItem('participants')
+        ) || [];
 
-    if(participants.length===0){
-        list.innerHTML =
-            "<p>Ingen påmeldte ennå.</p>";
+    if(participants.length === 0){
+
+        container.innerHTML =
+            '<p>Ingen påmeldte ennå.</p>';
+
         return;
     }
 
-    list.innerHTML = participants
-        .map(p =>
+    container.innerHTML =
+        participants.map(p =>
             `<div class="participant">
                 ${p.first} ${p.last}
             </div>`
-        )
-        .join('');
+        ).join('');
 }
 
 loadParticipants();
