@@ -300,6 +300,27 @@ button{
 
     </div>
 
+    <div class="card">
+
+    <h2>Feststed</h2>
+
+    <p>
+        <strong>Adresse:</strong><br>
+        Askerveien 41<br>
+        1384 Asker
+    </p>
+
+    <br>
+
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d562.578506585378!2d10.436860081972553!3d59.83582189229551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sno!2sno!4v1786887186258!5m2!1sno!2sno"
+        loading="lazy"
+        allowfullscreen
+        referrerpolicy="strict-origin-when-cross-origin">
+    </iframe>
+
+</div>
+    
 </section>
 
 <section class="page" id="clothing">
@@ -412,7 +433,35 @@ button{
 
 </nav>
 
-<script>
+<script type="module">
+    import { initializeApp }
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    query,
+    orderBy
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+    /* FIREBASE */
+
+const firebaseConfig = {
+
+    apiKey: "SETT_INN",
+    authDomain: "SETT_INN",
+    projectId: "SETT_INN",
+    storageBucket: "SETT_INN",
+    messagingSenderId: "SETT_INN",
+    appId: "SETT_INN"
+
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 function showPage(pageId, btn){
 
@@ -433,6 +482,17 @@ function showPage(pageId, btn){
 
     btn.classList.add('active');
 
+    /*
+FREMTIDIG FIREBASE:
+
+Hent alle deltakere fra Firestore
+og bygg usedCakes-array ut fra
+collection("participants")
+
+Da blir kakevalgene synlige
+for alle brukere.
+*/
+    
     loadParticipants();
     updateCakeAvailability();
 
@@ -442,6 +502,31 @@ function showPage(pageId, btn){
     });
 }
 
+
+
+
+
+
+
+    /*
+----------------------------------------
+FIREBASE OPPGRADERING
+
+ERSTATT SENERE:
+
+localStorage.getItem(...)
+localStorage.setItem(...)
+
+MED:
+
+addDoc(...)
+getDocs(...)
+
+MOT COLLECTION "participants"
+
+----------------------------------------
+*/
+    
 function registerParticipant(){
 
     const first=document.getElementById('firstName').value.trim();
