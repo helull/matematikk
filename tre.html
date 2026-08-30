@@ -445,18 +445,18 @@
 
         chkOppgaverLabel.style.display="block";
         chkOppgaver.checked=false;
-        chkVideoLabel.style.display="block";
+        chkVideoLabel.style.display="none"; 
         chkVideoLabel.checked=false;
 
         function skjulHjelp() {
-                hjelpeModus = false;
-                hjelp.style.display = "none";
+            hjelpeModus = false;
+            hjelp.style.display = "none";
+            startTidtaker();
         }
     
         function visHjelp() {
             if (hjelpeModus == true) {
                 skjulHjelp();
-                startTidtaker();
             }
             else {
                 hjelpeModus = true;
