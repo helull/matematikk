@@ -73,7 +73,7 @@
 <script type="module">
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+  import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAemmodCGkeIzNzH_al84CQqvxK6xwDFig",
@@ -126,6 +126,30 @@
         </div>
       `;
 
+      // herfra er lagt til 30.08.2026 */
+      
+// Klikk på raden for å slette bruker
+row.style.cursor = "pointer";
+
+row.addEventListener("click", async () => {
+
+  const bekreft = confirm(
+    `Vil du slette brukeren "${elev.navn}"?`
+  );
+
+  if (!bekreft) return;
+
+  try {
+    await remove(ref(db, `klasser/${classId}/${elevId}`));
+    alert("Brukeren er slettet.");
+  } catch (error) {
+    alert("Feil ved sletting: " + error.message);
+  }
+
+});
+      // til hit*/
+
+      
       list.appendChild(row);
 
       // 🧠 oppdater lagret verdi
