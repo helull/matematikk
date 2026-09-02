@@ -437,6 +437,7 @@
         var oppgaveOverskrift = document.getElementById("oppgaveOverskrift");
         var oppgaveInnhold = document.getElementById("oppgaveInnhold");
         var plakatenErStor = true;
+        var letteOppgaver = false;
         
         plakat.addEventListener("click", fjernPlakat);
         btnInfo.addEventListener("click",visHjelp);
@@ -599,6 +600,38 @@
 
             //EkspertModus skal gjøre at oppgavene blir vanskeligere
             //Antall grenser må passe med antall elementer i ekspertModusGrenser
+
+
+            if (letteOppgaver) {
+                if (ekspertModusGrenseIndex == 0 || ekspertModusGrenseIndex == 1) {
+                    tall2 = Math.ceil(Math.random() * 5);
+                    tall3 = Math.ceil(Math.random() * 5);
+                    deleModus = false;
+                    desimalModus = false;
+                } else if (ekspertModusGrenseIndex == 2 || ekspertModusGrenseIndex == 3) {
+                    tall2 = Math.ceil(Math.random() * 5);
+                    tall3 = Math.ceil(Math.random() * 10);
+                    deleModus = false;
+                    desimalModus = false;
+                } else if (ekspertModusGrenseIndex == 4 || ekspertModusGrenseIndex == 5) {
+                    tall2 = Math.ceil(Math.random() * 5);
+                    tall3 = Math.ceil(Math.random() * 10);
+                    deleModus = true;
+                    desimalModus = false;
+               } else if (ekspertModusGrenseIndex == 6 || ekspertModusGrenseIndex == 7) {
+                    tall2 = Math.ceil(Math.random() * 10);
+                    tall3 = Math.ceil(Math.random() * 10);
+                    deleModus = false;
+                    desimalModus = false;
+               } else if (ekspertModusGrenseIndex == 8 || ekspertModusGrenseIndex == 9) {
+                    tall2 = Math.ceil(Math.random() * 10);
+                    tall3 = Math.ceil(Math.random() * 10);
+                    deleModus = true;
+                    desimalModus = false;
+                } else {
+                    alert("fant ikke ekspertModusGrenseIndex, den er: " + ekspertModusGrenseIndex)
+                }
+            } else {                          //normal omgang, ikke "lette oppgaver"
             if (ekspertModusGrenseIndex == 0) {
                 tall2 = Math.ceil(Math.random() * 5);
                 tall3 = Math.ceil(Math.random() * 5);
@@ -662,7 +695,8 @@
             else {
                 alert("fant ikke ekspertModusGrenseIndex, den er: " + ekspertModusGrenseIndex)
             }
-
+            }
+            
             //Tallet i toppen er ALLID produktet av de to nede
             tall1 = tall2 * tall3;
 
@@ -796,6 +830,14 @@
                 localStorage.trekantPoeng = 10;
                 if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
                 inpTall1.value = "";  // Trengs for at ikke programmet skal loope i vurderTallene.
+                settOppOppgaveITrekant();
+            }
+            else if ((tall1Norm == "1009") || (tall2Norm == "1009") || (tall3Norm == "1009"))  { //reset poeng til null!
+                if (letteOppgaver) {
+                    letteOppgaver = false;
+                } else  {
+                    letteOppgaver = true;
+                }
                 settOppOppgaveITrekant();
             }
             else if (oppgaveSkalBesvares) {    // Programmet skal få input for å vurdere et svar på en oppgave
