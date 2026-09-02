@@ -119,7 +119,8 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  const classId = prompt("Skriv inn klasse-ID:");
+  const temp_klasse = prompt("Skriv inn klasse-ID:");
+  const classId = temp_klasse.toUpperCase();
   document.getElementById("classTitle").innerText = classId;
 
   const dbRef = ref(db, "klasser/" + classId);
