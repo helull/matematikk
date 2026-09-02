@@ -10,7 +10,7 @@
             position: relative;
             z-index: 1;
             display: flex;
-            display: -webkit-flex;
+            display: -webkiex;
             flex-direction: column;
             align-items: center;
         }
@@ -916,8 +916,9 @@
                 ekspertModusGrenseIndex = 0;
                 localStorage.trekantPoeng = 10;
                 if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
-                inpTall1.value = "";  // Trengs for at ikke programmet skal loope i vurderTallene.
-                settOppOppgaveITrekant();
+                //inpTall1.value = "";  // Trengs for at ikke programmet skal loope i vurderTallene.
+                resetInputVerdier();
+                //eh dette var feil??? settOppOppgaveITrekant();
             }
             else if ((tall1Norm == "1009") || (tall2Norm == "1009") || (tall3Norm == "1009"))  {   //"hack til lette oppgvaver!
                 if (letteOppgaver) {
@@ -925,8 +926,9 @@
                 } else  {
                     letteOppgaver = true;
                 }
-                inpTall1.value = "";  // Trengs for at ikke programmet skal loope i vurderTallene.
-                settOppOppgaveITrekant();
+                //inpTall1.value = "";  // Trengs for at ikke programmet skal loope i vurderTallene.
+                resetInputVerdier();
+                //eh dette var feil??? settOppOppgaveITrekant();
             }                
                 
             else { //normal omgang!
