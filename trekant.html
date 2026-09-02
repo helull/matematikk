@@ -88,8 +88,9 @@
 <script>
   document.getElementById("loginForm").addEventListener("submit", function(e) {
     e.preventDefault();
-
-    const klasse = document.getElementById("klasse").value;
+      
+    const klasse_temp = document.getElementById("klasse").value;
+    const klasse = klasse_temp.toUpperCase();
     const elev = document.getElementById("elev").value;
 
     // ✅ Lagre midlertidig
