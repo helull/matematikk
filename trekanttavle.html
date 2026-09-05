@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title>Klassevisning</title>
   
-  <audio id="pling" src="1.m4a"></audio>
+  <audio id="pling" src="trekantlyder/1.m4a"></audio>
   
   <style>
     body {
@@ -156,7 +156,7 @@
       const barClass = tidForPop ? "bar pop" : "bar";
 
       if (tidForPop) {
-          pling.src = String(Math.ceil(Math.random() * 10)) + ".m4a";
+          pling.src = "trekantlyder/" + String(Math.ceil(Math.random() * 10)) + ".m4a";
           pling.currentTime = 0.4;
           pling.play();
       }
@@ -184,7 +184,7 @@
     await remove(ref(db, `klasser/${classId}/${elevId}`));
     alert("Brukeren er slettet.");
     
-    pling.src = String(Math.ceil(Math.random() * 10)) + ".m4a";    
+    pling.src = "trekantlyder/" + String(Math.ceil(Math.random() * 10)) + ".m4a";   
     pling.currentTime = 0.4;
     pling.play();
     
@@ -202,7 +202,7 @@
       previousScores[elevId] = elev.poeng;
 
       if (Math.floor(gammel / 50) < Math.floor(elev.poeng / 50)) {
-        pling.src = String(Math.ceil(Math.random() * 10)) + ".m4a";
+        pling.src = "trekantlyder/" + String(Math.ceil(Math.random() * 10)) + ".m4a";
         pling.currentTime = 0.4;
         pling.play();
       }
