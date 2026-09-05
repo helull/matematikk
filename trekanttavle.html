@@ -160,12 +160,13 @@
           pling.currentTime = 0.4;
           pling.play();
       }
+
     row.innerHTML = `
-      <div class="name">${elev.navn}</div>
-      <div class="bar-container">
-        <div class="${barClass}" style="width:${prosent}%"></div>
+       <div class="name">${elev.navn} (${elev.poeng} poeng)</div>
+       <div class="bar-container">
+       <div class="${barClass}" style="width:${prosent}%"></div>
       </div>
-     `;
+    `;
 
       // herfra er lagt til 30.08.2026 */
       
