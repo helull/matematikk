@@ -258,10 +258,10 @@
     <img src="Trekant.png" alt="Bilde av trekant">
     <div id="trekant">
         <div id="tomrom"></div>
-        <input inputmode="decimal" type="text" id="inpTall1" value="6">
+        <input inputmode="decimal" type="text" id="inpTall1" value="6" data-verdi="">
         <div id="tomrom"></div>
-        <input inputmode="decimal" type="text" id="inpTall2" value="2">
-        <input inputmode="decimal" type="text" id="inpTall3" value="3">
+        <input inputmode="decimal" type="text" id="inpTall2" value="2" data-verdi="">
+        <input inputmode="decimal" type="text" id="inpTall3" value="3" data-verdi="">
     </div>
     <h3 id="melding">Fyll det tomme feltet, trykk så = </h3>
     <button id="btnVelgTall"> = </button>
@@ -611,6 +611,11 @@
             inpTall2.style.color = "black";
             inpTall3.style.color = "black";
 
+            // Nullstill mellomlagret verdi (gjort pga at jeg vil skrive ut potensen, men regne på virkelig verdi)
+            inpTall1.dataset.verdi="";
+            inpTall2.dataset.verdi="";
+            inpTall3.dataset.verdi="";
+
             //EkspertModus skal gjøre at oppgavene blir vanskeligere
             //Antall grenser må passe med antall elementer i ekspertModusGrenser
 
@@ -786,7 +791,7 @@
                 tallIBruk = 1;
             }
             //Erstsatt 10, 100 osv med en tierpotens
-if (Number((inpTall3.value) % 10) === 0) { console.log("inptall3 er: ", inpTall3.value, "og lengden er", inpTall3.value.length);
+if (Number((inpTall3.value) % 10) === 0) { console.log("inptall3 er: ", inpTall3.value, "og lengden er", inpTall3.value.length); inpTall3.dataset.verdi=inpTall.value;
     switch (inpTall3.value.length) {
         case 2:
             inpTall3.value = "10¹";
@@ -875,7 +880,12 @@ if (Number((inpTall3.value) % 10) === 0) { console.log("inptall3 er: ", inpTall3
             console.log("i vurdertallene, oSkalBesvares: "+ oppgaveSkalBesvares);
             console.log("i vurdertallene, oBlirBesvart: "+ oppgaveBlirBesvart);
             oppstart = false;  //trengs bare å gjøres en gang, pga at jeg vil at "Trykk her" skal bli stående til første svar er gitt!
+
             
+            if (inpTall1.dataset.verdi != "") {inpTall1.value = inpTall1.dataset.verdi};    // Hvis det har blitt tatt vare på et tall, bruk det! (for da er det originale
+            if (inpTall2.dataset.verdi != "") {inpTall2.value = inpTall2.dataset.verdi};    // erstattet av en unicode-potens)
+            if (inpTall3.dataset.verdi != "") {inpTall3.value = inpTall3.dataset.verdi};
+
             let tall1Norm = inpTall1.value.replaceAll(",",".");   // 28.05.2026 for å passe på iPhones numeriske tastatur som kun har komma
             let tall2Norm = inpTall2.value.replaceAll(",",".");
             let tall3Norm = inpTall3.value.replaceAll(",",".");
