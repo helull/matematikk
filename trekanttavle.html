@@ -183,6 +183,9 @@ row.addEventListener("click", async () => {
   try {
     await remove(ref(db, `klasser/${classId}/${elevId}`));
     alert("Brukeren er slettet.");
+    
+    document.getElementById("pling").play();
+    
   } catch (error) {
     alert("Feil ved sletting: " + error.message);
   }
