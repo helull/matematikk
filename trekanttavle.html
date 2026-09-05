@@ -183,7 +183,8 @@
     await remove(ref(db, `klasser/${classId}/${elevId}`));
     alert("Brukeren er slettet.");
     
-    document.getElementById("pling").play();
+    pling.currentTime = 0.4;
+    pling.play();
     
   } catch (error) {
     alert("Feil ved sletting: " + error.message);
@@ -197,8 +198,9 @@
 
       // 🧠 oppdater lagret verdi
       previousScores[elevId] = elev.poeng;
-      if (elev.poeng % 50 === 0) {
-         document.getElementById("pling").play();
+      if (Number(elev.poeng) % 50 === 0) {
+          pling.currentTime = 0.4;
+          pling.play();
       }
     });
 
