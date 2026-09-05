@@ -440,6 +440,11 @@
         var plakatenErStor = true;
         var letteOppgaver = false;
 
+        chkOppgaverLabel.style.display="block";
+        chkOppgaver.checked=false;
+        chkVideoLabel.style.display="none"; 
+        chkVideoLabel.checked=false;
+    
         // hent startmodusene, som er slik:
         //    1: Normal modus
         //    2: Lette oppgaver (kun 1-10 som skal ganges og deles)
@@ -448,17 +453,15 @@
         if (startModus == 2)
             {letteOppgaver = true}
         else if (startModus == 3)
-            {tierModus = true}
-        
+            {tierModus = true;  antallDesimaler = 3;    chkOppgaverLabel.style.display="none";}
+
+    //test, neste linje skal slettes
+        tierModus = true;  antallDesimaler = 3; chkOppgaverLabel.style.display="none";
+
+    
         plakat.addEventListener("click", fjernPlakat);
         btnInfo.addEventListener("click",visHjelp);
         hjelp.addEventListener("click",skjulHjelp);
-
-
-        chkOppgaverLabel.style.display="block";
-        chkOppgaver.checked=false;
-        chkVideoLabel.style.display="none"; 
-        chkVideoLabel.checked=false;
 
         function skjulHjelp() {
             hjelpeModus = false;
@@ -611,51 +614,33 @@
             //EkspertModus skal gjøre at oppgavene blir vanskeligere
             //Antall grenser må passe med antall elementer i ekspertModusGrenser
 
-            if (tierModus) {
+            if (tierModus) {    //Vi øver bare på 10-er problemer!
                 if (ekspertModusGrenseIndex == 0 || ekspertModusGrenseIndex == 1) {   // bare ganging, et av tallene er mellom 1 og 10, det andre er 10, 100 eller 1000
                     deleModus = false;
-                    desimalModus = false;
-                    if (Math.random() < 0.5) {
-                        tall2 = Math.ceil(Math.random() * 10);
-                        tall3 = Math.ceil(Math.random() * 3) * 10;
-                    } else {
-                        tall2 = 10;
-                        tall3 =  Math.ceil(Math.random() * 3) * 10;
-                    }
-
-
-
-...må fortsette her 04.09
-                    
-                } else if (ekspertModusGrenseIndex == 2 || ekspertModusGrenseIndex == 3) { // bare deling, dividend mellom 1 og 100
-                    tall2 = Math.ceil(Math.random() * 5);
-                    tall3 = Math.ceil(Math.random() * 10);
+                    desimalModus = false;              
+                    tall2 = Math.ceil(Math.random() * 10);        //tall mellom 1 og 10
+                    tall3 = 10 ** (Math.ceil(Math.random() * 3))  //10, 100 eller 1000
+                } else if (ekspertModusGrenseIndex == 2) {                             //bare ganging, et av tallene er mellom 0.01 og 100, det andre er 10, 100 eller 1000
                     deleModus = false;
-                    desimalModus = false;
-                } else if (ekspertModusGrenseIndex == 4 || ekspertModusGrenseIndex == 5) {
-                    tall2 = Math.ceil(Math.random() * 5);
-                    tall3 = Math.ceil(Math.random() * 10);
+                    desimalModus = true;
+                    tall2 = (Math.floor(Math.random() * 10000) + 1) / 10;   //tall mellom 0,1 og 1000 -> blir senere til 0,01 og 100 pga "desimalModus", se lengre ned
+                    tall3 = 10 ** (Math.ceil(Math.random() * 3))            //10, 100 eller 1000
+                } else if (ekspertModusGrenseIndex == 3 || ekspertModusGrenseIndex == 4 || ekspertModusGrenseIndex == 5 ) {   
+                                                                                        //bare deling, teller mellom 1 og 100, nevner er 10, 100 eller 1000
                     deleModus = true;
-                    desimalModus = false;
-               } else if (ekspertModusGrenseIndex == 6 || ekspertModusGrenseIndex == 7) {
-                    tall2 = Math.ceil(Math.random() * 10);
-                    tall3 = Math.ceil(Math.random() * 10);
-                    deleModus = false;
-                    desimalModus = false;
-               } else if (ekspertModusGrenseIndex == 8 || ekspertModusGrenseIndex == 9) {
-                    tall2 = Math.ceil(Math.random() * 10);
-                    tall3 = Math.ceil(Math.random() * 10);
-                    deleModus = true;
-                    desimalModus = false;
+                    desimalModus = true;
+                    tall2 = (Math.floor(Math.random() * 100) + 1) / 100;        //tall mellom 0,01 og 1 -> blir senere til 0,001 og 10 pga "desimalModus", se lengre ned
+                    tall3 = 10 ** (Math.ceil(Math.random() * 3))                //10, 100 eller 1000                    
+               } else if (ekspertModusGrenseIndex == 6 || ekspertModusGrenseIndex == 7 || ekspertModusGrenseIndex == 8 || ekspertModusGrenseIndex == 9) {
+                                                                                        // ganging eller deling et av tallene er mellom 1 og 100, det andre er 10, 100 eller 1000
+                    tall2 = (Math.floor(Math.random() * 100) + 1) / 100;        //tall mellom 0,01 og 1 -> blir senere til 0,001 og 10 pga "desimalModus", se lengre ned
+                    tall3 = 10 ** (Math.ceil(Math.random() * 3))                //10, 100 eller 1000              
+                    if (Math.random() > 0.5) {deleModus = true;} else {deleModus = false;}
+                    if (Math.random() > 0.5) {desimalModus = true;} else {desimalModus = false;}
                 } else {
                     alert("fant ikke ekspertModusGrenseIndex, den er: " + ekspertModusGrenseIndex)
                 }
             }
-
-
-
-
-
                 
             else if (letteOppgaver) {
                 desimalModus = false;
@@ -678,7 +663,7 @@
                } else if (ekspertModusGrenseIndex == 8 || ekspertModusGrenseIndex == 9) {
                     tall2 = Math.ceil(Math.random() * 10);
                     tall3 = Math.ceil(Math.random() * 10);
-                    deleModus = true;
+                    if (Math.random() > 0.5) {deleModus = true;} else {deleModus = false;}
                 } else {
                     alert("fant ikke ekspertModusGrenseIndex, den er: " + ekspertModusGrenseIndex)
                 }
@@ -995,7 +980,7 @@
                 }
                 
                 //Brukeren har svart riktig
-                if (Math.abs(tall1 - (tall2 * tall3)) < 0.01) {
+                if (Math.abs(tall1 - (tall2 * tall3)) < 0.001) {
                     console.log("forrige var rett");
                     forrigeVarRett = true;
                     poeng = poeng + pF;
