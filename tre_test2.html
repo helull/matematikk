@@ -975,7 +975,7 @@
                     btnVelgTall.innerHTML = "Prøv på nytt";
                 }
             }   
-            else if ((tall1Norm == ".") && (tall2Norm == ".") && (tall3Norm == "."))  { //reset poeng til null!
+            else if (((tall1Norm == ".") && (tall2Norm == ".")) || ((tall1Norm == ".") && (tall3Norm == ".")) || ((tall2Norm == ".") && (tall3Norm == ".")))  { //reset poeng til null!
                 poeng = 10;
                 ekspertModusGrenseIndex = 0;
                 localStorage.trekantPoeng = 10;
@@ -983,7 +983,7 @@
                 //inpTall1.value = "";  // Trengs for at ikke programmet skal loope i vurderTallene.
                 resetInputVerdier();
             }
-            else if ((tall1Norm == "10") && (tall2Norm == "10") && (tall3Norm == "10"))  { //gjør om til tierPotensOppgaver
+            else if (((tall1Norm == "10") && (tall2Norm == "10")) || ((tall1Norm == "10") && (tall3Norm == "10")) ||  ((tall2Norm == "10") && (tall3Norm == "10")))  { //gjør om til tierPotensOppgaver
                 if (tierModus) {
                     tierModus = false;
                     document.querySelectorAll("input").forEach(input => {
