@@ -790,30 +790,21 @@
                 inpTall3.value = String(tall3);
                 tallIBruk = 1;
             }
-            //Erstsatt 10, 100 osv med en tierpotens
-if (Number((inpTall3.value) % 10) === 0) { console.log("inptall3 er: ", inpTall3.value, "og lengden er", inpTall3.value.length); inpTall3.dataset.verdi=inpTall3.value;
-    switch (inpTall3.value.length) {
-        case 2:
-            inpTall3.value = "10¹";
-            break;
 
-        case 3:
-            inpTall3.value = "10²";
-            break;
-
-        case 4:
-            inpTall3.value = "10³";
-            break;
-
-        case 5:
-            inpTall3.value = "10⁴";
-            break;
-    }
-}
             
-            //if (10 % Number(inpTall1.value) === 0) {console.log("gjør om inpTall1 til 10²"); switch (inpTall1.length) {case 3: inpTall1.value = "10²";case 4: inpTall1.value = "10³";case 4: inpTall1.value = "10⁴";};}
-            //if (10 % Number(inpTall2.value) === 0) {console.log("gjør om inpTall2 til 10²");switch (inpTall2.length) {case 3: inpTall2.value = "10²";case 4: inpTall2.value = "10³";case 4: inpTall2.value = "10⁴";};}
-            //if (10 % Number(inpTall3.value) === 0) {console.log("gjør om inpTall3 til 10²");switch (inpTall3.length) {case 3: inpTall3.value = "10²";case 4: inpTall3.value = "10³";case 4: inpTall3.value = "10⁴";};}
+            //Erstsatt 10, 100 osv med en tierpotens
+            if(tierModus) {
+                if (Number((inpTall1.value) % 10) === 0) { console.log("inptall1 er: ", inpTall1.value, "og lengden er", inpTall1.value.length); inpTall1.dataset.verdi=inpTall1.value;
+                    switch (inpTall1.value.length) {case 2: inpTall1.value = "10¹"; break; case 3:  inpTall1.value = "10²"; break; case 4: inpTall1.value = "10³"; break; case 5: inpTall1.value = "10⁴"; break; }
+                }
+                if (Number((inpTall2.value) % 10) === 0) { console.log("inptall2 er: ", inpTall2.value, "og lengden er", inpTall2.value.length); inpTall2.dataset.verdi=inpTall2.value;
+                    switch (inpTall2.value.length) {case 2: inpTall2.value = "10¹"; break; case 3:  inpTall2.value = "10²"; break; case 4: inpTall2.value = "10³"; break; case 5: inpTall2.value = "10⁴"; break; }
+                }
+                if (Number((inpTall3.value) % 10) === 0) { console.log("inptall3 er: ", inpTall3.value, "og lengden er", inpTall3.value.length); inpTall3.dataset.verdi=inpTall3.value;
+                    switch (inpTall3.value.length) {case 2: inpTall3.value = "10¹"; break; case 3:  inpTall3.value = "10²"; break; case 4: inpTall3.value = "10³"; break; case 5: inpTall3.value = "10⁴"; break; }
+                }
+            }
+            
         }
 
         function popAktuellEkspertmodus() {
