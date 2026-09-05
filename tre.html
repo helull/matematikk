@@ -396,7 +396,7 @@
                         "Ah, feil!",
                         "Dra meg baklengs inn i fuglekassa, NEI!!",
                         "Du stinker!"];
-        var hjelpeTekst = "<p>Klikk <strong>Oppgaver</strong> for å få oppgaver som skal settes opp. Du får en ny oppgave hver gang du går inn i en ny level. Du får <strong>ekstra poeng</strong> ved å sette opp en oppgave riktig (skal ikke besvares, kun <strong>settes opp</strong>). Klikk på oppgavevinduet for å minimere det, eller <strong>Oppgave</strong> igjen for å kansellere. <strong>Video</strong> viser en video istedenfor oppgaven, men kun noen er implementert</p> <p><strong>Level</strong> vises når du har fått 100 poeng eller mer. Ny level får du automatisk etter hver 100ende eller 50ende poeng, eller <strong>hopp direkte</strong> til en ønsket level ved å klikke på level'en. Tiden går <strong>saktere jo høyere level</strong> du har.</p> <p>Det er to <strong>hack</strong> du kan gjøre: Skriv <strong>10 i alle feltene</strong> for å øve på standardform. Skriv <strong>komma i alle feltene</strong> for å begynne på nytt</p> <p>Finner du noen feil eller har ideer til forbedring, si ifra til Helge!</p>  <p>Klikk på dette vinduet for å fjerne det igjen.</p>";
+        var hjelpeTekst = "<p>Klikk <strong>Oppgaver</strong> for å få oppgaver som skal settes opp. Du får en ny oppgave hver gang du går inn i en ny level. Du får <strong>ekstra poeng</strong> ved å sette opp en oppgave riktig (skal ikke besvares, kun <strong>settes opp</strong>). Klikk på oppgavevinduet for å minimere det, eller <strong>Oppgave</strong> igjen for å kansellere. <strong>Video</strong> viser en video istedenfor oppgaven, men kun noen er implementert</p> <p><strong>Level</strong> vises når du har fått 100 poeng eller mer. Ny level får du automatisk etter hver 100ende eller 50ende poeng, eller <strong>hopp direkte</strong> til en ønsket level ved å klikke på level'en. Tiden går <strong>saktere jo høyere level</strong> du har.</p> <p>Det er to <strong>hack</strong> du kan gjøre: Skriv <strong>0 i alle feltene</strong> for å øve på standardform. Skriv <strong>komma i alle feltene</strong> for å begynne på nytt</p> <p>Finner du noen feil eller har ideer til forbedring, si ifra til Helge!</p>  <p>Klikk på dette vinduet for å fjerne det igjen.</p>";
         var hjelpeModus = false;
         const ventTilForsteSpm = 1000;         //ventetid før neste spørsmål kommer
         const ventTilNyttSpm = 500;          //tid å vente til neste spm, i millisekunder
@@ -983,7 +983,7 @@
                 //inpTall1.value = "";  // Trengs for at ikke programmet skal loope i vurderTallene.
                 resetInputVerdier();
             }
-            else if (((tall1Norm == "10") && (tall2Norm == "10")) || ((tall1Norm == "10") && (tall3Norm == "10")) ||  ((tall2Norm == "10") && (tall3Norm == "10")))  { //gjør om til tierPotensOppgaver
+            else if (((tall1Norm == "0") && (tall2Norm == "0")) || ((tall1Norm == "0") && (tall3Norm == "0")) ||  ((tall2Norm == "0") && (tall3Norm == "0")))  { //gjør om til tierPotensOppgaver
                 if (tierModus) {
                     tierModus = false;
                     document.querySelectorAll("input").forEach(input => {
