@@ -156,25 +156,22 @@
       const barClass = tidForPop ? "bar pop" : "bar";
 
       if (tidForPop) {
-          pling.currentTime = 0;
+          pling.currentTime = 0.4;
           pling.play();
       }
-      
-// originalt kun denne      const barClass = (Math.abs(endring) >= 11) ? "bar pop" : "bar";
-
-      row.innerHTML = `
-        <div class="name">${elev.navn}</div>
-        <div class="bar-container">
-          <div class="${barClass}" style="width:${prosent}%"></div>
-        </div>
-      `;
+    row.innerHTML = `
+      <div class="name">${elev.navn}</div>
+      <div class="bar-container">
+        <div class="${barClass}" style="width:${prosent}%"></div>
+      </div>
+     `;
 
       // herfra er lagt til 30.08.2026 */
       
 // Klikk på raden for å slette bruker
-row.style.cursor = "pointer";
+  row.style.cursor = "pointer";
 
-row.addEventListener("click", async () => {
+  row.addEventListener("click", async () => {
 
   const bekreft = confirm(
     `Vil du slette brukeren "${elev.navn}"?`
@@ -200,6 +197,9 @@ row.addEventListener("click", async () => {
 
       // 🧠 oppdater lagret verdi
       previousScores[elevId] = elev.poeng;
+      if (elev.poeng % 50 === 0) {
+         document.getElementById("pling").play();
+      }
     });
 
   });
