@@ -768,21 +768,22 @@
                 }
 
                 //skjul tall2 ELLER tall3 (tilfeldig)
-                if (Math.random() > 0.5) {
-                    inpTall2.value = String(tall2);
-                    inpTall3.value = "";
-                    btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true });    //26.05.2026
-                    inpTall3.focus();                                    
-                    tallIBruk = 3;
+                if (!tierModus) {
+                    if ((Math.random() > 0.5) || (Number((inpTall1.value*1000) % 10) === 0)) {  //behold tall2 i inpTall2 pga tilfeldigheter, eller pga tierpotens (vi er da trolig i tierModus).
+                        inpTall2.value = String(tall2);
+                        inpTall3.value = "";
+                        btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true });    //26.05.2026
+                        inpTall3.focus();                                    
+                        tallIBruk = 3;
+                    }
+                    else {  //behold tall3 i inpTall3.
+                        inpTall2.value = "";
+                        btnVelgTall.addEventListener("click", () => {inpTall2.focus();}, { once: true });    //26.05.2026
+                        inpTall2.focus();
+                        inpTall3.value = String(tall3);
+                        tallIBruk = 2;
+                    }
                 }
-                else {
-                    inpTall2.value = "";
-                    btnVelgTall.addEventListener("click", () => {inpTall2.focus();}, { once: true });    //26.05.2026
-                    inpTall2.focus();
-                    inpTall3.value = String(tall3);
-                    tallIBruk = 2;
-                }
-
                 //Ikke i delemodus, dvs vi er i gangemodus    
             } else {
                 inpTall1.value = "";
