@@ -629,11 +629,11 @@
                                                                                         //bare deling, teller mellom 1 og 100, nevner er 10, 100 eller 1000
                     deleModus = true;
                     desimalModus = true;
-                    tall2 = (Math.floor(Math.random() * 100) + 1) / 100;        //tall mellom 0,01 og 1 -> blir senere til 0,001 og 10 pga "desimalModus", se lengre ned
+                    tall2 = (Math.floor(Math.random() * 1000) + 1) / 10;        //tall mellom 0,1 og 100 -> blir senere til 0,01 og 10 pga "desimalModus", se lengre ned
                     tall3 = 10 ** (Math.ceil(Math.random() * 3))                //10, 100 eller 1000                    
                } else if (ekspertModusGrenseIndex == 6 || ekspertModusGrenseIndex == 7 || ekspertModusGrenseIndex == 8 || ekspertModusGrenseIndex == 9) {
                                                                                         // ganging eller deling et av tallene er mellom 1 og 100, det andre er 10, 100 eller 1000
-                    tall2 = (Math.floor(Math.random() * 100) + 1) / 100;        //tall mellom 0,01 og 1 -> blir senere til 0,001 og 10 pga "desimalModus", se lengre ned
+                    tall2 = (Math.floor(Math.random() * 1000) + 1) / 10;        //tall mellom 0,1 og 100 -> blir senere til 0,01 og 10 pga "desimalModus", se lengre ned
                     tall3 = 10 ** (Math.ceil(Math.random() * 3))                //10, 100 eller 1000              
                     if (Math.random() > 0.5) {deleModus = true;} else {deleModus = false;}
                     if (Math.random() > 0.5) {desimalModus = true;} else {desimalModus = false;}
