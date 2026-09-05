@@ -785,6 +785,10 @@
                 inpTall3.value = String(tall3);
                 tallIBruk = 1;
             }
+            //Erstsatt 10, 100 osv med en tierpotens
+            if (10 % Number(inpTall1.value) ===0) { var eksponent=(inpTall1.length - 1); inpTall1.value = "10<sup>{eksponent}</sup>"}
+            if (10 % Number(inpTall2.value) ===0) { var eksponent=(inpTall2.length - 1); inpTall2.value = "10<sup>{eksponent}</sup>"}
+            if (10 % Number(inpTall3.value) ===0) { var eksponent=(inpTall3.length - 1); inpTall3.value = "10<sup>{eksponent}</sup>"}
         }
 
         function popAktuellEkspertmodus() {
