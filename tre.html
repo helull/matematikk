@@ -986,19 +986,16 @@
             else if (((tall1Norm == "0") && (tall2Norm == "0")) || ((tall1Norm == "0") && (tall3Norm == "0")) ||  ((tall2Norm == "0") && (tall3Norm == "0")))  { //gjør om til tierPotensOppgaver
                 if (tierModus) {
                     tierModus = false;
-                    document.querySelectorAll("input").forEach(input => {
-                        input.style.fontSize = "x-large";
-                    });
+                    document.querySelectorAll("input").forEach(input => {input.style.fontSize = "x-large";});
                 } else {
                     tierModus = true;
-                    document.querySelectorAll("input").forEach(input => {
-                        input.style.fontSize = "large";
-                    });
+                    document.querySelectorAll("input").forEach(input => {input.style.fontSize = "large"; });
                 }
                 resetInputVerdier();
             }
             else if ((tall1Norm == "1009") || (tall2Norm == "1009") || (tall3Norm == "1009"))  {   //"hack til lette oppgaver!
                 tierModus=false;
+                document.querySelectorAll("input").forEach(input => {input.style.fontSize = "x-large";});
                 if (letteOppgaver) {
                     letteOppgaver = false;
                 } else  {
