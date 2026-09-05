@@ -198,10 +198,12 @@
 
       // 🧠 oppdater lagret verdi
       previousScores[elevId] = elev.poeng;
-      if (Number(elev.poeng) % 50 === 0) {
-          pling.currentTime = 0.4;
-          pling.play();
+
+      if (Math.floor(gammel / 50) < Math.floor(elev.poeng / 50)) {
+        pling.currentTime = 0.4;
+        pling.play();
       }
+          
     });
 
   });
