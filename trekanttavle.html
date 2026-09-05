@@ -37,6 +37,23 @@
       width: 150px;
     }
 
+  .bar-container {
+  flex: 1;
+  height: 20px;
+  border-radius: 8px;
+  overflow: hidden;
+
+  background:
+    repeating-linear-gradient(
+      to right,
+      rgba(255,255,255,0.08) 0,
+      rgba(255,255,255,0.08) 1px,
+      transparent 1px,
+      transparent 8.333%
+    ),
+    #334155;
+   }
+    
     .bar-container {
       flex: 1;
       background: #334155;
