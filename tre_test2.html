@@ -158,7 +158,7 @@
 
         @media only screen and (orientation:portrait) {
             input {
-                font-size: large;
+                font-size: x-large;
                 color: brown;
             }
         }
@@ -452,8 +452,14 @@
         const startModus = new URLSearchParams(location.search).get("modus");
         if (startModus == 2)
             {letteOppgaver = true}
-        else if (startModus == 3)
-            {tierModus = true;  antallDesimaler = 2;    chkOppgaverLabel.style.display="none";}
+        else if (startModus == 3) {
+            tierModus = true; 
+            antallDesimaler = 2;
+            chkOppgaverLabel.style.display="none";
+            document.querySelectorAll("input").forEach(input => {
+                input.style.fontSize = "large";
+            });
+        }
     
         plakat.addEventListener("click", fjernPlakat);
         btnInfo.addEventListener("click",visHjelp);
@@ -977,14 +983,21 @@
                 resetInputVerdier();
             }
             else if ((tall1Norm == "10") && (tall2Norm == "10") && (tall3Norm == "10"))  { //gjør om til tierPotensOppgaver
-                poeng = 10;
-                ekspertModusGrenseIndex = 0;
-                localStorage.trekantPoeng = 10;
-                if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
-                tierModus = true;
+                if (tierModus) {
+                    tierModus = false;
+                    document.querySelectorAll("input").forEach(input => {
+                        input.style.fontSize = "x-large";
+                    });
+                } else {
+                    tierModus = true;
+                    document.querySelectorAll("input").forEach(input => {
+                        input.style.fontSize = "large";
+                    });
+                }
                 resetInputVerdier();
             }
-            else if ((tall1Norm == "1009") || (tall2Norm == "1009") || (tall3Norm == "1009"))  {   //"hack til lette oppgvaver!
+            else if ((tall1Norm == "1009") || (tall2Norm == "1009") || (tall3Norm == "1009"))  {   //"hack til lette oppgaver!
+                tierModus=false;
                 if (letteOppgaver) {
                     letteOppgaver = false;
                 } else  {
