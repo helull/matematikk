@@ -621,27 +621,27 @@
             //EkspertModus skal gjøre at oppgavene blir vanskeligere
             //Antall grenser må passe med antall elementer i ekspertModusGrenser
 
-            if (tierModus) {    //Vi øver bare på 10-er problemer!
+            if (tierModus) {    //Vi øver bare på 10-er problemer! Dvs standardform...
                 if (ekspertModusGrenseIndex == 0 || ekspertModusGrenseIndex == 1) {   // bare ganging, et av tallene er mellom 1 og 10, det andre er 10, 100 eller 1000
                     deleModus = false;
                     desimalModus = false;              
                     tall2 = Math.ceil(Math.random() * 10);        //tall mellom 1 og 10
-                    tall3 = 10 ** (Math.ceil(Math.random() * 3))  //10, 100 eller 1000
+                    tall3 = 10 ** (Math.ceil(Math.random() * 4))  //10, 100, 1000 eller 10000
                 } else if (ekspertModusGrenseIndex == 2) {                             //bare ganging, et av tallene er mellom 0.01 og 100, det andre er 10, 100 eller 1000
                     deleModus = false;
                     desimalModus = true;
                     tall2 = (Math.floor(Math.random() * 10000) + 1) / 10;   //tall mellom 0,1 og 1000 -> blir senere til 0,01 og 100 pga "desimalModus", se lengre ned
-                    tall3 = 10 ** (Math.ceil(Math.random() * 3))            //10, 100 eller 1000
+                    tall3 = 10 ** (Math.ceil(Math.random() * 4))            //10, 100, 1000 eller 10000
                 } else if (ekspertModusGrenseIndex == 3 || ekspertModusGrenseIndex == 4 || ekspertModusGrenseIndex == 5 ) {   
                                                                                         //bare deling, teller mellom 1 og 100, nevner er 10, 100 eller 1000
                     deleModus = true;
                     desimalModus = true;
                     tall2 = (Math.floor(Math.random() * 1000) + 1) / 10;        //tall mellom 0,1 og 100 -> blir senere til 0,01 og 10 pga "desimalModus", se lengre ned
-                    tall3 = 10 ** (Math.ceil(Math.random() * 3))                //10, 100 eller 1000                    
+                    tall3 = 10 ** (Math.ceil(Math.random() * 4))                //10, 100, 1000 eller 10000                    
                } else if (ekspertModusGrenseIndex == 6 || ekspertModusGrenseIndex == 7 || ekspertModusGrenseIndex == 8 || ekspertModusGrenseIndex == 9) {
                                                                                         // ganging eller deling et av tallene er mellom 1 og 100, det andre er 10, 100 eller 1000
                     tall2 = (Math.floor(Math.random() * 1000) + 1) / 10;        //tall mellom 0,1 og 100 -> blir senere til 0,01 og 10 pga "desimalModus", se lengre ned
-                    tall3 = 10 ** (Math.ceil(Math.random() * 3))                //10, 100 eller 1000              
+                    tall3 = 10 ** (Math.ceil(Math.random() * 7) - 3)                //0,01, 0,1, 1, 10, 100, 1000 eller 10000              
                     if (Math.random() > 0.5) {deleModus = true;} else {deleModus = false;}
                     if (Math.random() > 0.5) {desimalModus = true;} else {desimalModus = false;}
                 } else {
@@ -768,22 +768,22 @@
                 }
 
                 //skjul tall2 ELLER tall3 (tilfeldig)
-                if (!tierModus) {
-                    if ((Math.random() > 0.5) || (Number((inpTall1.value*1000) % 10) === 0)) {  //behold tall2 i inpTall2 pga tilfeldigheter, eller pga tierpotens (vi er da trolig i tierModus).
-                        inpTall2.value = String(tall2);
-                        inpTall3.value = "";
-                        btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true });    //26.05.2026
-                        inpTall3.focus();                                    
-                        tallIBruk = 3;
-                    }
-                    else {  //behold tall3 i inpTall3.
-                        inpTall2.value = "";
-                        btnVelgTall.addEventListener("click", () => {inpTall2.focus();}, { once: true });    //26.05.2026
-                        inpTall2.focus();
-                        inpTall3.value = String(tall3);
-                        tallIBruk = 2;
-                    }
+                
+                if ((Math.random() > 0.5) || (Number((inpTall1.value*1000) % 10) === 0)) {  //behold tall2 i inpTall2 pga tilfeldigheter, eller pga tierpotens (vi er da trolig i tierModus).
+                     inpTall2.value = String(tall2);
+                     inpTall3.value = "";
+                     btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true });    //26.05.2026
+                     inpTall3.focus();                                    
+                     tallIBruk = 3;
                 }
+                 else {  //behold tall3 i inpTall3.
+                    inpTall2.value = "";
+                    btnVelgTall.addEventListener("click", () => {inpTall2.focus();}, { once: true });    //26.05.2026
+                    inpTall2.focus();
+                    inpTall3.value = String(tall3);
+                    tallIBruk = 2;
+               }
+                
                 //Ikke i delemodus, dvs vi er i gangemodus    
             } else {
                 inpTall1.value = "";
