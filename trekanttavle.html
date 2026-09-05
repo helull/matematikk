@@ -202,7 +202,7 @@
       // 🧠 oppdater lagret verdi
       previousScores[elevId] = elev.poeng;
 
-      if (Math.floor(gammel / 50) < Math.floor(elev.poeng / 50)) {
+      if (Math.floor(gammel / 100) < Math.floor(elev.poeng / 10)) {
         pling.src = "trekantlyder/" + String(Math.ceil(Math.random() * 10)) + ".m4a";
         pling.currentTime = 0.4;
         pling.play();
