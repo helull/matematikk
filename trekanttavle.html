@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <title>Klassevisning</title>
+  
+  <audio id="pling">
+    1.m4a
+  </audio>
+  
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -150,6 +155,10 @@
       row.className = "row";
 
       const barClass = (Math.abs(endring) >= 11) ? "bar pop" : "bar";
+      if (Math.abs(endring) >= 11){
+        document.getElementById("pling").play();
+      }
+        
 
       row.innerHTML = `
         <div class="name">${elev.navn}</div>
