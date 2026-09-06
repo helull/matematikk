@@ -1026,9 +1026,11 @@
             else if ((tall1Norm == "..") || (tall2Norm == "..") || (tall3Norm == ".."))  { //gjør om til tierPotensOppgaver
                 if (tierModus) {
                     tierModus = false;
+                    antallDesimaler = 1;
                     document.querySelectorAll("input").forEach(input => {input.style.fontSize = "x-large";});
                 } else {
                     tierModus = true;
+                    antallDesimaler = 2;
                     document.querySelectorAll("input").forEach(input => {input.style.fontSize = "large"; });
                 }
                 resetInputVerdier();
