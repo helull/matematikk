@@ -646,11 +646,11 @@
                     deleModus = true;
                     desimalModus = false;
     // desimalModus = true;
-                    tall2 = (Math.floor(Math.random() * 1000) + 1) / 10;        //tall mellom 0,1 og 100 -> blir senere til 0,01 og 10 pga "desimalModus", se lengre ned
+                    tall2 = (Math.floor(Math.random() * 1000) + 1) / 100;        //tall mellom 0,1 og 100 -> blir senere til 0,01 og 10 pga "desimalModus", se lengre ned
                     tall3 = 10 ** (Math.ceil(Math.random() * 4))                //10, 100, 1000 eller 10000                    
                } else if (ekspertModusGrenseIndex == 6 || ekspertModusGrenseIndex == 7 || ekspertModusGrenseIndex == 8 || ekspertModusGrenseIndex == 9) {
                                                                                         // ganging eller deling et av tallene er mellom 1 og 100, det andre er 10, 100 eller 1000
-                    tall2 = (Math.floor(Math.random() * 1000) + 1) / 10;        //tall mellom 0,1 og 100 -> blir senere til 0,01 og 10 pga "desimalModus", se lengre ned
+                    tall2 = (Math.floor(Math.random() * 1000) + 1) / 100;        //tall mellom 0,1 og 100 -> blir senere til 0,01 og 10 pga "desimalModus", se lengre ned
                     tall3 = 10 ** (Math.ceil(Math.random() * 9) - 5)                //10^-4 til 10^4              
                     if (Math.random() > 0.5) {deleModus = true;} else {deleModus = false;}
                     desimalModus = false;
