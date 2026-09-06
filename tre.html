@@ -759,7 +759,12 @@
             }
             
             //Tallet i toppen er ALLID produktet av de to nede
-            tall1 = tall2 * tall3;
+            tall1 = Number((tall1 * tall2).toFixed(10));
+
+            const desimaler = tall1.toString().includes(".") ? tall1.toString().split(".")[1].length : 0;
+            console.log(desimaler);
+            
+            // tall1 = tall2 * tall3;
             console.log("i beregning av tall1: ", tall1,"  " ,tall2, "  ",tall3)
 
             //Pga desimalproblem må man først finne svaret
