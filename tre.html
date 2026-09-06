@@ -614,6 +614,11 @@
             hurtigTaster.removeEventListener("click", settLevel);
         }
 
+        function erTierpotens(tekst) {
+          var tall = Number(tekst)
+          return tall > 0 && Number.isInteger(Math.log10(tall));
+        }
+    
         function resetInputVerdier() {
             // Sett sort tekst i tilfelle den har vært grønn
             inpTall1.style.color = "black";
@@ -825,13 +830,10 @@
             
             //Erstsatt 10, 100 osv med en tierpotens   Gjenstår å tilpasse negative eksponenter
             if(tierModus) {
-                if (Number((inpTall1.value*100000) % 10) === 0) { console.log("inptall1 er: ", inpTall1.value, "og lengden er", inpTall1.value.length); inpTall1.dataset.verdi=inpTall1.value;
-                    switch (Number(inpTall1.value)) {case 0.0001: inpTall1.value = "10⁻⁴"; break; case 0.001: inpTall1.value = "10⁻³"; break; case 0.01: inpTall1.value = "10⁻²"; break; case 0.1: inpTall1.value = "10⁻¹"; break; case 1: inpTall1.value = "10⁰"; break; case 10: inpTall1.value = "10¹"; break; case 100:  inpTall1.value = "10²"; break; case 1000: inpTall1.value = "10³"; break; case 10000: inpTall1.value = "10⁴"; break; }
-                }
-                if (Number((inpTall2.value*100000) % 10) === 0) { console.log("inptall2 er: ", inpTall2.value, "og lengden er", inpTall2.value.length); inpTall2.dataset.verdi=inpTall2.value;
+                if (erTierpotens(inpTall2)) { console.log("inptall2 er: ", inpTall2.value, "og lengden er", inpTall2.value.length); inpTall2.dataset.verdi=inpTall2.value;
                     switch (Number(inpTall2.value)) {case 0.0001: inpTall2.value = "10⁻⁴"; break; case 0.001: inpTall2.value = "10⁻³"; break; case 0.01: inpTall2.value = "10⁻²"; break; case 0.1: inpTall2.value = "10⁻¹"; break; case 1: inpTall2.value = "10⁰"; break; case 10: inpTall2.value = "10¹"; break; case 100:  inpTall2.value = "10²"; break; case 1000: inpTall2.value = "10³"; break; case 10000: inpTall2.value = "10⁴"; break; }
                 }
-                if (Number((inpTall3.value*100000) % 10) === 0) { console.log("inptall3 er: ", inpTall1.value, "og lengden er", inpTall3.value.length); inpTall3.dataset.verdi=inpTall3.value;
+                if (erTierpotens(inpTall3)) { console.log("inptall3 er: ", inpTall1.value, "og lengden er", inpTall3.value.length); inpTall3.dataset.verdi=inpTall3.value;
                     switch (Number(inpTall3.value)) {case 0.0001: inpTall3.value = "10⁻⁴"; break; case 0.001: inpTall3.value = "10⁻³"; break; case 0.01: inpTall3.value = "10⁻²"; break; case 0.1: inpTall3.value = "10⁻¹"; break; case 1: inpTall3.value = "10⁰"; break; case 10: inpTall3.value = "10¹"; break; case 100:  inpTall3.value = "10²"; break; case 1000: inpTall3.value = "10³"; break; case 10000: inpTall3.value = "10⁴"; break; }
                 }
                 
@@ -847,7 +849,7 @@
             }
             
         }
-
+    
         function popAktuellEkspertmodus() {
             settOppLeveltaster();
             const modusTaster = document.querySelectorAll(".modusTast");
