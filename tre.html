@@ -627,12 +627,13 @@
                     desimalModus = false;              
                     tall2 = Math.ceil(Math.random() * 10);        //tall mellom 1 og 10
                     tall3 = 10 ** (Math.ceil(Math.random() * 4))  //10, 100, 1000 eller 10000
-                } else if (ekspertModusGrenseIndex == 2) {                             //bare ganging, et av tallene er mellom 0.01 og 100, det andre er 10, 100 eller 1000
+                } else if (ekspertModusGrenseIndex == 2 || ekspertModusGrenseIndex == 3 ) {     //bare ganging, et av tallene er mellom 1 og 100, det andre er 10, 100 eller 1000
                     deleModus = false;
                     desimalModus = true;
-                    tall2 = (Math.floor(Math.random() * 10000) + 1) / 10;   //tall mellom 0,1 og 1000 -> blir senere til 0,01 og 100 pga "desimalModus", se lengre ned
-                    tall3 = 10 ** (Math.ceil(Math.random() * 4))            //10, 100, 1000 eller 10000
-                } else if (ekspertModusGrenseIndex == 3 || ekspertModusGrenseIndex == 4 || ekspertModusGrenseIndex == 5 ) {   
+                    tall2 = Math.ceil(Math.random() * 100);        //tall mellom 1 og 100
+                    //tall2 = (Math.floor(Math.random() * 10000) + 1) / 10;   //tall mellom 0,1 og 1000 -> blir senere til 0,01 og 100 pga "desimalModus", se lengre ned
+                    tall3 = 10 ** ((Math.ceil(Math.random() * 7) - 4))            //0,001 0,01 0,1 , 1 10, 100 eller 1000
+                } else if (ekspertModusGrenseIndex == 4 || ekspertModusGrenseIndex == 5 ) {   
                                                                                         //bare deling, teller mellom 1 og 100, nevner er 10, 100 eller 1000
                     deleModus = true;
                     desimalModus = true;
