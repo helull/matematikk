@@ -446,10 +446,9 @@
         chkVideoLabel.checked=false;
     
         // hent startmodusene, som er slik:
-        //    1: Normal modus
+        //    1: Restart, sett poeng til null!
         //    2: Lette oppgaver (kun 1-10 som skal ganges og deles)
         //    3: Standardform, kun gange og dele med 10, 100, 1000 osv.
-        //    4: Restart, sett poeng til null!
         const startModus = new URLSearchParams(location.search).get("modus");
         if (startModus == 2)
             {letteOppgaver = true}
@@ -461,7 +460,7 @@
                 input.style.fontSize = "large";
             });
         }
-        else if(startModus == 4) {
+        else if(startModus == 1) {
             poeng = 10;
             ekspertModusGrenseIndex = 0;
             localStorage.trekantPoeng = 10;
