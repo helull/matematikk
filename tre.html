@@ -1119,18 +1119,17 @@
 
             else if (event.key == "f") {
                 event.preventDefault();  //sørger for at det IKKE skrives "f".
+                fasit = finnFasit(tall1, tall2, tall3);
+                console.log("tallene i finnfasit:", tall1,"   " ,tall2,"   " ,tall3, "  " ,fasit)
                 if (inpTall1.value == "") { //Setter opp fasit i felt øverst i trekant.
-                    fasit = finnFasit(tall1, tall2, tall3);
-                    inpTall1.value = String(fasit);
+                    inpTall1.value = String(fasit.toFixed(antallDesimaler));
                     inpTall1.style.color = "green";
                 }
                 else if (inpTall2.value == "") {//Setter opp fasit i felt nede til venstre i
-                    fasit = finnFasit(tall1, tall2, tall3)
                     inpTall2.value = String(fasit.toFixed(antallDesimaler));
                     inpTall2.style.color = "green";
                 }
                 else {  //dvs. inpTall3.value == ""  //Setter opp fasit i felt nede til venstre i trekant
-                    fasit = finnFasit(tall1, tall2, tall3)
                     inpTall3.value = String(fasit.toFixed(antallDesimaler));
                     inpTall3.style.color = "green";
                 }
