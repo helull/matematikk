@@ -1106,8 +1106,8 @@
         //document.addEventListener("keypress", tastaturHendelse);
         function tastaturHendelse(event) {
             tall1 = Number(inpTall1.value);
-            tall2 = Number(inpTall2.value);
-            tall3 = Number(inpTall3.value);
+            if(erTierpotens(inpTall2.value)) {tall1 = Number(inpTall2.dataset.verdi);} else {tall1 = Number(inpTall2.value);}
+            if(erTierpotens(inpTall3.value)) {tall1 = Number(inpTall3.dataset.verdi);} else {tall1 = Number(inpTall3.value);}
             var fasit = -2;
             
             //kjør som om du klikket svar-knappen!
