@@ -102,9 +102,9 @@
   </style>
 </head>
 <body>
-
-<div class="qr-background">
-  <img src="qrcode_trekant.png" alt="bilde av qrkode">  
+  
+<div class="qr-background" onclick="byttQR()">
+  <img id="qr_kode" src="Gangetabell.png" alt="bilde av qrkode">  
 </div>
 
   
@@ -118,6 +118,22 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
+
+
+
+  document.getElementById("qr_kode").addEventListener("click", function() {
+  const nyFil = this.src.includes("normal")
+    ? "Gangetabell.png"
+    : "Standardform.png";
+
+  this.src = nyFil;
+
+  alert(`QR-koden er endret til ${nyFil}`);
+});
+
+  
+
+  
   const firebaseConfig = {
     apiKey: "AIzaSyAemmodCGkeIzNzH_al84CQqvxK6xwDFig",
     authDomain: "trekanttavle.firebaseapp.com",
