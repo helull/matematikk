@@ -448,7 +448,8 @@
         // hent startmodusene, som er slik:
         //    1: Normal modus
         //    2: Lette oppgaver (kun 1-10 som skal ganges og deles)
-        //    3: Kun gange og dele med 10, 100, 1000 osv.
+        //    3: Standardform, kun gange og dele med 10, 100, 1000 osv.
+        //    4: Restart, sett poeng til null!
         const startModus = new URLSearchParams(location.search).get("modus");
         if (startModus == 2)
             {letteOppgaver = true}
@@ -459,6 +460,13 @@
             document.querySelectorAll("input").forEach(input => {
                 input.style.fontSize = "large";
             });
+        }
+        else if(startModus == 4) {
+            poeng = 10;
+            ekspertModusGrenseIndex = 0;
+            localStorage.trekantPoeng = 10;
+            if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
+                resetInputVerdier();
         }
     
         plakat.addEventListener("click", fjernPlakat);
