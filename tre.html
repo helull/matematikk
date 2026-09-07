@@ -465,7 +465,7 @@
             ekspertModusGrenseIndex = 0;
             localStorage.trekantPoeng = 10;
             if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
-                resetInputVerdier();
+    // resetInputVerdier();
         }
     
         plakat.addEventListener("click", fjernPlakat);
@@ -787,7 +787,7 @@
 
                 //skjul tall2 ELLER tall3 (tilfeldig)
                 if(!tierModus) {
-                    if (Math.random() > 0.5) {  //behold tall2 i inpTall2 pga tilfeldigheter
+                    if (Math.random() > 0.5) {  //behold tall2 i inpTall2
                          inpTall2.value = String(tall2);
                          inpTall3.value = "";
                          btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true });    //26.05.2026
@@ -803,7 +803,7 @@
                    }
                }
                else {                        // Vi er i tiermodus
-                   if(Number(erTierpotens(inpTall2.value))) {
+                   if(Number(erTierpotens(tall2))) {
                      inpTall2.value = String(tall2);
                      inpTall3.value = "";
                      btnVelgTall.addEventListener("click", () => {inpTall3.focus();}, { once: true });    //26.05.2026
