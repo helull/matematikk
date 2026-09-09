@@ -452,7 +452,7 @@
         //    2: Lette oppgaver (kun 1-10 som skal ganges og deles)
         //    3: Standardform, kun gange og dele med 10, 100, 1000 osv.
         //    4: Start i normal modus (uten sette poeng til 0!
-        const startModus = new URLSearchParams(location.search).get("modus");
+        var startModus = new URLSearchParams(location.search).get("modus");
         if (startModus === null) {
             console.log("Startet uten modus-parameter");
             if (localStorage.trekantModus) {
