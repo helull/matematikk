@@ -444,16 +444,33 @@
         chkOppgaver.checked=false;
         chkVideoLabel.style.display="none"; 
         chkVideoLabel.checked=false;
-    
-        // hent startmodusene, som er slik:
+
+
+
+        // hent startmodusene fra parameter etter URLen, som er slik:
         //    1: Restart, sett poeng til null!
         //    2: Lette oppgaver (kun 1-10 som skal ganges og deles)
         //    3: Standardform, kun gange og dele med 10, 100, 1000 osv.
+        //    4: Start i normal modus (uten sette poeng til 0!
         const startModus = new URLSearchParams(location.search).get("modus");
-        if (startModus == 2)
-            {letteOppgaver = true}
+        if (startModus === null) {
+            console.log("Startet uten modus-parameter");
+            if (localStorage.trekantModus) {
+                startModus = Number(localStorage.trekantModus);
+            }
+        }
+
+        if (startModus == 4) {
+            // gjør ingenting, start i normal modus!
+            localStorage.trekantModus = 4;
+        }
+        else if (startModus == 2) {
+            letteOppgaver = true;
+            localStorage.trekantModus = 2
+        }
         else if (startModus == 3) {
-            tierModus = true; 
+            localStorage.trekantModus = 3;
+            tierModus = true;
             antallDesimaler = 2;
             chkOppgaverLabel.style.display="none";
             document.querySelectorAll("input").forEach(input => {
@@ -461,12 +478,12 @@
             });
         }
         else if(startModus == 1) {
+            localStorage.trekantModus = 1;
             poeng = 10;
             ekspertModusGrenseIndex = 0;
             localStorage.trekantPoeng = 10;
             if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
-    // resetInputVerdier();
-        }
+        }    
     
         plakat.addEventListener("click", fjernPlakat);
         btnInfo.addEventListener("click",visHjelp);
@@ -1015,10 +1032,12 @@
             }
             else if ((tall1Norm == "..") || (tall2Norm == "..") || (tall3Norm == ".."))  { //gjør om til tierPotensOppgaver
                 if (tierModus) {
+                    localStorage.trekantModus = 4;
                     tierModus = false;
                     antallDesimaler = 1;
                     document.querySelectorAll("input").forEach(input => {input.style.fontSize = "x-large";});
                 } else {
+                    localStorage.trekantModus = 3;
                     tierModus = true;
                     antallDesimaler = 2;
                     document.querySelectorAll("input").forEach(input => {input.style.fontSize = "large"; });
@@ -1030,8 +1049,10 @@
                 document.querySelectorAll("input").forEach(input => {input.style.fontSize = "x-large";});
                 if (letteOppgaver) {
                     letteOppgaver = false;
+                    localStorage.trekantModus = 4;
                 } else  {
                     letteOppgaver = true;
+                    localStorage.trekantModus = 2;
                 }
                 resetInputVerdier();
             }                
