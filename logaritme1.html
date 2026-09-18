@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logaritmetrener S1</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #003366, #0066cc);
+    color: white;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: rgba(255,255,255,0.12);
+    padding: 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.theory {
+    background: rgba(255,255,255,0.15);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.task {
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 20px 0;
+}
+
+input {
+    width: 120px;
+    padding: 10px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    background: #00cc66;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button:hover {
+    background: #00aa55;
+}
+
+.feedback {
+    font-size: 1.2rem;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.score {
+    text-align: center;
+    font-size: 1.3rem;
+    margin-top: 10px;
+}
+
+.center {
+    text-align: center;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>📘 Logaritmetrener for S1</h1>
+
+<div class="theory">
+    <h2>Husk!</h2>
+    <p>
+        Logaritmer svarer på spørsmålet:
+    </p>
+
+    <p style="text-align:center;font-size:1.2rem;">
+        \( a^x = b \quad \Leftrightarrow \quad \log_a(b)=x \)
+    </p>
+
+    <p>
+        Eksempel:
+        <strong>2³ = 8</strong> betyr at
+        <strong>log₂(8) = 3</strong>.
+    </p>
+</div>
+
+<div class="task" id="task"></div>
+
+<div class="center">
+    <input type="number" id="answer">
+    <br><br>
+    <button onclick="checkAnswer()">Sjekk svar</button>
+    <button onclick="newTask()">Ny oppgave</button>
+</div>
+
+<div class="feedback" id="feedback"></div>
+
+<div class="score">
+    Poeng: <span id="score">0</span>
+</div>
+
+</div>
+
+<script>
+let correctAnswer;
+let score = 0;
+
+function newTask() {
+
+    const bases = [2,3,4,5,10];
+    const base = bases[Math.floor(Math.random()*bases.length)];
+
+    const exponent = Math.floor(Math.random()*5) + 1;
+
+    const value = Math.pow(base, exponent);
+
+    correctAnswer = exponent;
+
+    document.getElementById("task").innerHTML =
+        `log<sub>${base}</sub>(${value}) = ?`;
+
+    document.getElementById("answer").value = "";
+    document.getElementById("feedback").innerHTML = "";
+}
+
+function checkAnswer() {
+
+    const userAnswer =
+        Number(document.getElementById("answer").value);
+
+    if(userAnswer === correctAnswer) {
+
+        score++;
+        document.getElementById("feedback").innerHTML =
+            "✅ Riktig! Bra jobbet.";
+
+    } else {
+
+        document.getElementById("feedback").innerHTML =
+            `❌ Ikke riktig. Svaret er ${correctAnswer}.`;
+
+    }
+
+    document.getElementById("score").textContent = score;
+}
+
+newTask();
+</script>
+
+</body>
+</html>
