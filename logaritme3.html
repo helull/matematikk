@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Utforsk logaritmer</title>
+
+<script src="https://cdn.plot.ly/plot.jsscript>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    margin:0;
+}
+
+header{
+    background:#1f3c88;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.12);
+}
+
+.controls{
+    display:flex;
+    flex-wrap:wrap;
+    gap:30px;
+    align-items:center;
+}
+
+#graph{
+    height:650px;
+}
+
+.info{
+    font-size:1.1rem;
+    line-height:1.6;
+}
+
+.value{
+    font-weight:bold;
+    color:#b00020;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Utforsk logaritmer og eksponentialfunksjoner</h1>
+    <p>Oppdag sammenhengen mellom y = a<sup>x</sup> og y = log<sub>a</sub>(x)</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<div class="controls">
+
+<div>
+<label>Base a:</label>
+<select id="base">
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="5">5</option>
+    <option value="10" selected>10</option>
+</select>
+</div>
+
+<div>
+<label>Eksponent x:</label><br>
+<input
+id="slider"
+type="range"
+min="-3"
+max="4"
+step="0.01"
+value="1">
+</div>
+
+<div id="current"></div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<div id="graph"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Observer</h2>
+
+<p id="result"></p>
+
+<ul>
+<li>Hva skjer når du bytter base?</li>
+<li>Hvor ligger alltid punktet der grafene møtes?</li>
+<li>Hvorfor er koordinatene byttet om?</li>
+<li>Hva betyr log<sub>a</sub>(x)?</li>
+</ul>
+
+</div>
+
+</div>
+
+<script>
+
+const slider = document.getElementById("slider");
+const baseSelect = document.getElementById("base");
+
+function log_a(x,a){
+    return Math.log(x)/Math.log(a);
+}
+
+function update(){
+
+    const a = parseFloat(baseSelect.value);
+    const x = parseFloat(slider.value);
+
+    const y = Math.pow(a,x);
+
+    let expX = [];
+    let expY = [];
+
+    for(let t=-3;t<=4;t+=0.05){
+        expX.push(t);
+        expY.push(Math.pow(a,t));
+    }
+
+    let logX = [];
+    let logY = [];
+
+    for(let t=0.01;t<=100;t+=0.1){
+        logX.push(t);
+        logY.push(log_a(t,a));
+    }
+
+    const data = [
+
+        {
+            x:expX,
+            y:expY,
+            mode:"lines",
+            name:`y=${a}^x`,
+            line:{
+                color:"blue",
+                width:4
+            }
+        },
+
+        {
+            x:logX,
+            y:logY,
+            mode:"lines",
+            name:`log_${a}(x)`,
+            line:{
+                color:"red",
+                width:4
+            }
+        },
+
+        {
+            x:[-3,6],
+            y:[-3,6],
+            mode:"lines",
+            name:"y=x",
+            line:{
+                color:"green",
+                dash:"dash"
+            }
+        },
+
+        {
+            x:[x],
+            y:[y],
+            mode:"markers",
+            name:"Eksponentialpunkt",
+            marker:{
+                size:12,
+                color:"blue"
+            }
+        },
+
+        {
+            x:[y],
+            y:[x],
+            mode:"markers",
+            name:"Logaritmepunkt",
+            marker:{
+                size:12,
+                color:"red"
+            }
+        }
+
+    ];
+
+    const layout = {
+
+        title:`Base a = ${a}`,
+
+        xaxis:{
+            range:[-3,15]
+        },
+
+        yaxis:{
+            range:[-3,15]
+        },
+
+        margin:{
+            t:50
+        }
+    };
+
+    Plotly.react("graph",data,layout);
+
+    document.getElementById("current").innerHTML =
+        `a = <span class="value">${a}</span>,
+         x = <span class="value">${x.toFixed(2)}</span>`;
+
+    document.getElementById("result").innerHTML =
+
+        `På eksponentialgrafen har vi punktet
+        <b>(${x.toFixed(2)}, ${y.toFixed(2)})</b>.
+
+        <br><br>
+
+        På logaritmegrafen finner vi punktet
+        <b>(${y.toFixed(2)}, ${x.toFixed(2)})</b>.
+
+        <br><br>
+
+        Dermed er
+
+        <b>log<sub>${a}</sub>(${y.toFixed(2)}) =
+        ${x.toFixed(2)}</b>.
+
+        <br><br>
+
+        Logaritmen svarer på spørsmålet:
+
+        <b>«Hvilken eksponent må ${a} opphøyes i for å få ${y.toFixed(2)}?»</b>`;
+}
+
+slider.addEventListener("input",update);
+baseSelect.addEventListener("change",update);
+
+update();
+
+</script>
+
+</body>
+</html>
