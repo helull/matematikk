@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Utforsk logaritmer</title>
+
+<script src="https://cdn.plot.ly0.min.jsscript>
+
+<style>
+
+body{
+    font-family: Arial,sans-serif;
+    margin:0;
+    background:#f5f7fa;
+}
+
+header{
+    background:#234;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+#graph{
+    height:650px;
+}
+
+.sliderbox{
+    display:flex;
+    gap:20px;
+    align-items:center;
+    flex-wrap:wrap;
+}
+
+input[type=range]{
+    width:300px;
+}
+
+.info{
+    font-size:1.1em;
+    line-height:1.6;
+}
+
+.challenge{
+    background:#eef8ff;
+    border-left:5px solid steelblue;
+    padding:15px;
+    margin-top:15px;
+}
+
+.highlight{
+    color:#c62828;
+    font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+<h1>Utforsk logaritmer</h1>
+<p>Oppdag sammenhengen mellom eksponentialfunksjonen og logaritmen.</p>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>1. Utforsk selv</h2>
+
+<div class="sliderbox">
+
+<label>
+Velg eksponent x:
+<input id="slider" type="range"
+min="-2"
+max="3"
+step="0.01"
+value="1">
+</label>
+
+<span id="value"></span>
+
+</div>
+
+<div id="graph"></div>
+
+</div>
+
+
+<div class="card info">
+
+<h2>2. Hva ser du?</h2>
+
+<p>
+Den blå grafen er
+<span class="highlight">y = 10<sup>x</sup></span>.
+</p>
+
+<p>
+Den røde grafen er
+<span class="highlight">y = log(x)</span>.
+</p>
+
+<p>
+Når du velger et punkt på eksponentialgrafen,
+vises det tilsvarende punktet på logaritmegrafen.
+</p>
+
+<p>
+Legg merke til at koordinatene bytter plass:
+</p>
+
+<p id="coords"></p>
+
+<p>
+Dette skjer fordi logaritmen er den inverse funksjonen
+til eksponentialfunksjonen.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>3. Oppdag mønsteret</h2>
+
+<div class="challenge">
+
+<h3>Undersøk:</h3>
+
+<ul>
+<li>Hva blir log(100)?</li>
+<li>Hva blir log(1000)?</li>
+<li>Hva blir log(1)?</li>
+<li>Hva blir log(0,1)?</li>
+</ul>
+
+<p>
+Prøv å finne svarene ved å flytte på punktet.
+</p>
+
+</div>
+
+<div class="challenge">
+
+<h3>Tenk selv:</h3>
+
+<p>
+Hvis log(1000)=3, hva forteller tallet 3 oss?
+</p>
+
+<p>
+Hint:
+Hvor mange 10-ere må multipliseres sammen for å få 1000?
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const slider = document.getElementById("slider");
+
+function makeGraph(){
+
+    const expX=[];
+    const expY=[];
+
+    for(let x=-2;x<=3;x+=0.05){
+        expX.push(x);
+        expY.push(Math.pow(10,x));
+    }
+
+    const logX=[];
+    const logY=[];
+
+    for(let x=0.01;x<=1000;x+=1){
+        logX.push(x);
+        logY.push(Math.log10(x));
+    }
+
+    const mirrorX=[-2,3];
+    const mirrorY=[-2,3];
+
+    const x=parseFloat(slider.value);
+    const y=Math.pow(10,x);
+
+    const expPoint={
+        x:[x],
+        y:[y],
+        mode:"markers",
+        marker:{
+            size:14,
+            color:"blue"
+        },
+        name:"Valgt punkt"
+    };
+
+    const logPoint={
+        x:[y],
+        y:[x],
+        mode:"markers",
+        marker:{
+            size:14,
+            color:"red"
+        },
+        name:"Tilsvarende log-punkt"
+    };
+
+    const data=[
+
+        {
+            x:expX,
+            y:expY,
+            mode:"lines",
+            name:"y=10^x",
+            line:{width:4,color:"blue"}
+        },
+
+        {
+            x:logX,
+            y:logY,
+            mode:"lines",
+            name:"y=log(x)",
+            line:{width:4,color:"red"}
+        },
+
+        {
+            x:mirrorX,
+            y:mirrorY,
+            mode:"lines",
+            name:"y=x",
+            line:{
+                dash:"dash",
+                color:"green"
+            }
+        },
+
+        expPoint,
+        logPoint
+
+    ];
+
+    const layout={
+
+        title:"Eksponentialfunksjon og logaritme",
+
+        xaxis:{
+            title:"x",
+            range:[-2,100]
+        },
+
+        yaxis:{
+            title:"y",
+            range:[-2,100]
+        },
+
+        legend:{
+            x:0,
+            y:1
+        }
+    };
+
+    Plotly.newPlot("graph",data,layout);
+
+    document.getElementById("value").innerHTML =
+        `<strong>x = ${x.toFixed(2)}</strong>`;
+
+    document.getElementById("coords").innerHTML =
+        `
+        På eksponentialgrafen:
+        (<b>${x.toFixed(2)}</b>, <b>${y.toFixed(2)}</b>)
+        <br><br>
+        På logaritmegrafen:
+        (<b>${y.toFixed(2)}</b>, <b>${x.toFixed(2)}</b>)
+        <br><br>
+        Altså:
+        log(${y.toFixed(2)}) = ${x.toFixed(2)}
+        `;
+}
+
+slider.addEventListener("input",makeGraph);
+
+makeGraph();
+
+</script>
+
+</body>
+</html>
