@@ -2,47 +2,40 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Logaritmelab S1</title>
 
-<script src="https://www.apps/deployggb.jsscript> </script>
-
-<style>
-
-*{
-    box-sizing:border-box;
-}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.jsle>
 
 body{
     margin:0;
-    font-family:Segoe UI, Arial, sans-serif;
+    font-family:Segoe UI,sans-serif;
     background:#eef2f7;
 }
 
 header{
     background:#1f4e79;
     color:white;
-    padding:20px;
     text-align:center;
+    padding:20px;
 }
 
-main{
+.container{
     display:grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns:2fr 1fr;
     gap:20px;
     padding:20px;
 }
 
-.panel{
+.card{
     background:white;
-    border-radius:12px;
     padding:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.1);
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.12);
 }
 
-#ggb-element{
-    width:100%;
+#graph{
     height:700px;
 }
 
@@ -58,419 +51,379 @@ button{
     background:#1f4e79;
     color:white;
     border:none;
-    padding:10px 18px;
-    border-radius:6px;
-    cursor:pointer;
+    padding:10px 15px;
     margin-top:10px;
+    cursor:pointer;
+    border-radius:6px;
 }
 
-button:hover{
-    background:#163958;
-}
-
-input[type=text]{
+input,select,textarea{
     width:100%;
-    padding:12px;
-    font-size:16px;
+    padding:10px;
+    margin-top:5px;
 }
 
-.badge{
-    display:inline-block;
-    padding:6px 12px;
-    background:#d9edf7;
-    border-radius:20px;
-    margin-right:6px;
-}
-
-.success{
+.ok{
     color:green;
     font-weight:bold;
 }
 
-.error{
-    color:#b30000;
+.fail{
+    color:darkred;
     font-weight:bold;
 }
 
-.score{
-    font-size:20px;
-    font-weight:bold;
-}
-
-textarea{
-    width:100%;
-    height:120px;
-    padding:10px;
-    font-size:15px;
-}
-
-h3{
-    margin-top:0;
+.badge{
+    background:#d9edf7;
+    display:inline-block;
+    padding:5px 10px;
+    border-radius:10px;
+    margin-right:5px;
 }
 
 </style>
 </head>
-
 <body>
 
 <header>
-    <h1>Logaritmelab for S1</h1>
-    <p>Utforsk, test hypoteser og løs utfordringer</p>
+<h1>Logaritmelab S1</h1>
+<p>Utforsk logaritmer og eksponentialfunksjoner</p>
 </header>
 
-<main>
+<div class="container">
 
-<div class="panel">
-    <div id="ggb-element"></div>
-</div>
+<div class="card">
 
-<div class="panel">
+<h3>Utforsk grafene</h3>
 
-    <div>
-        <span class="badge">Nivå <span id="currentLevel">1</span></span>
-        <span class="badge">Poeng: <span id="score">0</span></span>
-    </div>
+<label>Base a</label>
 
-    <!-- NIVÅ 1 -->
+<select id="base">
+<option>2</option>
+<option>3</option>
+<option>5</option>
+<option selected>10</option>
+</select>
 
-    <div id="level1" class="level active">
+<label>Eksponent x</label>
 
-        <h3>Nivå 1: Oppdag</h3>
+<input
+type="range"
+id="slider"
+min="-3"
+max="4"
+step="0.01"
+value="1">
 
-        <p>
-            Flytt på sliderne <b>a</b> og <b>x₀</b> i GeoGebra.
-        </p>
-
-        <p>
-            Observer:
-        </p>
-
-        <ul>
-            <li>Hva skjer når basen øker?</li>
-            <li>Hvordan henger de røde og blå punktene sammen?</li>
-            <li>Hva betyr koordinatene?</li>
-            <li>Hvorfor ligger linjen y=x der?</li>
-        </ul>
-
-        <p>
-            Skriv minst én observasjon:
-        </p>
-
-        <textarea id="observation"></textarea>
-
-        <button onclick="completeLevel1()">
-            Jeg har gjort observasjoner
-        </button>
-
-        <div id="msg1"></div>
-
-    </div>
-
-    <!-- NIVÅ 2 -->
-
-    <div id="level2" class="level">
-
-        <h3>Nivå 2: Test hypotesen</h3>
-
-        <p id="question2"></p>
-
-        <input id="answer2" type="text">
-
-        <button onclick="checkLevel2()">
-            Sjekk svar
-        </button>
-
-        <div id="feedback2"></div>
-
-    </div>
-
-    <!-- NIVÅ 3 -->
-
-    <div id="level3" class="level">
-
-        <h3>Nivå 3: Utfordring</h3>
-
-        <p id="question3"></p>
-
-        <input id="answer3" type="text">
-
-        <button onclick="checkLevel3()">
-            Sjekk svar
-        </button>
-
-        <div id="feedback3"></div>
-
-    </div>
-
-    <!-- FERDIG -->
-
-    <div id="finished" class="level">
-
-        <h2>🏆 Gratulerer!</h2>
-
-        <p>
-            Du har gjennomført Logaritmelab.
-        </p>
-
-        <p class="score">
-            Sluttpoeng:
-            <span id="finalScore"></span>
-        </p>
-
-        <h3>Huskeregel</h3>
-
-        <p>
-
-        logₐ(x) svarer på spørsmålet:
-
-        <br><br>
-
-        <b>
-        Hvilken eksponent må a opphøyes i for å gi x?
-        </b>
-
-        </p>
-
-    </div>
+<div id="graph"></div>
 
 </div>
 
-</main>
+<div class="card">
+
+<div>
+<span class="badge">
+Nivå: <span id="levelNo">1</span>
+</span>
+
+<span class="badge">
+Poeng: <span id="score">0</span>
+</span>
+</div>
+
+<!-- Nivå 1 -->
+
+<div id="level1" class="level active">
+
+<h2>Nivå 1: Oppdag</h2>
+
+<p>Flytt på base og eksponent.</p>
+
+<ul>
+<li>Hva observerer du?</li>
+<li>Hva skjer når basen øker?</li>
+<li>Hvorfor bytter punktene plass?</li>
+</ul>
+
+<textarea id="obs"></textarea>
+
+<button onclick="finishLevel1()">
+Neste nivå
+</button>
+
+<div id="msg1"></div>
+
+</div>
+
+<!-- Nivå 2 -->
+
+<div id="level2" class="level">
+
+<h2>Nivå 2</h2>
+
+<p id="q2"></p>
+
+<input id="a2">
+
+<button onclick="check2()">
+Sjekk
+</button>
+
+<div id="fb2"></div>
+
+</div>
+
+<!-- Nivå 3 -->
+
+<div id="level3" class="level">
+
+<h2>Nivå 3</h2>
+
+<p id="q3"></p>
+
+<input id="a3">
+
+<button onclick="check3()">
+Sjekk
+</button>
+
+<div id="fb3"></div>
+
+</div>
+
+<!-- Ferdig -->
+
+<div id="finished" class="level">
+
+<h2>🏆 Gratulerer!</h2>
+
+<p>Du har fullført Logaritmelab!</p>
+
+<h3>Sluttpoeng:</h3>
+
+<p id="finalScore"></p>
+
+</div>
+
+</div>
+
+</div>
 
 <script>
 
-/* =========================
-GEOGEBRA
-========================= */
-
-const params = {
-
-    appName:"graphing",
-
-    width:1000,
-    height:700,
-
-    showToolBar:false,
-    showAlgebraInput:false,
-    showMenuBar:false,
-
-    useBrowserForJS:true
-
-};
-
-const applet = new GGBApplet(params,true);
-
-window.addEventListener("load",()=>{
-    applet.inject("ggb-element");
-});
-
-function ggbOnInit(){
-
-    ggbApplet.evalCommand("a=2");
-    ggbApplet.evalCommand("x0=1");
-
-    ggbApplet.evalCommand("f(x)=a^x");
-    ggbApplet.evalCommand("g(x)=ln(x)/ln(a)");
-    ggbApplet.evalCommand("d:y=x");
-
-    ggbApplet.evalCommand("A=(x0,f(x0))");
-    ggbApplet.evalCommand("B=(f(x0),x0)");
-
-    ggbApplet.setColor("f",0,0,255);
-    ggbApplet.setColor("g",220,0,0);
-    ggbApplet.setColor("d",0,150,0);
-
-    ggbApplet.setColor("A",0,0,255);
-    ggbApplet.setColor("B",220,0,0);
-
-    ggbApplet.setLabelVisible("A",true);
-    ggbApplet.setLabelVisible("B",true);
-
-    ggbApplet.evalCommand("a=Slider(2,10,1)");
-    ggbApplet.evalCommand("x0=Slider(-3,4,0.1)");
-
-    ggbApplet.setCoordSystem(-4,12,-4,12);
-}
-
-/* =========================
-SPILLLOGIKK
-========================= */
-
 let score=0;
 
-function updateScore(points){
+const slider=document.getElementById("slider");
+const base=document.getElementById("base");
 
-    score+=points;
+function loga(x,a){
+    return Math.log(x)/Math.log(a);
+}
+
+function draw(){
+
+    const a=parseFloat(base.value);
+    const x=parseFloat(slider.value);
+
+    const y=Math.pow(a,x);
+
+    let ex=[];
+    let ey=[];
+
+    for(let t=-3;t<=4;t+=0.05){
+
+        ex.push(t);
+        ey.push(Math.pow(a,t));
+
+    }
+
+    let lx=[];
+    let ly=[];
+
+    for(let t=0.01;t<=100;t+=0.1){
+
+        lx.push(t);
+        ly.push(loga(t,a));
+
+    }
+
+    Plotly.react("graph",[
+
+    {
+        x:ex,
+        y:ey,
+        mode:"lines",
+        name:`y=${a}^x`
+    },
+
+    {
+        x:lx,
+        y:ly,
+        mode:"lines",
+        name:`log_${a}(x)`
+    },
+
+    {
+        x:[-3,10],
+        y:[-3,10],
+        mode:"lines",
+        name:"y=x"
+    },
+
+    {
+        x:[x],
+        y:[y],
+        mode:"markers",
+        marker:{size:12}
+    },
+
+    {
+        x:[y],
+        y:[x],
+        mode:"markers",
+        marker:{size:12,color:"red"}
+    }
+
+    ],
+
+    {
+        xaxis:{range:[-3,12]},
+        yaxis:{range:[-3,12]}
+    });
+
+}
+
+slider.addEventListener("input",draw);
+base.addEventListener("change",draw);
+
+draw();
+
+function addScore(n){
+
+    score+=n;
+
     document.getElementById("score").innerText=score;
 }
 
-/* =========================
-NIVÅ 1
-========================= */
+function showLevel(n){
 
-function completeLevel1(){
+    document.querySelectorAll(".level")
+    .forEach(e=>e.classList.remove("active"));
 
-    let text =
-        document.getElementById("observation").value.trim();
+    document
+    .getElementById("level"+n)
+    .classList.add("active");
 
-    if(text.length < 10){
+    document.getElementById("levelNo").innerText=n;
+}
 
-        document.getElementById("msg1").innerHTML =
-        "<p class='error'>Skriv litt mer om hva du observerer.</p>";
+function finishLevel1(){
+
+    if(document.getElementById("obs").value.length<10){
+
+        document.getElementById("msg1").innerHTML=
+        "<p class='fail'>Skriv en observasjon først.</p>";
 
         return;
     }
 
-    updateScore(10);
+    addScore(10);
 
-    document.getElementById("msg1").innerHTML =
-    "<p class='success'>Bra! Du går videre.</p>";
-
-    setTimeout(()=>{
-
-        showLevel(2);
-
-    },1000);
+    showLevel(2);
 }
 
-/* =========================
-NIVÅ 2
-========================= */
+const q2list=[
 
-const level2Questions = [
-
-    {q:"Hva er log₂(32)?",a:5},
-    {q:"Hva er log₅(125)?",a:3},
-    {q:"Hva er log₁₀(1000)?",a:3},
-    {q:"Hva er log₂(8)?",a:3}
+{q:"log₂(32)",a:5},
+{q:"log₂(8)",a:3},
+{q:"log₅(125)",a:3},
+{q:"log₁₀(1000)",a:3}
 
 ];
 
-let q2 =
-    level2Questions[
-        Math.floor(Math.random()*level2Questions.length)
-    ];
+const q2=q2list[
+Math.floor(Math.random()*q2list.length)
+];
 
-document.getElementById("question2").innerText=q2.q;
+document.getElementById("q2").innerText=
+"Hva er "+q2.q+" ?";
 
-function checkLevel2(){
+function check2(){
 
-    let svar =
-        Number(
-            document.getElementById("answer2").value
-        );
+    let s=Number(
+    document.getElementById("a2").value);
 
-    if(svar===q2.a){
+    if(s===q2.a){
 
-        updateScore(20);
+        addScore(20);
 
-        document.getElementById("feedback2").innerHTML=
-        "<p class='success'>Riktig! Nå kommer utfordringene.</p>";
+        document.getElementById("fb2").innerHTML=
+        "<p class='ok'>Riktig!</p>";
 
         setTimeout(()=>{
             showLevel(3);
-        },1200);
+        },1000);
 
-    }
-    else{
+    }else{
 
-        document.getElementById("feedback2").innerHTML=
-        "<p class='error'>Ikke riktig. Se på grafen og prøv igjen.</p>";
+        document.getElementById("fb2").innerHTML=
+        "<p class='fail'>Prøv igjen.</p>";
+
     }
 }
 
-/* =========================
-NIVÅ 3
-========================= */
+const q3list=[
 
-const level3Questions = [
-
-    {
-        q:"Hva er log₂(1/8)?",
-        a:-3
-    },
-
-    {
-        q:"Hva er log₁₀(0,001)?",
-        a:-3
-    },
-
-    {
-        q:"Hva er log₃(81)?",
-        a:4
-    },
-
-    {
-        q:"Hva er log₅(1/25)?",
-        a:-2
-    }
+{q:"log₂(1/8)",a:-3},
+{q:"log₅(1/25)",a:-2},
+{q:"log₁₀(0.001)",a:-3},
+{q:"log₃(81)",a:4}
 
 ];
 
-let q3 =
-    level3Questions[
-        Math.floor(Math.random()*level3Questions.length)
-    ];
+const q3=q3list[
+Math.floor(Math.random()*q3list.length)
+];
 
-document.getElementById("question3").innerText=q3.q;
+document.getElementById("q3").innerText=
+"Hva er "+q3.q+" ?";
 
-function checkLevel3(){
+function check3(){
 
-    let txt =
-        document.getElementById("answer3")
-        .value.replace(",", ".");
+    let s=Number(
+    document.getElementById("a3").value
+    .replace(",",".")
+    );
 
-    let svar = Number(txt);
+    if(s===q3.a){
 
-    if(svar===q3.a){
+        addScore(30);
 
-        updateScore(30);
+        document.getElementById("fb3").innerHTML=
+        "<p class='ok'>Fantastisk!</p>";
 
-        document.getElementById("feedback3").innerHTML=
-        "<p class='success'>Fantastisk!</p>";
+        setTimeout(finishGame,1000);
 
-        setTimeout(finishGame,1200);
+    }else{
+
+        document.getElementById("fb3").innerHTML=
+        "<p class='fail'>Prøv igjen.</p>";
 
     }
-    else{
-
-        document.getElementById("feedback3").innerHTML=
-        "<p class='error'>Nesten. Husk at logaritmer kan være negative.</p>";
-    }
-}
-
-/* =========================
-HJELPEFUNKSJONER
-========================= */
-
-function showLevel(level){
-
-    document
-    .querySelectorAll(".level")
-    .forEach(l=>l.classList.remove("active"));
-
-    document
-    .getElementById("currentLevel")
-    .innerText=level;
-
-    document
-    .getElementById("level"+level)
-    .classList.add("active");
 }
 
 function finishGame(){
 
-    document
-        .querySelectorAll(".level")
-        .forEach(l=>l.classList.remove("active"));
+    document.querySelectorAll(".level")
+    .forEach(e=>e.classList.remove("active"));
 
     document
-        .getElementById("finished")
-        .classList.add("active");
+    .getElementById("finished")
+    .classList.add("active");
 
     document
-        .getElementById("finalScore")
-        .innerText=score;
+    .getElementById("finalScore")
+    .innerText=score;
 }
 
 </script>
