@@ -4,26 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Utforsk logaritmer</title>
+<title>Utforsk logaritmer i GeoGebra</title>
 
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script src="https://www.geogebra.oyggb.jsscript> </script>
 
 <style>
-
 body{
-    font-family:Arial,sans-serif;
-    background:#f5f5f5;
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
     margin:0;
 }
 
 header{
-    background:#1f3c88;
+    background:#1f4e79;
     color:white;
     padding:20px;
     text-align:center;
 }
 
-.container{
+main{
     max-width:1200px;
     margin:auto;
     padding:20px;
@@ -31,241 +30,138 @@ header{
 
 .card{
     background:white;
-    border-radius:12px;
     padding:20px;
+    border-radius:12px;
     margin-bottom:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.12);
+    box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-.controls{
-    display:flex;
-    flex-wrap:wrap;
-    gap:30px;
-    align-items:center;
+#ggb-element{
+    width:100%;
+    height:700px;
 }
 
-#graph{
-    height:650px;
+ul{
+    line-height:1.8;
 }
-
-.info{
-    font-size:1.1rem;
-    line-height:1.6;
-}
-
-.value{
-    font-weight:bold;
-    color:#b00020;
-}
-
 </style>
 </head>
 
 <body>
 
 <header>
-    <h1>Utforsk logaritmer og eksponentialfunksjoner</h1>
-    <p>Oppdag sammenhengen mellom y = a<sup>x</sup> og y = log<sub>a</sub>(x)</p>
+<h1>Utforsk logaritmer</h1>
+<p>Oppdag sammenhengen mellom eksponentialfunksjoner og logaritmer</p>
 </header>
 
-<div class="container">
+<main>
 
 <div class="card">
 
-<div class="controls">
+<h2>Oppdrag</h2>
 
-<div>
-<label>Base a:</label>
-<select id="base">
-    <option value="2">2</option>
-    <option value="3">3</option>
-    <option value="5">5</option>
-    <option value="10" selected>10</option>
-</select>
-</div>
-
-<div>
-<label>Eksponent x:</label><br>
-<input
-id="slider"
-type="range"
-min="-3"
-max="4"
-step="0.01"
-value="1">
-</div>
-
-<div id="current"></div>
-
-</div>
-
-</div>
-
-<div class="card">
-
-<div id="graph"></div>
-
-</div>
-
-<div class="card">
-
-<h2>Observer</h2>
-
-<p id="result"></p>
+<p>
+Bruk sliderne i GeoGebra-vinduet.
+Flytt på både <strong>a</strong> og <strong>x₀</strong>.
+Prøv å oppdage mønsteret selv.
+</p>
 
 <ul>
-<li>Hva skjer når du bytter base?</li>
-<li>Hvor ligger alltid punktet der grafene møtes?</li>
-<li>Hvorfor er koordinatene byttet om?</li>
-<li>Hva betyr log<sub>a</sub>(x)?</li>
+<li>Hva skjer når basen øker?</li>
+<li>Hvorfor speiles punktene om linjen y = x?</li>
+<li>Hva betyr logₐ(x)?</li>
+<li>Hva blir log₂(8)?</li>
+<li>Hva blir log₅(125)?</li>
+<li>Hva blir log₁₀(0,01)?</li>
 </ul>
 
 </div>
 
+<div class="card">
+<div id="ggb-element"></div>
 </div>
+
+</main>
 
 <script>
 
-const slider = document.getElementById("slider");
-const baseSelect = document.getElementById("base");
+var params = {
 
-function log_a(x,a){
-    return Math.log(x)/Math.log(a);
+    appName: "graphing",
+
+    width: 1100,
+    height: 700,
+
+    showToolBar: false,
+    showAlgebraInput: false,
+    showMenuBar: false,
+
+    enableShiftDragZoom: true,
+
+    useBrowserForJS: true
+};
+
+var applet = new GGBApplet(params, true);
+
+window.addEventListener("load", function () {
+    applet.inject("ggb-element");
+});
+
+function ggbOnInit() {
+
+    ggbApplet.evalCommand("a = 2");
+    ggbApplet.evalCommand("x0 = 1");
+
+    ggbApplet.evalCommand("Slider(2,10,1,a)");
+    ggbApplet.evalCommand("Slider(-3,4,0.1,x0)");
+
+    ggbApplet.evalCommand("f(x)=a^x");
+
+    ggbApplet.evalCommand(
+        "g(x)=ln(x)/ln(a)"
+    );
+
+    ggbApplet.evalCommand("y=x");
+
+    ggbApplet.evalCommand(
+        "A=(x0,f(x0))"
+    );
+
+    ggbApplet.evalCommand(
+        "B=(f(x0),x0)"
+    );
+
+    ggbApplet.evalCommand(
+        'T1=Text("a = "+a,(8,8))'
+    );
+
+    ggbApplet.evalCommand(
+        'T2=Text("x₀ = "+Round(x0,2),(8,7))'
+    );
+
+    ggbApplet.evalCommand(
+        'T3=Text("a^(x₀) = "+Round(f(x0),2),(8,6))'
+    );
+
+    ggbApplet.evalCommand(
+        'T4=Text("logₐ("+Round(f(x0),2)+") = "+Round(x0,2),(8,5))'
+    );
+
+    ggbApplet.setColor("f",0,0,255);
+    ggbApplet.setColor("g",220,0,0);
+    ggbApplet.setColor("y",0,180,0);
+
+    ggbApplet.setPointSize("A",7);
+    ggbApplet.setPointSize("B",7);
+
+    ggbApplet.setColor("A",0,0,255);
+    ggbApplet.setColor("B",220,0,0);
+
+    ggbApplet.setLabelVisible("A",true);
+    ggbApplet.setLabelVisible("B",true);
+
+    ggbApplet.setCoordSystem(-4,12,-4,12);
 }
-
-function update(){
-
-    const a = parseFloat(baseSelect.value);
-    const x = parseFloat(slider.value);
-
-    const y = Math.pow(a,x);
-
-    let expX = [];
-    let expY = [];
-
-    for(let t=-3;t<=4;t+=0.05){
-        expX.push(t);
-        expY.push(Math.pow(a,t));
-    }
-
-    let logX = [];
-    let logY = [];
-
-    for(let t=0.01;t<=100;t+=0.1){
-        logX.push(t);
-        logY.push(log_a(t,a));
-    }
-
-    const data = [
-
-        {
-            x:expX,
-            y:expY,
-            mode:"lines",
-            name:`y=${a}^x`,
-            line:{
-                color:"blue",
-                width:4
-            }
-        },
-
-        {
-            x:logX,
-            y:logY,
-            mode:"lines",
-            name:`log_${a}(x)`,
-            line:{
-                color:"red",
-                width:4
-            }
-        },
-
-        {
-            x:[-3,6],
-            y:[-3,6],
-            mode:"lines",
-            name:"y=x",
-            line:{
-                color:"green",
-                dash:"dash"
-            }
-        },
-
-        {
-            x:[x],
-            y:[y],
-            mode:"markers",
-            name:"Eksponentialpunkt",
-            marker:{
-                size:12,
-                color:"blue"
-            }
-        },
-
-        {
-            x:[y],
-            y:[x],
-            mode:"markers",
-            name:"Logaritmepunkt",
-            marker:{
-                size:12,
-                color:"red"
-            }
-        }
-
-    ];
-
-    const layout = {
-
-        title:`Base a = ${a}`,
-
-        xaxis:{
-            range:[-3,15]
-        },
-
-        yaxis:{
-            range:[-3,15]
-        },
-
-        margin:{
-            t:50
-        }
-    };
-
-    Plotly.react("graph",data,layout);
-
-    document.getElementById("current").innerHTML =
-        `a = <span class="value">${a}</span>,
-         x = <span class="value">${x.toFixed(2)}</span>`;
-
-    document.getElementById("result").innerHTML =
-
-        `På eksponentialgrafen har vi punktet
-        <b>(${x.toFixed(2)}, ${y.toFixed(2)})</b>.
-
-        <br><br>
-
-        På logaritmegrafen finner vi punktet
-        <b>(${y.toFixed(2)}, ${x.toFixed(2)})</b>.
-
-        <br><br>
-
-        Dermed er
-
-        <b>log<sub>${a}</sub>(${y.toFixed(2)}) =
-        ${x.toFixed(2)}</b>.
-
-        <br><br>
-
-        Logaritmen svarer på spørsmålet:
-
-        <b>«Hvilken eksponent må ${a} opphøyes i for å få ${y.toFixed(2)}?»</b>`;
-}
-
-slider.addEventListener("input",update);
-baseSelect.addEventListener("change",update);
-
-update();
 
 </script>
 
