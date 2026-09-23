@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oppdag tallet e</title>
+
+<style>
+
+body{
+    font-family:Segoe UI,Arial,sans-serif;
+    background:#f2f6fb;
+    margin:0;
+    padding:30px;
+}
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    margin-bottom:20px;
+    border-radius:16px;
+    box-shadow:0 4px 12px rgba(0,0,0,.1);
+}
+
+h1{
+    color:#003366;
+}
+
+h2{
+    color:#004d99;
+}
+
+.sliderRow{
+    margin:20px 0;
+}
+
+input[type=range]{
+    width:100%;
+}
+
+.bigNumber{
+    font-size:2rem;
+    font-weight:bold;
+    color:#0066cc;
+}
+
+.eNumber{
+    color:#cc0000;
+    font-weight:bold;
+}
+
+#growthArea{
+    display:flex;
+    align-items:flex-end;
+    height:250px;
+    gap:2px;
+    border-bottom:3px solid #333;
+    overflow:hidden;
+    margin-top:20px;
+}
+
+.bar{
+    background:
+        linear-gradient(
+        to top,
+        #4ea5ff,
+        #0066cc);
+}
+
+#timeline{
+    height:140px;
+    position:relative;
+    margin-top:20px;
+}
+
+.timelineLine{
+    position:absolute;
+    left:0;
+    right:0;
+    top:60px;
+    height:4px;
+    background:#333;
+}
+
+.tick{
+    position:absolute;
+    width:3px;
+    background:#ff8800;
+    top:35px;
+    height:50px;
+}
+
+.label{
+    position:absolute;
+    top:90px;
+    transform:translateX(-50%);
+    font-size:.8rem;
+}
+
+canvas{
+    width:100%;
+    background:white;
+}
+
+button{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    background:#0066cc;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#0052a3;
+}
+
+#secret{
+    display:none;
+    margin-top:15px;
+    padding:15px;
+    background:#eef7ff;
+    border-radius:10px;
+}
+
+.badge{
+    display:inline-block;
+    padding:6px 12px;
+    background:#eef;
+    border-radius:999px;
+    margin-top:10px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="card">
+
+<h1>Oppdag tallet e</h1>
+
+<p>
+Du setter inn <strong>1 krone</strong> til
+<strong>100 % rente i ett år</strong>.
+</p>
+
+<p>
+Flytt glideren og undersøk:
+Hva skjer når banken beregner renter oftere og oftere?
+</p>
+
+<div class="sliderRow">
+
+<input
+id="slider"
+type="range"
+min="0"
+max="100"
+value="0">
+
+</div>
+
+<div class="badge">
+Renteperioder per år:
+<span id="nValue"></span>
+</div>
+
+<p class="bigNumber">
+Sluttverdi:
+<span id="finalValue"></span>
+</p>
+
+<p>
+Tallet e ≈
+<span class="eNumber">2.718281828</span>
+</p>
+
+<p>
+Avstand til e:
+<strong id="distance"></strong>
+</p>
+
+<button onclick="showSecret()">
+Vis hemmeligheten
+</button>
+
+<div id="secret">
+<h3>Hva har du oppdaget?</h3>
+
+<p>
+Når antall renteperioder blir større og større,
+nærmer sluttverdien seg et bestemt tall:
+</p>
+
+<h2>
+e ≈ 2.718281828
+</h2>
+
+<p>
+Dette tallet oppstår som grenseverdien
+til uttrykket:
+</p>
+
+<p style="font-size:1.5rem">
+(1 + 1/n)<sup>n</sup>
+</p>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>1. Bankkonto gjennom året</h2>
+
+<p>
+Hver søyle viser hvor mye kontoen er verdt
+etter en ny renteutbetaling.
+</p>
+
+<div id="growthArea"></div>
+
+</div>
+
+<div class="card">
+
+<h2>2. Når legges rentene til?</h2>
+
+<p>
+Hver markering viser en renteutbetaling i løpet av året.
+</p>
+
+<div id="timeline"></div>
+
+</div>
+
+<div class="card">
+
+<h2>3. Nærmer sluttverdien seg e?</h2>
+
+<canvas id="graph"
+width="1000"
+height="400"></canvas>
+
+</div>
+
+</div>
+
+<script>
+
+const slider =
+document.getElementById("slider");
+
+slider.addEventListener("input",update);
+
+function sliderToN(v){
+
+    return Math.round(
+        Math.pow(10,v/25)
+    );
+}
+
+function update(){
+
+    const n =
+    Math.max(
+        1,
+        sliderToN(
+            Number(slider.value)
+        )
+    );
+
+    document.getElementById(
+        "nValue"
+    ).textContent=n;
+
+    const finalValue =
+    Math.pow(
+        1+1/n,
+        n
+    );
+
+    document.getElementById(
+        "finalValue"
+    ).textContent=
+    finalValue.toFixed(8);
+
+    document.getElementById(
+        "distance"
+    ).textContent=
+    Math.abs(
+        Math.E-finalValue
+    ).toFixed(10);
+
+    drawGrowth(n);
+    drawTimeline(n);
+    drawGraph(n);
+}
+
+function drawGrowth(n){
+
+    const area =
+    document.getElementById(
+        "growthArea"
+    );
+
+    area.innerHTML="";
+
+    let capital=1;
+
+    const shown =
+    Math.min(
+        n,
+        150
+    );
+
+    for(let i=1;i<=shown;i++){
+
+        capital *= (1+1/n);
+
+        const bar =
+        document.createElement("div");
+
+        bar.className="bar";
+
+        bar.style.height=
+        (capital/Math.E)
+        *220+"px";
+
+        bar.style.width=
+        (900/shown)+"px";
+
+        area.appendChild(bar);
+    }
+}
+
+function drawTimeline(n){
+
+    const timeline =
+    document.getElementById(
+        "timeline"
+    );
+
+    timeline.innerHTML="";
+
+    const line =
+    document.createElement("div");
+
+    line.className="timelineLine";
+
+    timeline.appendChild(line);
+
+    const shown =
+    Math.min(
+        n,
+        100
+    );
+
+    for(let i=0;i<=shown;i++){
+
+        const tick =
+        document.createElement("div");
+
+        tick.className="tick";
+
+        tick.style.left=
+        (i/shown*100)+"%";
+
+        timeline.appendChild(tick);
+    }
+
+    const months=
+    ["Jan","Mar","Mai","Jul","Sep","Nov"];
+
+    months.forEach((m,i)=>{
+
+        const label=
+        document.createElement("div");
+
+        label.className="label";
+
+        label.textContent=m;
+
+        label.style.left=
+        (i/5*100)+"%";
+
+        timeline.appendChild(label);
+    });
+}
+
+function drawGraph(currentN){
+
+    const canvas=
+    document.getElementById(
+        "graph"
+    );
+
+    const ctx=
+    canvas.getContext("2d");
+
+    ctx.clearRect(
+        0,0,
+        canvas.width,
+        canvas.height
+    );
+
+    ctx.strokeStyle="#ccc";
+
+    ctx.beginPath();
+
+    ctx.moveTo(50,350);
+    ctx.lineTo(950,350);
+
+    ctx.moveTo(50,50);
+    ctx.lineTo(50,350);
+
+    ctx.stroke();
+
+    ctx.beginPath();
+
+    for(let n=1;n<=10000;n+=20){
+
+        const yVal=
+        Math.pow(
+            1+1/n,
+            n
+        );
+
+        const x=
+        50+
+        Math.log10(n)
+        /4*
+        900;
+
+        const y=
+        350-
+        (yVal-2)
+        *420;
+
+        if(n===1)
+            ctx.moveTo(x,y);
+        else
+            ctx.lineTo(x,y);
+
+    }
+
+    ctx.strokeStyle="#0066cc";
+    ctx.lineWidth=3;
+    ctx.stroke();
+
+    const eY=
+    350-
+    (Math.E-2)
+    *420;
+
+    ctx.beginPath();
+
+    ctx.moveTo(50,eY);
+    ctx.lineTo(950,eY);
+
+    ctx.strokeStyle="red";
+    ctx.setLineDash([8,8]);
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    ctx.fillStyle="red";
+
+    ctx.fillText(
+        "e",
+        960,
+        eY+4
+    );
+
+    const px=
+    50+
+    Math.log10(currentN)
+    /4*
+    900;
+
+    const py=
+    350-
+    (
+        Math.pow(
+            1+1/currentN,
+            currentN
+        )-2
+    )
+    *420;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        px,
+        py,
+        8,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fillStyle=
+    "#ff8800";
+
+    ctx.fill();
+
+    ctx.fillStyle="black";
+
+    ctx.fillText(
+        "Din verdi",
+        px+12,
+        py
+    );
+}
+
+function showSecret(){
+
+    document.getElementById(
+        "secret"
+    ).style.display="block";
+}
+
+update();
+
+</script>
+
+</body>
+</html>
