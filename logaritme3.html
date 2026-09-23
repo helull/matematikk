@@ -2,429 +2,274 @@
 <html lang="no">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oppdag e</title>
 
-<title>Logaritmelab S1</title>
-
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.jsle>
+<style>
 
 body{
-    margin:0;
-    font-family:Segoe UI,sans-serif;
-    background:#eef2f7;
-}
-
-header{
-    background:#1f4e79;
-    color:white;
-    text-align:center;
+    font-family:Arial;
+    max-width:1000px;
+    margin:auto;
     padding:20px;
+    background:#f4f7fb;
 }
 
-.container{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:20px;
-    padding:20px;
+h1{
+    color:#003366;
 }
 
-.card{
+.panel{
     background:white;
     padding:20px;
-    border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.12);
+    border-radius:15px;
+    box-shadow:0 0 12px rgba(0,0,0,0.1);
 }
 
-#graph{
-    height:700px;
+.slider-box{
+    margin:20px 0;
 }
 
-.level{
-    display:none;
+#steps{
+    display:flex;
+    align-items:flex-end;
+    gap:2px;
+    height:250px;
+    margin-top:20px;
+    border-bottom:3px solid black;
 }
 
-.level.active{
-    display:block;
+.bar{
+    background:linear-gradient(
+      to top,
+      #4da6ff,
+      #0073e6);
+    width:12px;
 }
 
-button{
-    background:#1f4e79;
-    color:white;
-    border:none;
-    padding:10px 15px;
-    margin-top:10px;
-    cursor:pointer;
-    border-radius:6px;
-}
-
-input,select,textarea{
-    width:100%;
-    padding:10px;
-    margin-top:5px;
-}
-
-.ok{
-    color:green;
+.big{
+    font-size:1.5rem;
     font-weight:bold;
 }
 
-.fail{
-    color:darkred;
-    font-weight:bold;
+.value{
+    color:#0066cc;
 }
 
-.badge{
-    background:#d9edf7;
-    display:inline-block;
-    padding:5px 10px;
-    border-radius:10px;
-    margin-right:5px;
+.e-value{
+    color:red;
+}
+
+canvas{
+    margin-top:30px;
+    border:1px solid #ddd;
 }
 
 </style>
 </head>
 <body>
 
-<header>
-<h1>Logaritmelab S1</h1>
-<p>Utforsk logaritmer og eksponentialfunksjoner</p>
-</header>
+<div class="panel">
 
-<div class="container">
+<h1>Kan du oppdage tallet e?</h1>
 
-<div class="card">
+<p>
+Du setter inn <b>1 krone</b> til
+<b>100 % rente i ett år</b>.
+</p>
 
-<h3>Utforsk grafene</h3>
+<p>
+Hvor ofte skal banken legge til renter?
+</p>
 
-<label>Base a</label>
-
-<select id="base">
-<option>2</option>
-<option>3</option>
-<option>5</option>
-<option selected>10</option>
-</select>
-
-<label>Eksponent x</label>
+<div class="slider-box">
 
 <input
 type="range"
+min="1"
+max="1000"
+value="1"
 id="slider"
-min="-3"
-max="4"
-step="0.01"
-value="1">
-
-<div id="graph"></div>
+style="width:100%;">
 
 </div>
 
-<div class="card">
+<p>
+Renteperioder:
+<span id="n">1</span>
+</p>
 
-<div>
-<span class="badge">
-Nivå: <span id="levelNo">1</span>
-</span>
+<p class="big">
+Sluttverdi:
+<span class="value" id="result">2.000000</span>
+</p>
 
-<span class="badge">
-Poeng: <span id="score">0</span>
-</span>
-</div>
+<p>
+Tallet e =
+<span class="e-value">2.718281828...</span>
+</p>
 
-<!-- Nivå 1 -->
+<p>
+Avstand til e:
+<span id="difference"></span>
+</p>
 
-<div id="level1" class="level active">
+<div id="steps"></div>
 
-<h2>Nivå 1: Oppdag</h2>
-
-<p>Flytt på base og eksponent.</p>
-
-<ul>
-<li>Hva observerer du?</li>
-<li>Hva skjer når basen øker?</li>
-<li>Hvorfor bytter punktene plass?</li>
-</ul>
-
-<textarea id="obs"></textarea>
-
-<button onclick="finishLevel1()">
-Neste nivå
-</button>
-
-<div id="msg1"></div>
-
-</div>
-
-<!-- Nivå 2 -->
-
-<div id="level2" class="level">
-
-<h2>Nivå 2</h2>
-
-<p id="q2"></p>
-
-<input id="a2">
-
-<button onclick="check2()">
-Sjekk
-</button>
-
-<div id="fb2"></div>
-
-</div>
-
-<!-- Nivå 3 -->
-
-<div id="level3" class="level">
-
-<h2>Nivå 3</h2>
-
-<p id="q3"></p>
-
-<input id="a3">
-
-<button onclick="check3()">
-Sjekk
-</button>
-
-<div id="fb3"></div>
-
-</div>
-
-<!-- Ferdig -->
-
-<div id="finished" class="level">
-
-<h2>🏆 Gratulerer!</h2>
-
-<p>Du har fullført Logaritmelab!</p>
-
-<h3>Sluttpoeng:</h3>
-
-<p id="finalScore"></p>
-
-</div>
-
-</div>
+<canvas id="graph" width="900" height="350"></canvas>
 
 </div>
 
 <script>
 
-let score=0;
+const slider = document.getElementById("slider");
 
-const slider=document.getElementById("slider");
-const base=document.getElementById("base");
+slider.addEventListener("input", update);
 
-function loga(x,a){
-    return Math.log(x)/Math.log(a);
+function update(){
+
+    const n = Number(slider.value);
+
+    document.getElementById("n").textContent = n;
+
+    const finalValue =
+        Math.pow(1 + 1/n, n);
+
+    document.getElementById("result")
+      .textContent =
+      finalValue.toFixed(6);
+
+    document.getElementById("difference")
+      .textContent =
+      Math.abs(
+      Math.E-finalValue
+      ).toFixed(8);
+
+    drawGrowth(n);
+    drawGraph(n);
 }
 
-function draw(){
+function drawGrowth(n){
 
-    const a=parseFloat(base.value);
-    const x=parseFloat(slider.value);
+    const container =
+      document.getElementById("steps");
 
-    const y=Math.pow(a,x);
+    container.innerHTML="";
 
-    let ex=[];
-    let ey=[];
+    let capital = 1;
 
-    for(let t=-3;t<=4;t+=0.05){
+    const shown =
+      Math.min(100,n);
 
-        ex.push(t);
-        ey.push(Math.pow(a,t));
+    for(let i=0;i<shown;i++){
 
-    }
+        capital *= (1 + 1/n);
 
-    let lx=[];
-    let ly=[];
+        const bar =
+          document.createElement("div");
 
-    for(let t=0.01;t<=100;t+=0.1){
+        bar.className="bar";
 
-        lx.push(t);
-        ly.push(loga(t,a));
+        bar.style.height =
+          (capital*80)+"px";
 
-    }
+        bar.style.width =
+          (800/shown)+"px";
 
-    Plotly.react("graph",[
-
-    {
-        x:ex,
-        y:ey,
-        mode:"lines",
-        name:`y=${a}^x`
-    },
-
-    {
-        x:lx,
-        y:ly,
-        mode:"lines",
-        name:`log_${a}(x)`
-    },
-
-    {
-        x:[-3,10],
-        y:[-3,10],
-        mode:"lines",
-        name:"y=x"
-    },
-
-    {
-        x:[x],
-        y:[y],
-        mode:"markers",
-        marker:{size:12}
-    },
-
-    {
-        x:[y],
-        y:[x],
-        mode:"markers",
-        marker:{size:12,color:"red"}
-    }
-
-    ],
-
-    {
-        xaxis:{range:[-3,12]},
-        yaxis:{range:[-3,12]}
-    });
-
-}
-
-slider.addEventListener("input",draw);
-base.addEventListener("change",draw);
-
-draw();
-
-function addScore(n){
-
-    score+=n;
-
-    document.getElementById("score").innerText=score;
-}
-
-function showLevel(n){
-
-    document.querySelectorAll(".level")
-    .forEach(e=>e.classList.remove("active"));
-
-    document
-    .getElementById("level"+n)
-    .classList.add("active");
-
-    document.getElementById("levelNo").innerText=n;
-}
-
-function finishLevel1(){
-
-    if(document.getElementById("obs").value.length<10){
-
-        document.getElementById("msg1").innerHTML=
-        "<p class='fail'>Skriv en observasjon først.</p>";
-
-        return;
-    }
-
-    addScore(10);
-
-    showLevel(2);
-}
-
-const q2list=[
-
-{q:"log₂(32)",a:5},
-{q:"log₂(8)",a:3},
-{q:"log₅(125)",a:3},
-{q:"log₁₀(1000)",a:3}
-
-];
-
-const q2=q2list[
-Math.floor(Math.random()*q2list.length)
-];
-
-document.getElementById("q2").innerText=
-"Hva er "+q2.q+" ?";
-
-function check2(){
-
-    let s=Number(
-    document.getElementById("a2").value);
-
-    if(s===q2.a){
-
-        addScore(20);
-
-        document.getElementById("fb2").innerHTML=
-        "<p class='ok'>Riktig!</p>";
-
-        setTimeout(()=>{
-            showLevel(3);
-        },1000);
-
-    }else{
-
-        document.getElementById("fb2").innerHTML=
-        "<p class='fail'>Prøv igjen.</p>";
-
+        container.appendChild(bar);
     }
 }
 
-const q3list=[
+function drawGraph(currentN){
 
-{q:"log₂(1/8)",a:-3},
-{q:"log₅(1/25)",a:-2},
-{q:"log₁₀(0.001)",a:-3},
-{q:"log₃(81)",a:4}
+    const canvas =
+      document.getElementById("graph");
 
-];
+    const ctx =
+      canvas.getContext("2d");
 
-const q3=q3list[
-Math.floor(Math.random()*q3list.length)
-];
-
-document.getElementById("q3").innerText=
-"Hva er "+q3.q+" ?";
-
-function check3(){
-
-    let s=Number(
-    document.getElementById("a3").value
-    .replace(",",".")
+    ctx.clearRect(
+      0,0,
+      canvas.width,
+      canvas.height
     );
 
-    if(s===q3.a){
+    ctx.beginPath();
 
-        addScore(30);
+    for(let n=1;n<=1000;n++){
 
-        document.getElementById("fb3").innerHTML=
-        "<p class='ok'>Fantastisk!</p>";
+        const yval =
+          Math.pow(
+          1+1/n,
+          n
+          );
 
-        setTimeout(finishGame,1000);
+        const x =
+          50 +
+          n/1000*800;
 
-    }else{
+        const y =
+          300 -
+          (yval-2)
+          *380;
 
-        document.getElementById("fb3").innerHTML=
-        "<p class='fail'>Prøv igjen.</p>";
-
+        if(n===1)
+            ctx.moveTo(x,y);
+        else
+            ctx.lineTo(x,y);
     }
+
+    ctx.strokeStyle="blue";
+    ctx.lineWidth=3;
+    ctx.stroke();
+
+    const eY =
+      300-
+      (Math.E-2)
+      *380;
+
+    ctx.beginPath();
+    ctx.moveTo(50,eY);
+    ctx.lineTo(850,eY);
+
+    ctx.strokeStyle="red";
+    ctx.setLineDash([8,8]);
+    ctx.stroke();
+
+    ctx.setLineDash([]);
+
+    const pointY =
+      300-
+      (Math.pow(
+      1+1/currentN,
+      currentN
+      )-2)
+      *380;
+
+    const pointX =
+      50+
+      currentN/1000*800;
+
+    ctx.beginPath();
+    ctx.arc(
+      pointX,
+      pointY,
+      6,
+      0,
+      Math.PI*2
+    );
+
+    ctx.fillStyle="orange";
+    ctx.fill();
+
+    ctx.fillStyle="red";
+    ctx.fillText(
+      "e",
+      860,
+      eY
+    );
 }
 
-function finishGame(){
-
-    document.querySelectorAll(".level")
-    .forEach(e=>e.classList.remove("active"));
-
-    document
-    .getElementById("finished")
-    .classList.add("active");
-
-    document
-    .getElementById("finalScore")
-    .innerText=score;
-}
+update();
 
 </script>
 
