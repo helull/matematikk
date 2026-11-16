@@ -3,7 +3,7 @@
 
 // GitHub Pages: https://helull.github.io/<eventuell undermappe>/
 const OWNER = 'helull';
-const REPO = 'helull.github.io';
+const REPO = 'matematikk';
 const BRANCH = ''; // Tom = bruk repositoryets standardgren.
 
 const cards = document.querySelector('#cards');
@@ -12,14 +12,24 @@ const error = document.querySelector('#error');
 const heading = document.querySelector('#heading');
 const refresh = document.querySelector('#refresh');
 
+
 function currentFolder() {
   const path = decodeURIComponent(location.pathname);
   const segments = path.split('/').filter(Boolean);
+
+  // Fjern index.html dersom den står i adressen
   if (segments.at(-1)?.toLowerCase() === 'index.html') {
     segments.pop();
   }
+
+  // Fjern repositorynavnet fra starten av stien
+  if (segments[0]?.toLowerCase() === REPO.toLowerCase()) {
+    segments.shift();
+  }
+
   return segments.join('/');
 }
+
 
 function displayName(name) {
   return name.replace(/\.html?$/i, '')
