@@ -6,13 +6,24 @@
   <meta name="theme-color" content="#f6f8fc">
   <title>Programoversikt</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .top{background:linear-gradient(125deg,#14283c,#294a67);color:white;border-radius:17px;padding:19px 21px;margin-bottom:16px;box-shadow:0 8px 20px #14283c15}
+    .top h1{font-size:clamp(1.55rem,4vw,2.15rem);letter-spacing:-.04em;margin:0 0 4px;color:white}
+    .top .intro,.top .eyebrow,.top .toolbar{color:#d9e6f3}
+    .top .eyebrow{font-size:.67rem;margin:0 0 5px}
+    .top .intro{font-size:.83rem;line-height:1.35;margin:0 0 12px}
+    .top .toolbar{font-size:.77rem}
+    .top button{padding:6px 10px;border-radius:9px;font-size:.77rem}
+    .shell{padding-top:18px}
+  </style>
   <script src="script.js" defer></script>
 </head>
 <body>
   <main class="shell">
+    <a href="../" style="display:inline-block;margin-bottom:10px;color:#48617b;text-decoration:none;font-size:.85rem;font-weight:650">← Til matematikk</a>
     <header class="top">
       <p class="eyebrow">PROGRAMOVERSIKT</p>
-      <h1 id="heading">Programmer</h1>
+      <h1 id="heading">1P</h1>
       <p class="intro">Velg et program for å åpne det.</p>
       <div class="toolbar"><span id="status" role="status" aria-live="polite">Henter programmer …</span><button id="refresh" type="button">Oppdater</button></div>
     </header>
