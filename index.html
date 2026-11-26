@@ -82,10 +82,11 @@ function render(items){
  const dirs=items.filter(x=>x.type==="dir").map(x=>x.name);
  root.replaceChildren();others.replaceChildren();special.replaceChildren();
  const courseDirs=dirs.filter(isCourse).sort((a,b)=>a.localeCompare(b,"no",{numeric:true}));
- const extraDirs=dirs.filter(x=>x!=="trekant"&&!isCourse(x)).sort((a,b)=>a.localeCompare(b,"no",{numeric:true}));
+ const extraDirs=dirs.filter(x=>x!=="trekant"&&x!=="laboratorium"&&!isCourse(x)).sort((a,b)=>a.localeCompare(b,"no",{numeric:true}));
  for(const name of courseDirs)root.append(card(name,label(name),"Oppgaver og aktiviteter i "+label(name)+".","course"));
  if(!courseDirs.length){const msg=document.createElement("p");msg.textContent="Ingen fagmapper funnet ennå.";root.append(msg)}
  special.append(card("trekant","Helges trekant","Utforsk trekanter med interaktive oppgaver.","triangle",dirs.includes("trekant")));
+ special.append(card("laboratorium","Matematikklaboratoriet","Fysiske matematikkeksperimenter med mobiltelefoner.","other",dirs.includes("laboratorium")));
  for(const name of extraDirs)others.append(card(name,label(name),"Se innholdet i mappen.","other"));
  otherSection.hidden=extraDirs.length===0;
  status.hidden=true;
@@ -103,7 +104,7 @@ async function load(){
   status.append(document.createTextNode("Kunne ikke hente mappene akkurat nå. "));
   const retry=document.createElement("button");retry.className="retry";retry.type="button";retry.textContent="Prøv igjen";retry.addEventListener("click",load);
   status.append(retry);
-  special.replaceChildren(card("trekant","Helges trekant","Trekantoppgaver.","triangle",false));
+  special.replaceChildren(card("trekant","Helges trekant","Trekantoppgaver.","triangle",false),card("laboratorium","Matematikklaboratoriet","Fysiske matematikkeksperimenter med mobiltelefoner.","other"));
  }
 }
 load();
