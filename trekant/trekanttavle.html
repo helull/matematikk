@@ -82,12 +82,12 @@
   max-width: 300px;
   min-width: 150px;
 
-  opacity: 0.85;
+  opacity: 1;
 
   z-index: 3;
 }
 
-.qr-background img {
+.qr-background img, .qr-background canvas {
   width: 100%;
   height: auto;
   display: block;
@@ -104,7 +104,7 @@
 <body>
   
 <div class="qr-background">
-  <img id="qr_kode" src="Gangetabell.svg" alt="bilde av qrkode">  
+  <div id="qr_kode" role="button" tabindex="0" aria-label="Bytt oppgavetype" style="background:white;padding:12px;cursor:pointer"></div><div id="qr_modus" style="text-align:center;padding:6px"></div><a id="qr_lenke" style="color:white" target="_blank" rel="noopener">Åpne elevlenke</a>  
 </div>
 
   
@@ -113,6 +113,7 @@
   <div id="list"></div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <script type="module">
 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -121,15 +122,7 @@
 
 
 
-  document.getElementById("qr_kode").addEventListener("click", function() {
-  const nyFil = this.src.includes("Standardform.svg")
-    ? "Gangetabell.svg"
-    : "Standardform.svg";
 
-  this.src = nyFil;
-
-  alert(`QR-koden er endret til ${nyFil}`);
-});
 
   
 
@@ -148,7 +141,28 @@
   const db = getDatabase(app);
 
   const temp_klasse = prompt("Skriv inn klasse-ID:");
-  const classId = temp_klasse.toUpperCase();
+  if (!temp_klasse || !temp_klasse.trim()) throw new Error("Klasse-ID mangler. Last siden på nytt.");
+  const classId = temp_klasse.trim().toUpperCase();
+  let qrModus = 2;
+  const qr = document.getElementById("qr_kode");
+  function oppdaterQR() {
+    const url = new URL("trekant.html", location.href);
+    url.searchParams.set("modus", String(qrModus));
+    url.searchParams.set("klasse", classId);
+    document.getElementById("qr_modus").textContent = (qrModus === 2 ? "Gangetabell" : "Standardform") + " · " + classId;
+    document.getElementById("qr_lenke").href = url.href;
+    qr.replaceChildren();
+    if (typeof QRCode === "function") {
+      new QRCode(qr, {text:url.href,width:256,height:256,correctLevel:QRCode.CorrectLevel.M});
+    } else {
+      qr.textContent = "QR-koden kunne ikke lastes. Bruk elevlenken.";
+      qr.style.color = "#111";
+    }
+  }
+  function byttQR() { qrModus = qrModus === 2 ? 3 : 2; oppdaterQR(); }
+  qr.addEventListener("click", byttQR);
+  qr.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") {e.preventDefault();byttQR();} });
+  oppdaterQR();
   document.getElementById("classTitle").innerText = classId;
 
   const dbRef = ref(db, "klasser/" + classId);
