@@ -76,6 +76,7 @@ function card(name,title,description,kind,enabled=true){
  const heading=document.createElement("strong");heading.textContent=title;
  const desc=document.createElement("small");desc.textContent=description;
  const go=document.createElement("span");go.className="go";go.textContent=enabled?"Åpne →":"Kommer snart";
+ if(name==="trekant"){const sketch=document.createElement("div");sketch.className="math-sketch";const img=document.createElement("img");img.src="./trekant/Trekant.svg";img.alt="";img.style.cssText="width:100%;height:100%;object-fit:contain";sketch.append(img);el.append(sketch)}
  el.append(heading,desc,go);return el;
 }
 function render(items){
