@@ -85,6 +85,13 @@
         
         
         
+        /* Tierpotenser: behold mobilstørrelsen, skaler på større skjermer. */
+        @media (min-width: 801px) {
+            #trekant input[style*="font-size: large"] {
+                font-size: clamp(20px, 3vw, 56px) !important;
+            }
+        }
+
         #trekant {
             display: grid;
             width: 50vw;
