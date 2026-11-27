@@ -104,7 +104,7 @@
 <body>
   
 <div class="qr-background">
-  <img id="qr_kode" src="Gangetabell.png" alt="bilde av qrkode">  
+  <img id="qr_kode" src="Gangetabell.svg" alt="bilde av qrkode">  
 </div>
 
   
@@ -122,9 +122,9 @@
 
 
   document.getElementById("qr_kode").addEventListener("click", function() {
-  const nyFil = this.src.includes("Standardform.png")
-    ? "Gangetabell.png"
-    : "Standardform.png";
+  const nyFil = this.src.includes("Standardform.svg")
+    ? "Gangetabell.svg"
+    : "Standardform.svg";
 
   this.src = nyFil;
 
