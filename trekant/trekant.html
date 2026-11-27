@@ -86,11 +86,19 @@
 </div>
 
 <script>
+  const klasseFraLenke = new URLSearchParams(location.search).get("klasse");
+  if (klasseFraLenke && klasseFraLenke.trim()) {
+    const felt = document.getElementById("klasse");
+    felt.value = klasseFraLenke.trim().toUpperCase();
+    felt.readOnly = true;
+    felt.setAttribute("aria-label", "Klasse-ID fra lærer");
+    document.getElementById("elev").focus();
+  }
   document.getElementById("loginForm").addEventListener("submit", function(e) {
     e.preventDefault();
       
     const klasse_temp = document.getElementById("klasse").value;
-    const klasse = klasse_temp.toUpperCase();
+    const klasse = klasse_temp.trim().toUpperCase();
     const elev = document.getElementById("elev").value;
 
     // ✅ Lagre midlertidig
