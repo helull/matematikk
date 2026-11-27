@@ -91,6 +91,7 @@
     const felt = document.getElementById("klasse");
     felt.value = klasseFraLenke.trim().toUpperCase();
     felt.readOnly = true;
+    felt.hidden = true;
     felt.setAttribute("aria-label", "Klasse-ID fra lærer");
     document.getElementById("elev").focus();
   }
