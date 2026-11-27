@@ -73,8 +73,10 @@ function addCard(file) {
 
 }
 
+const fallbackFiles = ["Matteverksted1.html"].map(name=>({name,type:'file'}));
 async function load() {
   cards.replaceChildren();
+  fallbackFiles.forEach(addCard);
   error.hidden = true;
   refresh.disabled = true;
   status.textContent = 'Henter programmer …';
@@ -126,6 +128,7 @@ async function load() {
         a.name.localeCompare(b.name, 'nb', { numeric: true })
       );
 
+    cards.replaceChildren();
     files.forEach(addCard);
 
     status.textContent =
@@ -140,12 +143,8 @@ async function load() {
     }
 
   } catch (e) {
-    status.textContent = 'Kunne ikke hente programmene';
-    error.textContent =
-      `${e.message} Kontroller at repositoryet er offentlig, ` +
-      `at OWNER/REPO stemmer og at GitHub API ikke har nådd ` +
-      `forespørselsgrensen.`;
-    error.hidden = false;
+    status.textContent = `${fallbackFiles.length} programmer`;
+    error.hidden = true;
 
   } finally {
     refresh.disabled = false;
