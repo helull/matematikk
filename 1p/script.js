@@ -32,6 +32,7 @@ function currentFolder() {
 
 
 function displayName(name) {
+  if (/^gt-race-3d\.html$/i.test(name)) return 'GT RACE 3D';
   return name.replace(/\.html?$/i, '')
     .replace(/[-_]+/g, ' ')
     .replace(/\s+/g, ' ')
@@ -54,18 +55,6 @@ function addCard(file) {
   link.className = 'card';
   link.href = pageUrl(file.name);
 
-  const preview = document.createElement('div');
-  preview.className = 'preview';
-
-  const frame = document.createElement('iframe');
-  frame.title = `Forhåndsvisning av ${displayName(file.name)}`;
-  frame.loading = 'lazy';
-  frame.tabIndex = -1;
-
-  // Den faktiske HTML-siden lastes i miniatyr.
-  frame.src = link.href;
-  preview.append(frame);
-
   const body = document.createElement('div');
   body.className = 'card-body';
 
@@ -78,19 +67,10 @@ function addCard(file) {
   meta.textContent = 'Åpne programmet →';
 
   body.append(title, meta);
-  link.append(preview, body);
+  link.append(body);
   cards.append(link);
 
-  // Skaler forhåndsvisningen til kortets bredde.
-  const resize = new ResizeObserver(entries => {
-    for (const entry of entries) {
-      preview.style.setProperty(
-        '--scale',
-        entry.contentRect.width / 1200
-      );
-    }
-  });
-  resize.observe(preview);
+
 }
 
 async function load() {
@@ -140,7 +120,7 @@ async function load() {
       .filter(f =>
         f.type === 'file' &&
         /\.html?$/i.test(f.name) &&
-        !/^index\.html?$/i.test(f.name)
+        !/^index\.html?$/i.test(f.name) && !/-elev\.html?$/i.test(f.name)
       )
       .sort((a, b) =>
         a.name.localeCompare(b.name, 'nb', { numeric: true })
