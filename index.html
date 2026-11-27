@@ -91,8 +91,9 @@ function render(items){
  otherSection.hidden=extraDirs.length===0;
  status.hidden=true;
 }
+const fallbackDirs=['1p','1py','s1','trekant','laboratorium'].map(name=>({name,type:'dir'}));
 async function load(){
- status.hidden=false;status.textContent="Henter mapper fra GitHub …";
+ render(fallbackDirs);
  try{
   const response=await fetch(api,{headers:{"Accept":"application/vnd.github+json"},cache:"no-store"});
   if(!response.ok)throw Error("HTTP "+response.status);
@@ -100,11 +101,7 @@ async function load(){
   if(!Array.isArray(items))throw Error("Uventet svar");
   render(items);
  }catch(error){
-  status.replaceChildren();
-  status.append(document.createTextNode("Kunne ikke hente mappene akkurat nå. "));
-  const retry=document.createElement("button");retry.className="retry";retry.type="button";retry.textContent="Prøv igjen";retry.addEventListener("click",load);
-  status.append(retry);
-  special.replaceChildren(card("trekant","Helges trekant","Trekantoppgaver.","triangle",false),card("laboratorium","Matematikklaboratoriet","Fysiske matematikkeksperimenter med mobiltelefoner.","other"));
+  render(fallbackDirs);
  }
 }
 load();
