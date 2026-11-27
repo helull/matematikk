@@ -270,6 +270,10 @@
           transition: all 0.2s ease;
         }
               
+            #modusVelger { display:flex; gap:3px; margin:8px auto; padding:3px; background:#edf0f4; border-radius:9px; z-index:3; }
+        #modusVelger[hidden] { display:none; }
+        #modusVelger button { font:600 clamp(12px,2.5vw,16px) system-ui; padding:7px 10px; border:0; border-radius:6px; background:transparent; color:#302b20; }
+        #modusVelger button[aria-pressed="true"] { background:#fff; box-shadow:0 1px 4px #0003; }
     </style>
 </head>
 
@@ -297,6 +301,7 @@
         <input inputmode="decimal" type="text" id="inpTall2" value="2" data-verdi="">
         <input inputmode="decimal" type="text" id="inpTall3" value="3" data-verdi="">
     </div>
+    <div id="modusVelger" hidden aria-label="Oppgavetype"><button type="button" data-mode="easy">Enkel</button><button type="button" data-mode="normal">Vanlig</button><button type="button" data-mode="powers">Tierpotenser</button></div>
     <h3 id="melding">Fyll det tomme feltet, trykk så = </h3>
     <button id="btnVelgTall"> = </button>
     <br>
@@ -505,6 +510,26 @@
             if (lagretIDB) {set(ref(db, klasseNavnPoengKort), 0); console.log("Data sendt til Firebase!");}
         }    
     
+        const modusVelger = document.getElementById("modusVelger");
+        function synkModusVelger() {
+            const mode = tierModus ? "powers" : letteOppgaver ? "easy" : "normal";
+            modusVelger.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.mode === mode)));
+        }
+        if (!startModus || startModus === "null") {
+            modusVelger.hidden = false;
+            modusVelger.addEventListener("click", event => {
+                const b = event.target.closest("button[data-mode]");
+                if (!b || b.getAttribute("aria-pressed") === "true") return;
+                tierModus = b.dataset.mode === "powers";
+                letteOppgaver = b.dataset.mode === "easy";
+                antallDesimaler = tierModus ? 2 : 1;
+                document.querySelectorAll("#trekant input").forEach(input => { input.style.fontSize = tierModus ? "large" : "x-large"; });
+                synkModusVelger();
+                resetInputVerdier();
+            });
+        }
+        synkModusVelger();
+
         plakat.addEventListener("click", fjernPlakat);
         btnInfo.addEventListener("click",visHjelp);
         hjelp.addEventListener("click",skjulHjelp);
@@ -658,6 +683,7 @@
         }
     
         function resetInputVerdier() {
+            synkModusVelger();
             // Sett sort tekst i tilfelle den har vært grønn
             inpTall1.style.color = "black";
             inpTall2.style.color = "black";
